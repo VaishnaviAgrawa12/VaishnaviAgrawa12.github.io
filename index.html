@@ -5,9 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    Hello World, It's my Portfolio
-    
+  <div id="navbar">
+    <p><a href ="*">Home</a></p>
+    <p><a href ="*">About Me</a></p>
+    <p><a href ="*">Skills</a></p>
+    <p><a href ="*">Projects</a></p>
+    <p><a href ="*">Contact</a></p>
+    <p><a href ="*">Resume</a></p>
+</div>
+
+
+
 </body>
 </html>
+<script>
+    window.onscroll = function() {myFunction()};
+
+// Get the navbar
+var navbar = document.getElementById("navbar");
+
+// Get the offset position of the navbar
+var sticky = navbar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+</script>
