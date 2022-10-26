@@ -3,21 +3,26 @@
     background-color: #333;
     display: flex;
     justify-content: space-between;
-    background-color: #05403e;
+    background-color: #f4decb;
+    color: black;
   }
-
+ html{
+  scroll-behavior: smooth;
+ }
   body{
     font-family: "Canva Sans", "Noto Sans Variable", "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;;
-    color: #939f9e;
+    color: #9ea3a3;
     font-size: 25px;
-    background-color: #d3d4d3;
+  
+    background-color:#10302b;
+    /* #49274a; */
   }
   
   /* Navbar links */
   #navbar a {
     float: left;
     display: block;
-    color: #939f9e;
+    color: black;
     text-align: center;
     padding: 14px;
     text-decoration: none;
@@ -25,9 +30,46 @@
    
   }
   
+  #nav{
+    display: flex;
+    justify-content: end;
+    align-content: flex-end;
+    margin-left: 45%;
+  }
+  #logo{
+    width: 50%;
+  }
+
   /* Page content */
+
   .content {
     padding: 16px;
+  }
+
+ a:visited, a:hover{
+    
+    
+    font-size: 105%;
+    color: white;
+
+    text-decoration: underline;
+    text-decoration: dotted;
+    
+  }
+  a:link {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a:active {
+    text-decoration: underline;
   }
   
   /* The sticky class is added to the navbar with JS when it reaches its scroll position */
@@ -41,3 +83,65 @@
   .sticky + .content {
     padding-top: 60px;
   }
+
+  #home{
+    display: flex;
+  }
+ #home img{
+    border-radius: 50%;
+  }
+  .homeLeft{
+    margin-right: 0%;
+    margin-left: 10%;
+  }
+  
+  #project h1{
+    text-align: center;
+    color:#f4decb;
+   
+  }
+  #p1{
+    background-color:#4d774e;;
+    display: flex;
+    margin: 2% 20%;
+    color:#e6fade;
+    padding: 5px;
+  }
+  #p1 img{
+    margin: 5%;
+    border:2px solid  #0c2b47 ;
+
+  }
+  button {
+    color: white;
+    background-color:#699569;
+    
+    padding: 2% ;
+    border-radius: 15%;
+  
+    border: none;
+
+  }
+
+   #project button {
+    color: white;
+    background-color:#10302b;
+   
+    padding: 2% ;
+    border-radius: 10%;
+  
+    border: none;
+
+  }
+  
+  #p1 img{
+    width:30%;
+  }
+
+
+  #myPics{
+
+    width:25%;
+    margin-left: 5%;
+  }
+  
