@@ -72,95 +72,7 @@
 .extragap1{
   height: 150px;
 }
-/* responsive */
-@media screen and (max-width: 850px) {
-    .menu-icon {
-        display: block;
-        margin-right: 5%;
-   }
-   .nav-bar {
-    display: none;
-   
-    position: absolute;
-    top: 3.7rem;
-    left: 0;
-    color: var(--navy-blue_shadow);
-    width: 100%;
-    background-color: var(--silver);
-    text-align: end;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-   
-}
 
-.nav-bar.responsive  {
-   display: block;
-   transition: 0.3s;
-  
-   transition: all 0.3s ease;
-  
-}
-.nav-bar a {
-  display: block;
-  padding-right: 10%;
-  color: var(--navy-blue_shadow);
-
-  transition: all 0.3s ease;
-  
-}
-
-@import url('https://fonts.googleapis.com/css?family=Roboto:700');
-
-.container {
-  color: #e5e5e5;
-  font-size: 15px;
-  text-transform: uppercase;
-  
-  
-  align-items: center;
-  justify-content:center;
-  padding: 10%;
-}
-
-.animation {
-  height:50px;
-  overflow:hidden;
-  margin-left: 1rem;
-  font-size: 15px;
-}
-
-.animation > div > div {
-  padding: 0.25rem 0.75rem;
-  height:2.81rem;
-  margin-bottom: 2.81rem;
-  display:inline-block;
-}
-
-.animation div:first-child {
-  animation: text-animation 10s infinite;
-}
-
-.first div {
-  color: black;
-  background-color:var(--silver);
-  display: block;
-}
-.second div {
-  background-color:var(--tan);
-}
-
-.container p{
-  display: inline-block;
-  font-size: 15px;
-}
-
-
-
-
-
-
-}
-  
  
     
     #icon{
@@ -397,6 +309,10 @@ p {
   
   width: 50%;
   margin: auto;
+  grid-template-areas: 
+  "html css js aws"
+  "java hyb sb sql"
+                        ;
 
 }
 
@@ -456,34 +372,33 @@ p {
 
 
 #skills div:nth-child(1){
-  grid-area: "html";
+  grid-area: html;
 }
 
 
 #skills div:nth-child(2){
-  grid-area: "css";
+  grid-area: css;
 }
 #skills div:nth-child(3){
-  grid-area: "js";
+  grid-area: js;
 }
 #skills div:nth-child(4){
-  grid-area: "aws";
+  grid-area: aws;
 
  
 }
 #skills div:nth-child(5){
-  grid-area: "java";
+  grid-area: java;
 }
 #skills div:nth-child(6){
-  grid-area: "sql";
+  grid-area: sql;
 }
 #skills div:nth-child(7){
-  grid-area: "sb";
+  grid-area: sb;
   font-size: 22px;
 }
 #skills div:nth-child(8){
-  grid-area: "hyb";
-  
+  grid-area: hyb;
 }
 
   
@@ -564,4 +479,98 @@ p {
   }
    
   
-   
+ /* responsive */
+@media screen and (max-width: 850px) {
+  .menu-icon {
+      display: block;
+      margin-right: 5%;
+ }
+ .nav-bar {
+  display: none;
+ 
+  position: absolute;
+  top: 3.7rem;
+  left: 0;
+  color: var(--navy-blue_shadow);
+  width: 100%;
+  background-color: var(--silver);
+  text-align: end;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+ 
+}
+
+.nav-bar.responsive  {
+ display: block;
+ transition: 0.3s;
+
+ transition: all 0.3s ease;
+
+}
+.nav-bar a {
+display: block;
+padding-right: 10%;
+color: var(--navy-blue_shadow);
+
+transition: all 0.3s ease;
+
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+
+.container {
+color: #e5e5e5;
+font-size: 15px;
+text-transform: uppercase;
+
+
+align-items: center;
+justify-content:center;
+padding: 10%;
+}
+
+.animation {
+height:50px;
+overflow:hidden;
+margin-left: 1rem;
+font-size: 15px;
+}
+
+.animation > div > div {
+padding: 0.25rem 0.75rem;
+height:2.81rem;
+margin-bottom: 2.81rem;
+display:inline-block;
+}
+
+.animation div:first-child {
+animation: text-animation 10s infinite;
+}
+
+.first div {
+color: black;
+background-color:var(--silver);
+display: block;
+}
+.second div {
+background-color:var(--tan);
+}
+
+.container p{
+display: inline-block;
+font-size: 15px;
+}
+
+
+#skills{
+  grid-template-areas: 
+  "html css"
+  "js java"
+  "sb sql"
+  "hyb aws";
+}
+
+
+
+}
+  
