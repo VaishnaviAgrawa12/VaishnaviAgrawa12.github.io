@@ -103,7 +103,7 @@
 
 .container {
   color: #e5e5e5;
-  font-size: 5px;
+  font-size: 15px;
   text-transform: uppercase;
   
   
@@ -116,7 +116,7 @@
   height:50px;
   overflow:hidden;
   margin-left: 1rem;
-  font-size: 5px;
+  font-size: 15px;
 }
 
 .animation > div > div {
@@ -140,7 +140,8 @@
 }
 
 .container p{
-  display: block;
+  display: inline-block;
+  font-size: 15px;
 }
 
 
