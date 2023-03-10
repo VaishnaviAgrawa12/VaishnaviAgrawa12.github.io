@@ -28,7 +28,7 @@
     }
     
 
-    /* navbar */
+    /*------------------------------------------------------------------- navbar------------------------------------------------ */
 
  .page-header {
       background-color: var(--navy-blue);
@@ -36,7 +36,7 @@
       display: flex; 
       justify-content: space-between;
       padding: 3% 2%;
-      height: 50px;
+    
       
   }
   .nav-bar a{
@@ -45,6 +45,7 @@
     color: var(--tan);
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    height: 50px;
     
   }
 
@@ -66,7 +67,7 @@
 }
 
 .extragap{
-  height: 70px;
+  height: 50px;
 }
 
 .extragap1{
@@ -82,7 +83,7 @@
     }
 
     
-    /* Page content */
+    /* ----------------------------------------------Page content------------------------------------------------------------------ */
   
    a:visited, a:hover{
       color: white;
@@ -123,7 +124,7 @@
    
    
 
-    /* Intro */
+    /* -------------------------------------------------------------Intro--------------------------------------------------------------- */
     @import url('https://fonts.googleapis.com/css?family=Roboto:700');
 
 body {
@@ -189,6 +190,8 @@ p {
     #home{
        padding: 10px;
        display: flex;
+       /* display: grid;
+       grid-template-columns: 70% 25%; */
        /* border: 1px solid var(--silver); */
         /* margin-top: 8%; */
      
@@ -225,7 +228,7 @@ p {
   position: relative;
   user-select: none;
   -webkit-user-select: none;
-  touch-action: manipulation;
+  /* touch-action: manipulation; */
   right: -12%;
 }
 
@@ -245,7 +248,45 @@ p {
   }
 }
 
- /* ABOUT ME SECTION */
+/*------------------------------------------------------------------ responsive -------------------------------------------------*/
+@media screen and (max-width: 850px) {
+  .menu-icon {
+      display: block;
+      margin-right: 5%;
+ }
+ .nav-bar {
+  display: none;
+  position: absolute;
+  top: 3.7rem;
+  left: 0;
+  color: var(--navy-blue_shadow);
+  width: 100%;
+  background-color: var(--silver);
+  text-align: end;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+ 
+}
+
+.nav-bar.responsive  {
+ display: block;
+ 
+
+}
+.nav-bar a {
+display: block;
+padding-right: 10%;
+color: var(--navy-blue_shadow);
+
+transition: all 0.3s ease;
+
+}
+.extragap{
+  height: 200px;
+}
+}
+
+ /* ----------------------------------------------------------------ABOUT ME SECTION--------------------------------------------------- */
   
  #aboutMe{
   margin-top: 25%;
@@ -282,8 +323,27 @@ p {
   color: var(--navy-blue);
 }
 
+@media screen and (max-width: 850px) {
 
-/* Skills */
+  .about img{
+    width: 50%;
+    padding: 5%;
+  }
+
+.about{
+  display: block;
+}
+
+.about p{
+  margin: auto;
+  width: 90%;
+}
+
+
+}
+
+
+/*---------------------------------------------------------------------- Skills-------------------------------------------------------- */
 
 #skillSec h1{
   /* margin-left: -10%; */
@@ -401,16 +461,32 @@ p {
   grid-area: hyb;
 }
 
+@media screen and (max-width: 850px){
+  #skills{
+    margin: auto;
+    width: 80%;
+    padding: 0% 10% 10% 20%;
+    grid-template-columns: repeat(2,30%);
+    grid-template-rows: repeat(4,20%);
+    grid-template-areas: 
+    "html css "
+    "js aws"
+    "java hyb"
+    " sb sql"
+  }
+}
+
   
-    /* PROJECTS SECTION */
+    /* -----------------------------------------------------------------------PROJECTS SECTION --------------------------------------*/
   
   
     .psec{
       
-      width: 80%;
+      width: 60%;
       margin: auto;
       display: grid;
-      grid-template-columns: repeat(3, 30%);
+      grid-template-columns: repeat(1,100%);
+      grid-template-rows: repeat(3,30%);
       gap: 3%;
       
     }
@@ -421,6 +497,8 @@ p {
       margin: 1%;
       padding: 5%;
       border-radius: 5%;
+      display: flex;
+      box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
     }
     #project {
       text-align: center;
@@ -463,7 +541,6 @@ p {
     }
   .pRight p:nth-child(3){
     padding: 5% 1%;
-  
     text-align: center;
   }
   
@@ -479,98 +556,19 @@ p {
   }
    
   
- /* responsive */
-@media screen and (max-width: 850px) {
-  .menu-icon {
+  @media screen and (max-width: 850px) {
+    #p1{
       display: block;
-      margin-right: 5%;
- }
- .nav-bar {
-  display: none;
- 
-  position: absolute;
-  top: 3.7rem;
-  left: 0;
-  color: var(--navy-blue_shadow);
-  width: 100%;
-  background-color: var(--silver);
-  text-align: end;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
- 
-}
-
-.nav-bar.responsive  {
- display: block;
- transition: 0.3s;
-
- transition: all 0.3s ease;
-
-}
-.nav-bar a {
-display: block;
-padding-right: 10%;
-color: var(--navy-blue_shadow);
-
-transition: all 0.3s ease;
-
-}
-
-@import url('https://fonts.googleapis.com/css?family=Roboto:700');
-
-.container {
-color: #e5e5e5;
-font-size: 15px;
-text-transform: uppercase;
-
-
-align-items: center;
-justify-content:center;
-padding: 10%;
-}
-
-.animation {
-height:50px;
-overflow:hidden;
-margin-left: 1rem;
-font-size: 15px;
-}
-
-.animation > div > div {
-padding: 0.25rem 0.75rem;
-height:2.81rem;
-margin-bottom: 2.81rem;
-display:inline-block;
-}
-
-.animation div:first-child {
-animation: text-animation 10s infinite;
-}
-
-.first div {
-color: black;
-background-color:var(--silver);
-display: block;
-}
-.second div {
-background-color:var(--tan);
-}
-
-.container p{
-display: inline-block;
-font-size: 15px;
-}
-
-
-#skills{
-  grid-template-areas: 
-  "html css"
-  "js java"
-  "sb sql"
-  "hyb aws";
-}
-
-
-
-}
+      height: auto;
+    }
+   .psec{
+    width: 80%;
+   }
+    #p1{
+      padding: 10%;
+    }
+    .p-button{
+      margin: 0.5%;
+    }
+  }
   
