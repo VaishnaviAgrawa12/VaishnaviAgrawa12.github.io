@@ -207,7 +207,15 @@ p {
 
 /*------------------------------------------------------------------ responsive -------------------------------------------------*/
 @media screen and (max-width: 850px) {
-
+  .page-header {
+    background-color: var(--navy-blue);
+  
+    display: flex; 
+    justify-content: space-between;
+    /* padding: 3% 2%; */
+    height: 40px;
+    
+}
   body {
     overflow-x: hidden;
     width: 100%;
@@ -223,7 +231,7 @@ p {
   top: 3.7rem;
   left: 0;
   color: var(--navy-blue_shadow);
-  width: 80%;
+  width: 100%;
   background-color: var(--silver);
   text-align: end;
   -webkit-transition: all 0.3s ease;
@@ -303,14 +311,16 @@ transition: all 0.3s ease;
 .about p{
   margin: auto;
   width: 70%;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 
 }
 
-@media screen and (max-width: 768px) {
-
+@media screen and (max-width: 480px) {
+ .hello{
+  font-size: 18px;
+ }
   .about img{
     width: 30%;
     padding: 5%;
@@ -323,7 +333,7 @@ transition: all 0.3s ease;
 .about p{
   margin: auto;
   width: 70%;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 
@@ -647,8 +657,7 @@ padding: 5%;
     }
     #project {
       text-align: center;
-      /* margin-top: 10%; */
-      /* background-color: var(--navy-blue_shadow); */
+
       padding-top: 70px;
     }
    
@@ -702,7 +711,7 @@ padding: 5%;
   }
    
   
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 768px) {
     #p1{
       display: block;
       height: auto;
@@ -716,7 +725,46 @@ padding: 5%;
     .p-button{
       margin: 0.5%;
     }
+    .psec{
+      
+      width: 80%;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(1,1fr);
+      grid-template-rows: repeat(3,1fr);
+      gap: 3%;
+     
+      
+    }
   }
+
+
+  @media screen and (max-width: 480px) {
+    #p1{
+     
+      height: auto;
+    }
+  
+    #p1{
+      padding: 10%;
+    }
+    .p-button{
+      margin: 0.5%;
+    }
+
+    .psec{
+      
+      width: 80%;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(1,1fr);
+      grid-template-rows: repeat(3,1fr);
+      gap: 3%;
+     
+      
+    }
+  }
+
 
 
 #contact{
