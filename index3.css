@@ -352,9 +352,7 @@ transition: all 0.3s ease;
   width: 60%;
   margin: auto;
   grid-template-areas: 
-  "html css js aws"
-  "java hyb sb sql"
-  "git vs no ex"
+  "tw ps pr ad co"
 
 }
 
@@ -463,22 +461,54 @@ grid-area: vs;
  grid-area: ex; 
 }
 
+#soft-skills div:nth-child(1){
+  grid-area:  tw;
+}
+#soft-skills div:nth-child(2){
+  grid-area:  pr;
+}
+#soft-skills div:nth-child(3){
+  grid-area:  ps;
+}
+#soft-skills div:nth-child(4){
+  grid-area:  co;
+}
+#soft-skills div:nth-child(5){
+  grid-area:  ad;
+}
+
+#c-skills div:nth-child(1){
+  grid-area:  tw;
+}
+#c-skills div:nth-child(2){
+  grid-area:  pr;
+}
+#c-skills div:nth-child(3){
+  grid-area:  ps;
+}
+#c-skills div:nth-child(4){
+  grid-area:  co;
+}
+#c-skills div:nth-child(5){
+  grid-area:  ad;
+}
+
+
 
 @media screen and (max-width: 850px){
   #skills{
     margin: auto;
     width: 80%;
     padding: 0% 10% 10% 20%;
-    grid-template-columns: repeat(2,30%);
+    grid-template-columns: repeat(3,30%);
     grid-template-rows: repeat(4,20%);
+    border: 1px solid red;
     grid-template-areas: 
-    "html css "
-    "js aws"
-    "java hyb"
-    " sb sql"
-    "vs no"
-    "ex git"
-
+    "html css js"
+    "aws java hyb"
+    " sb sql vs"
+    "no ex git"
+    
   }
 }
 
