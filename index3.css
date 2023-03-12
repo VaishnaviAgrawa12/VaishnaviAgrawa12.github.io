@@ -628,6 +628,14 @@ padding: 5%;
   "ad co ."
 
 }
+#skills div p,#soft-skills div p , #c-skills div p{
+  text-align: center;
+  font-size: 10px;
+  padding: 2% 3%;
+  padding-bottom: 5%;
+  color: #e1b382;
+  font-weight: bold;
+}
 }
 
   
@@ -791,4 +799,4 @@ margin-bottom: 2%;
   width:100%
 }
   
-  
+
