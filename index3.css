@@ -248,7 +248,7 @@ transition: all 0.3s ease;
  #aboutMe{
   margin-top: 10%;
   text-align: center;
-  background-color: var(--tan_shadow);
+  /* background-color: var(--tan_shadow); */
   padding: 4%;
   padding-top: 150px;
 }
@@ -510,7 +510,7 @@ grid-area: vs;
     #project {
       text-align: center;
       /* margin-top: 10%; */
-      background-color: var(--navy-blue_shadow);
+      /* background-color: var(--navy-blue_shadow); */
       padding-top: 70px;
     }
    
