@@ -207,6 +207,12 @@ p {
 
 /*------------------------------------------------------------------ responsive -------------------------------------------------*/
 @media screen and (max-width: 850px) {
+
+  body {
+    overflow-x: hidden;
+    width: 100%;
+    margin: auto;
+  }
   .menu-icon {
       display: block;
       margin-right: 5%;
@@ -217,7 +223,7 @@ p {
   top: 3.7rem;
   left: 0;
   color: var(--navy-blue_shadow);
-  width: 100%;
+  width: 80%;
   background-color: var(--silver);
   text-align: end;
   -webkit-transition: all 0.3s ease;
@@ -283,7 +289,7 @@ transition: all 0.3s ease;
  
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 768px) {
 
   .about img{
     width: 40%;
@@ -296,7 +302,27 @@ transition: all 0.3s ease;
 
 .about p{
   margin: auto;
-  width: 90%;
+  width: 70%;
+  font-size: 16px;
+}
+
+
+}
+
+@media screen and (max-width: 768px) {
+
+  .about img{
+    width: 30%;
+    padding: 5%;
+  }
+
+.about{
+  display: block;
+}
+
+.about p{
+  margin: auto;
+  width: 70%;
   font-size: 14px;
 }
 
@@ -499,9 +525,11 @@ grid-area: vs;
   #skills{
     margin: auto;
     width: 80%;
-    padding: 0% 10% 10% 20%;
+    padding: 5%;
     grid-template-columns: repeat(3,30%);
-    grid-template-rows: repeat(4,20%);
+    grid-template-rows: repeat(4,2%);
+    
+    /* gap: 3%; */
     border: 1px solid red;
     grid-template-areas: 
     "html css js"
@@ -510,6 +538,86 @@ grid-area: vs;
     "no ex git"
     
   }
+
+  
+#soft-skills div,#c-skills div ,#skills div{
+  /* border: 2px solid red; */
+  display: block;
+  
+  background-color: var(--white);
+
+  width: 50%;
+ 
+}
+#c-skills div ,#skills div{
+padding: 5%;
+
+}
+
+#soft-skills,#c-skills {
+  border: 2px solid blue;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2,1fr);
+  column-gap: 5%;
+  
+  width: 90%;
+  margin: auto;
+  grid-template-areas: 
+  "ps pr tw"
+  "ad co ."
+
+}
+}
+
+@media screen and (max-width: 480px){
+  body{
+    overflow-x: hidden;
+  }
+  #skills{
+    margin: auto;
+    width: 80%;
+    padding: 5%;
+    grid-template-columns: repeat(3,30%);
+    grid-template-rows: repeat(4,2%);
+    
+    /* gap: 3%; */
+    border: 1px solid red;
+    grid-template-areas: 
+    "html css js"
+    "aws java hyb"
+    " sb sql vs"
+    "no ex git"
+    
+  }
+
+  
+#soft-skills div,#c-skills div ,#skills div{
+  /* border: 2px solid red; */
+  display: block;
+  
+  background-color: var(--white);
+
+  width: 50%;
+ 
+}
+#c-skills div ,#skills div{
+padding: 5%;
+
+}
+
+#soft-skills,#c-skills {
+  border: 2px solid blue;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2,1fr);
+  column-gap: 5%;
+  
+  width: 90%;
+  margin: auto;
+  grid-template-areas: 
+  "ps pr tw"
+  "ad co ."
+
+}
 }
 
   
