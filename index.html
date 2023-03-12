@@ -221,13 +221,13 @@
         <div>
           <img src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/1x/external-phone-networking-tanah-basah-glyph-tanah-basah.png" alt="">
           <p>
-             +91-9588672254
+                &nbsp; +91-9588672254
           </p>
         </div>
         <div>
           <img src="https://img.icons8.com/ios-filled/1x/apple-mail.png" alt="">
           <p>
-             vaishnaviagrawal2999@gmail.com
+            &nbsp; vaishnaviagrawal2999@gmail.com
           </p>
         </div>
         <div>
@@ -279,10 +279,17 @@ function onMenuClick() {
     var navbar = document.getElementById('navigation-bar');
     var responsive_class_name = 'responsive'
     navbar.classList.toggle(responsive_class_name)
+   
 }
 
 
-
+window.addEventListener('scroll', function () {
+  var scrollAmount = window.scrollY || document.documentElement.scrollTop;
+  if (scrollAmount > 0)
+    document.querySelector('.homeLeft').style.display = 'none';
+  else
+    document.querySelector('.homeLeft').style.display = 'block';
+});
 
 
 </script>

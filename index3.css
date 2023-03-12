@@ -538,9 +538,6 @@ grid-area: vs;
     padding: 5%;
     grid-template-columns: repeat(3,30%);
     grid-template-rows: repeat(4,2%);
-    
-    /* gap: 3%; */
-    border: 1px solid red;
     grid-template-areas: 
     "html css js"
     "aws java hyb"
@@ -565,7 +562,6 @@ padding: 5%;
 }
 
 #soft-skills,#c-skills {
-  border: 2px solid blue;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2,1fr);
   column-gap: 5%;
