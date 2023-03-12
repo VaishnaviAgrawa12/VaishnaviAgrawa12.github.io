@@ -616,7 +616,7 @@ padding: 5%;
 }
 
 #soft-skills,#c-skills {
-  border: 2px solid blue;
+ 
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2,1fr);
   column-gap: 5%;
@@ -631,7 +631,7 @@ padding: 5%;
 #skills div p,#soft-skills div p , #c-skills div p{
   text-align: center;
   font-size: 10px;
-  padding: 2% 3%;
+  padding: 3% 5%;
   padding-bottom: 5%;
   color: #e1b382;
   font-weight: bold;
@@ -799,4 +799,15 @@ margin-bottom: 2%;
   width:100%
 }
   
+@media screen and (max-width: 768px) {
+  #contact{
+    font-size: 12px;
+  }
+}
+@media screen and (max-width: 480px) {
 
+  #contact{
+    font-size: 10px;
+  }
+  
+}
