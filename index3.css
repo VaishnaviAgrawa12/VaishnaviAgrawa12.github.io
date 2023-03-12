@@ -4,7 +4,7 @@
   --tan:#e1b382 ;
   --tan_shadow: #c89666;
   --background: rgb(2,0,36);
-  --background: radial-gradient(circle, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%); 
+  --background: r-gradient(circle, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%); 
   --white: #F8F8FF;
   --silver: #C0C0C0;
 }
@@ -20,7 +20,7 @@
     scroll-behavior: smooth;
    }
   body{
-      font-family: "Champion, Impact, sans-serif";
+      font-family: "Raleway Black Head";
       color: 	#F8F8FF;
       font-size: 25px;
       
@@ -36,7 +36,7 @@
       display: flex; 
       justify-content: space-between;
       padding: 3% 2%;
-    
+      height: 40px;
       
   }
   .nav-bar a{
@@ -45,7 +45,7 @@
     color: var(--tan);
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    height: 50px;
+    /* height: 50px; */
     
   }
 
@@ -56,6 +56,7 @@
   
   .nav-bar{
    width: 40%;
+   border: 2px solid red;
   }
 
   .menu-icon {
@@ -66,16 +67,11 @@
 
 }
 
-.extragap{
-  height: 50px;
-}
 
-.extragap1{
-  height: 150px;
-}
 
  
     
+  
     #icon{
         position: 10px;
         margin-top: 2%;
@@ -106,7 +102,7 @@
       width: 100%;
       padding: 16px;
       background: rgb(2,0,36);
-      background: radial-gradient(circle, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%); 
+      background: linear-gradient(to bottom, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%); 
     }
   
     /* The sticky class is added to the navbar with JS when it reaches its scroll position */
@@ -145,69 +141,28 @@ p {
   padding: 10%;
 }
 
-.animation {
-  height:50px;
-  overflow:hidden;
-  margin-left: 1rem;
-}
-
-.animation > div > div {
-  padding: 0.25rem 0.75rem;
-  height:2.81rem;
-  margin-bottom: 2.81rem;
-  display:inline-block;
-}
-
-.animation div:first-child {
-  animation: text-animation 10s infinite;
-}
-
-.first div {
-  color: black;
-  background-color:var(--silver);
-}
-.second div {
-  background-color:var(--navy-blue_shadow);
-}
-.third div {
-  background-color:#c10528;
-}
-
-@keyframes text-animation {
-  0% {margin-top: 0;}
-  10% {margin-top: 0;}
-  20% {margin-top: -5.62rem;}
-  30% {margin-top: -5.62rem;}
-  40% {margin-top: -11.24rem;}
-  60% {margin-top: -11.24rem;}
-  70% {margin-top: -5.62rem;}
-  80% {margin-top: -5.62rem;}
-  90% {margin-top: 0;}
-  100% {margin-top: 0;}
-}
-
   
     #home{
-       padding: 10px;
+      
+       padding-top: 20px;
        display: flex;
-       /* display: grid;
-       grid-template-columns: 70% 25%; */
-       /* border: 1px solid var(--silver); */
-        /* margin-top: 8%; */
-     
-     
+       
     } 
    
      #home img{
         border-radius: 50%;
         width:25%;
-        margin-left: 12%;
+        margin: auto;
+        margin-right: 10%;
       
         
       }
       .homeLeft{
-     
-       width:60%;
+      
+       width:75%;
+       margin: auto;
+       padding: 5%;
+       display: block;
        
       }
 
@@ -228,8 +183,9 @@ p {
   position: relative;
   user-select: none;
   -webkit-user-select: none;
-  /* touch-action: manipulation; */
-  right: -12%;
+  touch-action: manipulation;
+  /* right: -12%; */
+  margin-top: 10%;
 }
 
 .button-54 a{
@@ -289,10 +245,11 @@ transition: all 0.3s ease;
  /* ----------------------------------------------------------------ABOUT ME SECTION--------------------------------------------------- */
   
  #aboutMe{
-  margin-top: 25%;
+  margin-top: 10%;
   text-align: center;
   background-color: var(--tan_shadow);
   padding: 4%;
+  padding-top: 150px;
 }
 
 .about img{
@@ -320,13 +277,15 @@ transition: all 0.3s ease;
   width: 50%;
   text-align: center;
   align-items: center;
-  color: var(--navy-blue);
+  color: var(--navy-blue_shadow);
+  font-weight: bolder;
+ 
 }
 
 @media screen and (max-width: 850px) {
 
   .about img{
-    width: 50%;
+    width: 40%;
     padding: 5%;
   }
 
@@ -337,6 +296,7 @@ transition: all 0.3s ease;
 .about p{
   margin: auto;
   width: 90%;
+  font-size: 14px;
 }
 
 
@@ -346,25 +306,31 @@ transition: all 0.3s ease;
 /*---------------------------------------------------------------------- Skills-------------------------------------------------------- */
 
 #skillSec h1{
-  /* margin-left: -10%; */
+ 
+ padding-top: 150px;
   text-align: center;
-  margin-bottom: 4%;
   color: var(--navy-blue_shadow);
-  text-shadow: 2px 2px var(--silver);
-
 }
 
 #skillSec h1:hover{
   text-decoration: underline;
 }
+
+#skillSec h3{
+  margin: auto;
+  margin-top: 2%;
+  text-align: center;
+  padding: 2%;
+  text-shadow:2px 2px #2d545e;
+}
+
 #skills{
   display: grid;
- 
   grid-template-columns: repeat(4,18%);
-  grid-template-rows: repeat(2,50%);
+  grid-template-rows: repeat(3,15%);
  
   /* gap: 2%; */
-  row-gap: 10%;
+  row-gap: 30%;
   column-gap: 5%;
   
   width: 50%;
@@ -372,28 +338,50 @@ transition: all 0.3s ease;
   grid-template-areas: 
   "html css js aws"
   "java hyb sb sql"
+  "git vs no ex"
                         ;
 
 }
+#soft-skills,#c-skills {
+  margin-top: 1000px;
+  display: grid;
+  grid-template-columns: repeat(5,18%);
+  column-gap: 5%;
+  
+  width: 60%;
+  margin: auto;
+  grid-template-areas: 
+  "html css js aws"
+  "java hyb sb sql"
+  "git vs no ex"
 
-#skills div{
+}
+
+#soft-skills div,#c-skills div ,#skills div{
   /* border: 2px solid red; */
-  padding: 5%;
+  display: block;
   
   background-color: var(--white);
-  justify-content: center;
-  align-items: center;
+
   width: 80%;
   margin: auto;
   border-radius: 3%;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   /* position: relative; */
  
 }
-#skills img{
-  padding-left: 8%;
+#skills img,#soft-skills img , #c-skills img{
+  display: block;
+  width: 50%;
+  margin: 5% auto;
 }
-#skills div p{
+#skills div p,#soft-skills div p , #c-skills div p{
   text-align: center;
+  font-size: 14px;
+  padding: 2%;
+  padding-bottom: 5%;
+  color: #e1b382;
+  font-weight: bold;
 }
 @-webkit-keyframes pop-on-hover {
   50% {
@@ -424,7 +412,7 @@ transition: all 0.3s ease;
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
 }
-#skills div:hover{
+#soft-skills div:hover,#c-skills div:hover,#skills div:hover{
  
   background-color: #2d545e;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -460,6 +448,20 @@ transition: all 0.3s ease;
 #skills div:nth-child(8){
   grid-area: hyb;
 }
+#skills div:nth-child(9){
+grid-area: git;
+}
+
+#skills div:nth-child(10){
+grid-area: vs;
+}
+#skills div:nth-child(11){
+  grid-area: no;
+}
+#skills div:nth-child(12){
+ grid-area: ex; 
+}
+
 
 @media screen and (max-width: 850px){
   #skills{
@@ -473,6 +475,9 @@ transition: all 0.3s ease;
     "js aws"
     "java hyb"
     " sb sql"
+    "vs no"
+    "ex git"
+
   }
 }
 
@@ -482,12 +487,13 @@ transition: all 0.3s ease;
   
     .psec{
       
-      width: 60%;
+      width: 80%;
       margin: auto;
       display: grid;
-      grid-template-columns: repeat(1,100%);
-      grid-template-rows: repeat(3,30%);
+      grid-template-columns: repeat(3,30%);
+      grid-template-rows: repeat(1,100%);
       gap: 3%;
+     
       
     }
 
@@ -497,13 +503,14 @@ transition: all 0.3s ease;
       margin: 1%;
       padding: 5%;
       border-radius: 5%;
-      display: flex;
+      /* display: flex; */
       box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
     }
     #project {
       text-align: center;
-      margin-top: 10%;
+      /* margin-top: 10%; */
       background-color: var(--navy-blue_shadow);
+      padding-top: 70px;
     }
    
     #project h1{
@@ -571,4 +578,30 @@ transition: all 0.3s ease;
       margin: 0.5%;
     }
   }
+
+
+#contact{
+  text-align: center;
+  padding: 5%;
+  
+}
+
+#contact div{
+  margin-top: 2%;
+  justify-content: center;
+  display: flex;
+  width: 50%;
+  margin: auto;
+
+}
+#contact h1{
+margin-bottom: 2%;
+}
+#contact img{
+    width: 5%;
+  }
+#contact div:last-child img{
+  width:10%
+}
+  
   
