@@ -184,11 +184,45 @@ body {
   transform: scale(0);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
+  #creek {
+    font-size: 3rem;
+  }
+
+  #creek span:last-child{
+    font-size: 1.8rem;
+  }
+  .word:nth-of-type(2) {
+    padding: 0 1rem 0 1rem;
+  
+    animation-delay: 1.5s;
+  
+    color:
+    #e1b382 ;
+    
+  }
+  /* sparkle */
+  .superscript::after {
+    --size: 6rem;
+  }
+}
+@media screen and (max-width: 480px) {
   #creek {
     font-size: 2rem;
   }
 
+  #creek span:last-child{
+    font-size: 1.2rem;
+  }
+  .word:nth-of-type(2) {
+    padding: 0 0rem 0 1rem;
+  
+    animation-delay: 1.5s;
+  
+    color:
+    #e1b382 ;
+    
+  }
   /* sparkle */
   .superscript::after {
     --size: 6rem;

@@ -205,6 +205,33 @@ p {
   }
 }
 
+
+@media screen and (max-width: 768px) {
+
+  #home img {
+    width: 30%;
+    margin-right: 3%;
+  }
+
+
+}
+
+@media screen and (max-width: 480px) {
+  .hello {
+    font-size: 16px;
+  }
+  #home img {
+    width: 29%;
+    margin-right: 5%;
+  }
+ .button-54{
+  font-size: 10px;
+ }
+ .homeLeft{
+  width: 90%;
+ }
+}
+
 /*------------------------------------------------------------------ responsive -------------------------------------------------*/
 @media screen and (max-width: 850px) {
   .page-header {
@@ -324,12 +351,20 @@ color: var(--navy-blue_shadow);
 
 @media screen and (max-width: 480px) {
  
- .hello{
-  font-size: 18px;
- }
+  #aboutMe{
+    margin-top: 10%;
+    padding-top: 60px;
+    background-color: var(--tan_shadow);
+  }
+  #aboutMe h1{
+    font-size: 32px;
+   
+  
+   }
   .about img{
     width: 30%;
     padding: 5%;
+   
   }
 
 .about{
@@ -339,7 +374,7 @@ color: var(--navy-blue_shadow);
 .about p{
   margin: auto;
   width: 70%;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 
@@ -603,6 +638,9 @@ padding: 5%;
     "no ex git"
     
   }
+  #skillSec h1{
+    padding-top: 100px;
+  }
 
   
 #soft-skills div,#c-skills div ,#skills div{
@@ -727,14 +765,14 @@ width: 100%;
   
   @media screen and (max-width: 768px) {
     #p1{
-      display: block;
+      display: flex;
       height: auto;
     }
    .psec{
     width: 80%;
    }
     #p1{
-      padding: 10%;
+      padding: 5%;
     }
     .p-button{
       margin: 0.5%;
@@ -776,8 +814,14 @@ width: 100%;
       grid-template-columns: repeat(1,1fr);
       grid-template-rows: repeat(3,1fr);
       gap: 3%;
+      font-size: 20px;
      
       
+    }
+    .psec #p1 p {
+      font-size: 14px;
+      text-shadow: none;
+      font-weight: 400;
     }
   }
 
@@ -814,18 +858,29 @@ margin-bottom: 2%;
   
 @media screen and (max-width: 768px) {
   #contact{
-    font-size: 12px;
+    font-size: 16px;
+    margin-top: 5%;
+  }
+  #contact div:last-child img{
+    
+    width: 70%;
   }
 }
 @media screen and (max-width: 480px) {
 
   #contact{
-    margin-top: 10%;
-    font-size: 10px;
+    margin-top: 2%;
+    font-size: 12px;
   }
   #contact div:last-child img{
-    border :1px solid white;
-    width: 50%;
+    
+    width: 100%;
   }
-  
+  #contact div:last-child{
+ 
+   
+    width:10%;
+    justify-content: space-around;
+    align-items: center;
+  }
 }
