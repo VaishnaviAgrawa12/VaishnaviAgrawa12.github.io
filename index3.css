@@ -234,8 +234,8 @@ p {
   width: 100%;
   background-color: var(--silver);
   text-align: end;
-  -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+  /* -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease; */
  
 }
 
@@ -249,12 +249,17 @@ display: block;
 padding-right: 10%;
 color: var(--navy-blue_shadow);
 
-transition: all 0.3s ease;
+/* transition: all 0.3s ease; */
 
 }
+
+
+
+
 .extragap{
   height: 200px;
 }
+
 }
 
  /* ----------------------------------------------------------------ABOUT ME SECTION--------------------------------------------------- */
@@ -318,6 +323,7 @@ transition: all 0.3s ease;
 }
 
 @media screen and (max-width: 480px) {
+ 
  .hello{
   font-size: 18px;
  }
@@ -577,9 +583,7 @@ padding: 5%;
 
 @media screen and (max-width: 480px){
 
-  #skillSec{
-    padding-top: 100px;
-  }
+  
   body{
     overflow-x: hidden;
   }
@@ -610,8 +614,9 @@ padding: 5%;
   width: 50%;
  
 }
-#c-skills div ,#skills div{
+#c-skills div ,#soft-skills div{
 padding: 5%;
+width: 100%;
 
 }
 
@@ -619,9 +624,9 @@ padding: 5%;
  
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2,1fr);
-  column-gap: 5%;
+  column-gap: 7%;
   
-  width: 90%;
+  width: 60%;
   margin: auto;
   grid-template-areas: 
   "ps pr tw"
@@ -629,6 +634,7 @@ padding: 5%;
 
 }
 #skills div p,#soft-skills div p , #c-skills div p{
+
   text-align: center;
   font-size: 10px;
   padding: 3% 10%;
@@ -752,15 +758,17 @@ padding: 5%;
      
       height: auto;
     }
+   
   
     #p1{
       padding: 10%;
     }
     .p-button{
       margin: 0.5%;
-    }
-
+    } 
+   
     .psec{
+     
       
       width: 80%;
       margin: auto;
@@ -796,7 +804,12 @@ margin-bottom: 2%;
     width: 5%;
   }
 #contact div:last-child img{
-  width:80%
+  width:100%
+}
+#contact div:last-child{
+ 
+  display: flex;
+  align-items: center;
 }
   
 @media screen and (max-width: 768px) {
@@ -807,7 +820,12 @@ margin-bottom: 2%;
 @media screen and (max-width: 480px) {
 
   #contact{
+    margin-top: 10%;
     font-size: 10px;
+  }
+  #contact div:last-child img{
+    border :1px solid white;
+    width: 50%;
   }
   
 }
