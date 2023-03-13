@@ -587,7 +587,7 @@ padding: 5%;
     grid-template-rows: repeat(4,2%);
     
     /* gap: 3%; */
-    border: 1px solid red;
+    /* border: 1px solid red; */
     grid-template-areas: 
     "html css js"
     "aws java hyb"
@@ -607,7 +607,7 @@ padding: 5%;
  
 }
 #c-skills div ,#skills div{
-padding: 5%;
+padding: 5% 10%;
 
 }
 
@@ -792,7 +792,7 @@ margin-bottom: 2%;
     width: 5%;
   }
 #contact div:last-child img{
-  width:100%
+  width:80%
 }
   
 @media screen and (max-width: 768px) {
