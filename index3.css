@@ -576,6 +576,10 @@ padding: 5%;
 }
 
 @media screen and (max-width: 480px){
+
+  #skillSec{
+    padding-top: 100px;
+  }
   body{
     overflow-x: hidden;
   }
@@ -607,7 +611,7 @@ padding: 5%;
  
 }
 #c-skills div ,#skills div{
-padding: 5% 10%;
+padding: 5%;
 
 }
 
@@ -627,7 +631,7 @@ padding: 5% 10%;
 #skills div p,#soft-skills div p , #c-skills div p{
   text-align: center;
   font-size: 10px;
-  padding: 3% 5%;
+  padding: 3% 10%;
   padding-bottom: 5%;
   color: #e1b382;
   font-weight: bold;
