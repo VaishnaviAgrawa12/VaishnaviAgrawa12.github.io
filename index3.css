@@ -268,7 +268,7 @@ p {
 
 .nav-bar.responsive  {
  display: block;
- 
+ border:1px solid red;
 
 }
 .nav-bar a {
@@ -793,7 +793,7 @@ width: 100%;
 
   @media screen and (max-width: 480px) {
     #p1{
-     
+      display: block;
       height: auto;
     }
    
@@ -869,7 +869,7 @@ margin-bottom: 2%;
 @media screen and (max-width: 480px) {
 
   #contact{
-    margin-top: 2%;
+    margin-top: 8%;
     font-size: 12px;
   }
   #contact div:last-child img{
