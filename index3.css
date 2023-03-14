@@ -33,7 +33,7 @@
 
  .page-header {
       background-color: var(--navy-blue);
-    
+      background: linear-gradient(179deg, rgba(255,255,255,1) 0%, rgba(41,121,142,0.8856792717086834) 32%, rgba(18,52,59,1) 68%);
       display: flex; 
       justify-content: space-between;
       padding: 3% 2%;
@@ -829,23 +829,26 @@ width: 100%;
 
 #contact{
   text-align: center;
-  padding: 5%;
+  padding: 10%;
   
 }
 
 #contact div{
-  margin-top: 2%;
-  justify-content: center;
+  margin-top: 1%;
+  
   display: flex;
-  width: 50%;
+  width: 40%;
   margin: auto;
+  justify-content: center;
+ 
 
 }
 #contact h1{
 margin-bottom: 2%;
 }
-#contact img{
-    width: 5%;
+#contact div img{
+    width: 8%;
+   
   }
 #contact div:last-child img{
   width:100%
@@ -863,14 +866,31 @@ margin-bottom: 2%;
   }
   #contact div:last-child img{
     
-    width: 70%;
+    width: 50%;
+  }
+  #contact div:nth-child(3){
+   
+    display: flex;
+    width: 80%;
+    align-items: center;
   }
 }
 @media screen and (max-width: 480px) {
 
   #contact{
-    margin-top: 8%;
+    margin-top: 1%;
     font-size: 12px;
+  }
+
+  #contact div:nth-child(3){
+   
+    display: flex;
+    width: 80%;
+    align-items: center;
+  }
+
+  #contact div:nth-child(3) img {
+    width: 10%;
   }
   #contact div:last-child img{
     

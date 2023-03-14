@@ -251,9 +251,6 @@
   
   
     <script type="text/javascript">
-$('.js-scroll-trigger').click(function() {
-$('.nav-bar.responsive').style.display = "none";
-});
 
 
 
@@ -269,16 +266,19 @@ let bg = document.getElementsByClassName("page-header")
 var sticky = navbar.offsetTop;
 
 // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-// function myFunction() {
+function myFunction() {
  
-//   if (window.pageYOffset >= sticky) {
-//     navbar.classList.add("sticky");
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky");
    
-//   } else {
-//     navbar.classList.remove("sticky");
+  } else {
+    navbar.classList.remove("sticky");
   
-//   } 
-// }
+  } 
+
+ 
+
+}
 
 function onMenuClick() {
     var navbar = document.getElementById('navigation-bar');
@@ -291,7 +291,9 @@ function onMenuClick() {
   } else {
     x.style.display = "block";
   }
- 
+  $('.js-scroll-trigger').click(function() {
+$('.nav-bar.responsive').collapse('hide');
+});
    
 }
 
