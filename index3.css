@@ -33,7 +33,7 @@
 
  .page-header {
       background-color: var(--navy-blue);
-      background: linear-gradient(179deg, rgba(255,255,255,1) 0%, rgba(41,121,142,0.8856792717086834) 32%, rgba(18,52,59,1) 68%);
+      /* background: linear-gradient(179deg, rgba(255,255,255,1) 0%, rgba(41,121,142,0.8856792717086834) 32%, rgba(18,52,59,1) 68%); */
       display: flex; 
       justify-content: space-between;
       padding: 3% 2%;
@@ -102,8 +102,9 @@
       margin-top: 8%;
       width: 100%;
       padding: 16px;
-      background: rgb(2,0,36);
-      background: linear-gradient(to bottom, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%); 
+      background-color:var(--tan); 
+      /* background: rgb(2,0,36);
+      background: linear-gradient(to bottom, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%);  */
     }
   
     /* The sticky class is added to the navbar with JS when it reaches its scroll position */
@@ -261,6 +262,7 @@ p {
   width: 100%;
   background-color: var(--silver);
   text-align: end;
+  overflow-x: auto;
   /* -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease; */
  
@@ -456,7 +458,7 @@ color: var(--navy-blue_shadow);
   font-size: 14px;
   padding: 2%;
   padding-bottom: 5%;
-  color: #e1b382;
+  color: var(--navy-blue);
   font-weight: bold;
 }
 @-webkit-keyframes pop-on-hover {
@@ -489,7 +491,7 @@ color: var(--navy-blue_shadow);
   animation-iteration-count: 1;
 }
 #soft-skills div:hover,#c-skills div:hover,#skills div:hover{
- 
+  color: #C0C0C0;
   background-color: #2d545e;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }

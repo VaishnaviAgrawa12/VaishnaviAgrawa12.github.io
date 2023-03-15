@@ -65,7 +65,7 @@ body {
 }
 
 #creek {
-  color: white;
+  color: #2d545e;
   font-family: "Playfair Display", Vidaloka, serif;
   font-size: 3rem;
 
@@ -85,12 +85,12 @@ body {
 }
 
 .word:nth-of-type(2) {
-  padding: 0 2rem;
+  padding: 0 0;
 
   animation-delay: 1.5s;
 
   color:
-  #e1b382 ;
+  #2d545e;
   
 }
 
