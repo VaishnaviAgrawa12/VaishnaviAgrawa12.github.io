@@ -8,126 +8,114 @@
   --white: #F8F8FF;
   --silver: #C0C0C0;
 }
-
 * {
   margin: 0;
   padding: 0;
 }
-
-
-
   html{
     scroll-behavior: smooth;
-   }
+ }
   body{
       font-family: "Raleway Black Head";
       color: 	#F8F8FF;
       font-size: 25px;
-      
       overflow-x: hidden;
       /* overflow-y: hidden; */
     }
-    
-
+    body::-webkit-scrollbar {
+      display: none;
+  }
     /*------------------------------------------------------------------- navbar------------------------------------------------ */
-
  .page-header {
       background-color: var(--navy-blue);
-      /* background: linear-gradient(179deg, rgba(255,255,255,1) 0%, rgba(41,121,142,0.8856792717086834) 32%, rgba(18,52,59,1) 68%); */
       display: flex; 
       justify-content: space-between;
-      padding: 3% 2%;
-      height: 40px;
-      
+      align-items: center;
+      padding: 2%;
   }
   .nav-bar a{
-   
     margin-left: 2%;
     color: var(--tan);
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
-    /* height: 50px; */
-    
+    height: 50px;
   }
-
   .nav-bar a:hover{
     text-decoration:overline;
-  
   }
-  
   .nav-bar{
    width: 40%;
-   
   }
-
   .menu-icon {
     color: var(--silver);
     cursor: pointer;
     display: none;
-
-
 }
-
-
-
+.name{
+  margin-left: 3.5%;
+}
+.navlist {
+  display: flex;
+  padding-right: 6%;
+}
+.navlist li {
+  position: relative;
+  list-style: none;
  
-    
+}
+.navlist a {
   
+  color: var(--silver);
+  font-weight: 500;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+.navlist a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: var(--silver);
+  bottom: -3px;
+  left: 0;
+  transition: ease 0.4s;
+}
+.navlist a:hover::after {
+  width: 100%;
+}     
+#menu-icon {
+  font-size: 35px;
+  color: var(--txt-clr);
+  z-index: 10001;
+  cursor: pointer;
+  display: none;
+}
     #icon{
         position: 10px;
         margin-top: 2%;
         padding: 0px 10px;
     }
-
-    
     /* ----------------------------------------------Page content------------------------------------------------------------------ */
-  
-   a:visited, a:hover{
-      color: white;
-      text-decoration: underline;
-      text-decoration: dotted;
-      
-    }
-    a:link {
-      text-decoration: none;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-    }
-    
-    
-    
     .content {
-      margin-top: 8%;
+      margin-top: 2%;
       width: 100%;
       padding: 16px;
       background-color:var(--tan); 
-      /* background: rgb(2,0,36);
-      background: linear-gradient(to bottom, rgba(2,0,36,0.9026961126247374) 0%, rgba(225,179,130,1) 35%, rgba(18,52,59,1) 100%);  */
     }
-  
     /* The sticky class is added to the navbar with JS when it reaches its scroll position */
     .sticky {
       position: fixed;
       top: 0;
       width: 100%;
     }
-    
     /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
     .sticky + .content {
       padding-top: 60px;
-
     }
-   
-   
-
     /* -------------------------------------------------------------Intro--------------------------------------------------------------- */
     @import url('https://fonts.googleapis.com/css?family=Roboto:700');
-
 body {
   font-family:'Roboto';
- 
 }
 p {
   text-shadow: 0 0 7px rgba(255,255,255,.3), 0 0 3px rgba(255,255,255,.3);
@@ -136,40 +124,27 @@ p {
   color: #e5e5e5;
   font-size: 2.26rem;
   text-transform: uppercase;
-  
   display: flex;
   align-items: center;
   justify-content:center;
   padding: 10%;
 }
-
-  
     #home{
-      
        padding-top: 20px;
        display: flex;
-       
     } 
-   
      #home img{
         border-radius: 50%;
         width:25%;
         margin: auto;
         margin-right: 10%;
-      
-        
       }
       .homeLeft{
-      
        width:75%;
        margin: auto;
        padding: 5%;
        display: block;
-       
       }
-
-   
-      
 /* CSS */
 .button-54 {
   font-family: "Open Sans", sans-serif;
@@ -189,34 +164,25 @@ p {
   /* right: -12%; */
   margin-top: 10%;
 }
-
 .button-54 a{
   color: #000;
 }
-
 .button-54:active {
   box-shadow: 0px 0px 0px 0px;
   top: 5px;
   left: 5px;
 }
-
 @media (min-width: 768px) {
   .button-54 {
     padding: 0.25em 0.75em;
   }
 }
-
-
 @media screen and (max-width: 768px) {
-
   #home img {
     width: 30%;
     margin-right: 3%;
   }
-
-
 }
-
 @media screen and (max-width: 480px) {
   .hello {
     font-size: 16px;
@@ -232,23 +198,20 @@ p {
   width: 90%;
  }
 }
-
 /*------------------------------------------------------------------ responsive -------------------------------------------------*/
 @media screen and (max-width: 850px) {
   .page-header {
     background-color: var(--navy-blue);
-  
     display: flex; 
     justify-content: space-between;
-    /* padding: 3% 2%; */
     height: 40px;
-    
 }
   body {
     overflow-x: hidden;
     width: 100%;
     margin: auto;
   }
+  /* 
   .menu-icon {
       display: block;
       margin-right: 5%;
@@ -263,36 +226,60 @@ p {
   background-color: var(--silver);
   text-align: end;
   overflow-x: auto;
-  /* -webkit-transition: all 0.3s ease;
-  transition: all 0.3s ease; */
- 
 }
-
 .nav-bar.responsive  {
  display: block;
- border:1px solid red;
-
 }
 .nav-bar a {
 display: block;
 padding-right: 10%;
 color: var(--navy-blue_shadow);
-
-/* transition: all 0.3s ease; */
-
-}
-
-
-
-
-.extragap{
-  height: 200px;
-}
-
-}
-
- /* ----------------------------------------------------------------ABOUT ME SECTION--------------------------------------------------- */
+} */
+#menu-icon {
+  display: block;
   
+}
+.home {
+  min-height: 80vh;
+}
+.navlist {
+  height: 20px;
+  overflow: auto;
+}
+.navlist {
+  display: block;
+  position: absolute;
+  height: 85vh;
+  top: -700px;
+  left: 0;
+  right: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  transition: all 0.4s;
+  color: var(--navy-blue_shadow);
+  width: 100%;
+  background-color: var(--silver);
+}
+.navlist a {
+  display: block;
+  padding: 1rem;
+  margin: 0.8rem;
+  border-right: 2px solid var(--bg-clr);
+  color: var(--bg-clr);
+}
+.navlist a:hover {
+  background: var(--tan);
+  color: var(--navy-blue_shadow);
+}
+.navlist a::after {
+  display: none;
+}
+.navlist.active {
+  top: 100%;
+}
+}
+ /* ----------------------------------------------------------------ABOUT ME SECTION--------------------------------------------------- */
  #aboutMe{
   margin-top: 10%;
   text-align: center;
@@ -300,26 +287,20 @@ color: var(--navy-blue_shadow);
   padding: 4%;
   padding-top: 150px;
 }
-
 .about img{
   width: 25%;
   border-radius: 25%;
 }
-
 .about{
   display: flex;
   justify-content: space-evenly;
 }
 #aboutMe h1{
   color: var(--navy-blue_shadow);
-
  text-shadow: 2px 2px var(--silver);
-
 }
 #aboutMe h1:hover{
  text-decoration: underline;
-
- 
 }
 .about p{
   margin-top: 2%;
@@ -328,31 +309,22 @@ color: var(--navy-blue_shadow);
   align-items: center;
   color: var(--navy-blue_shadow);
   font-weight: bolder;
- 
 }
-
 @media screen and (max-width: 768px) {
-
   .about img{
     width: 40%;
     padding: 5%;
   }
-
 .about{
   display: block;
 }
-
 .about p{
   margin: auto;
   width: 70%;
   font-size: 20px;
 }
-
-
 }
-
 @media screen and (max-width: 480px) {
- 
   #aboutMe{
     margin-top: 10%;
     padding-top: 60px;
@@ -360,94 +332,75 @@ color: var(--navy-blue_shadow);
   }
   #aboutMe h1{
     font-size: 32px;
-   
-  
    }
   .about img{
     width: 30%;
     padding: 5%;
-   
   }
-
 .about{
   display: block;
 }
-
 .about p{
   margin: auto;
   width: 70%;
   font-size: 16px;
 }
-
-
 }
-
-
 /*---------------------------------------------------------------------- Skills-------------------------------------------------------- */
-
 #skillSec h1{
- 
  padding-top: 150px;
   text-align: center;
   color: var(--navy-blue_shadow);
 }
-
 #skillSec h1:hover{
   text-decoration: underline;
 }
-
 #skillSec h3{
-  margin: auto;
+  /* margin: auto; */
   margin-top: 2%;
   text-align: center;
   padding: 2%;
-  text-shadow:2px 2px #2d545e;
+  text-shadow:2px 2px var(--silver);
+  color: #2d545e;
 }
-
 #skills{
   display: grid;
+  margin: auto;
   grid-template-columns: repeat(4,18%);
   grid-template-rows: repeat(3,15%);
- 
-  /* gap: 2%; */
   row-gap: 30%;
   column-gap: 5%;
-  
+  justify-content: space-around;
+  align-items: center;
+  height: fit-content;
   width: 50%;
-  margin: auto;
   grid-template-areas: 
   "html css js aws"
   "java hyb sb sql"
   "git vs no ex"
                         ;
-
 }
 #soft-skills,#c-skills {
   margin-top: 1000px;
   display: grid;
   grid-template-columns: repeat(5,18%);
   column-gap: 5%;
-  
+  justify-content: space-around;
+  align-items: flex-start;
+  height: fit-content;
   width: 60%;
   margin: auto;
   grid-template-areas: 
   "tw ps pr ad co"
-
 }
-
 #soft-skills div,#c-skills div ,#skills div{
-  /* border: 2px solid red; */
   display: block;
-  
   background-color: var(--white);
-
   width: 80%;
   margin: auto;
   border-radius: 3%;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  /* position: relative; */
- 
-}
+  }
 #skills img,#soft-skills img , #c-skills img{
   display: block;
   width: 50%;
@@ -458,7 +411,7 @@ color: var(--navy-blue_shadow);
   font-size: 14px;
   padding: 2%;
   padding-bottom: 5%;
-  color: var(--navy-blue);
+  color: var(--navy-blue_shadow);
   font-weight: bold;
 }
 @-webkit-keyframes pop-on-hover {
@@ -473,13 +426,6 @@ color: var(--navy-blue_shadow);
     transform: scale(1.2);
   }
 }
-/* .pop-on-hover {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-} */
 .pop-on-hover:hover, .pop-on-hover:focus, .pop-on-hover:active {
   -webkit-animation-name: pop-on-hover;
   animation-name: pop-on-hover;
@@ -489,19 +435,18 @@ color: var(--navy-blue_shadow);
   animation-timing-function: linear;
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
+  color: #e5e5e5;
+}
+#soft-skills div:hover p,#c-skills div:hover p,#skills div:hover p{
+ color: #C0C0C0;
 }
 #soft-skills div:hover,#c-skills div:hover,#skills div:hover{
-  color: #C0C0C0;
   background-color: #2d545e;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-
-
 #skills div:nth-child(1){
   grid-area: html;
 }
-
-
 #skills div:nth-child(2){
   grid-area: css;
 }
@@ -510,8 +455,6 @@ color: var(--navy-blue_shadow);
 }
 #skills div:nth-child(4){
   grid-area: aws;
-
- 
 }
 #skills div:nth-child(5){
   grid-area: java;
@@ -529,7 +472,6 @@ color: var(--navy-blue_shadow);
 #skills div:nth-child(9){
 grid-area: git;
 }
-
 #skills div:nth-child(10){
 grid-area: vs;
 }
@@ -539,7 +481,6 @@ grid-area: vs;
 #skills div:nth-child(12){
  grid-area: ex; 
 }
-
 #soft-skills div:nth-child(1){
   grid-area:  tw;
 }
@@ -555,7 +496,6 @@ grid-area: vs;
 #soft-skills div:nth-child(5){
   grid-area:  ad;
 }
-
 #c-skills div:nth-child(1){
   grid-area:  tw;
 }
@@ -571,9 +511,6 @@ grid-area: vs;
 #c-skills div:nth-child(5){
   grid-area:  ad;
 }
-
-
-
 @media screen and (max-width: 850px){
   #skills{
     margin: auto;
@@ -586,41 +523,28 @@ grid-area: vs;
     "aws java hyb"
     " sb sql vs"
     "no ex git"
-    
   }
-
-  
 #soft-skills div,#c-skills div ,#skills div{
   /* border: 2px solid red; */
   display: block;
-  
   background-color: var(--white);
-
   width: 50%;
- 
 }
 #c-skills div ,#skills div{
 padding: 5%;
-
 }
-
 #soft-skills,#c-skills {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2,1fr);
   column-gap: 5%;
-  
   width: 90%;
   margin: auto;
   grid-template-areas: 
   "ps pr tw"
   "ad co ."
-
 }
 }
-
 @media screen and (max-width: 480px){
-
-  
   body{
     overflow-x: hidden;
   }
@@ -630,7 +554,6 @@ padding: 5%;
     padding: 5%;
     grid-template-columns: repeat(3,30%);
     grid-template-rows: repeat(4,2%);
-    
     /* gap: 3%; */
     /* border: 1px solid red; */
     grid-template-areas: 
@@ -638,68 +561,48 @@ padding: 5%;
     "aws java hyb"
     " sb sql vs"
     "no ex git"
-    
   }
   #skillSec h1{
     padding-top: 100px;
   }
-
-  
 #soft-skills div,#c-skills div ,#skills div{
   /* border: 2px solid red; */
   display: block;
-  
   background-color: var(--white);
-
   width: 50%;
- 
+  margin: auto;
 }
 #c-skills div ,#soft-skills div{
 padding: 5%;
 width: 100%;
-
 }
-
 #soft-skills,#c-skills {
- 
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2,1fr);
   column-gap: 7%;
-  
   width: 60%;
   margin: auto;
   grid-template-areas: 
   "ps pr tw"
   "ad co ."
-
 }
 #skills div p,#soft-skills div p , #c-skills div p{
-
   text-align: center;
   font-size: 10px;
   padding: 3% 10%;
   padding-bottom: 5%;
-  color: #e1b382;
   font-weight: bold;
 }
 }
-
-  
     /* -----------------------------------------------------------------------PROJECTS SECTION --------------------------------------*/
-  
-  
     .psec{
-      
       width: 80%;
       margin: auto;
       display: grid;
       grid-template-columns: repeat(3,30%);
       grid-template-rows: repeat(1,100%);
       gap: 3%;
-     
-      
     }
-
     #p1{
       background-color:#2d545e;
       margin: auto;
@@ -711,27 +614,19 @@ width: 100%;
     }
     #project {
       text-align: center;
-
       padding-top: 70px;
     }
-   
     #project h1{
-      color: var(--silver);
+      color: var(--navy-blue_shadow);
       padding: 4%;
-      text-shadow: 2px 2px var(--navy-blue);
+      text-shadow: 2px 2px var(--silver);
     }
-
     #project h1:hover{
       text-decoration: underline;
     }
-   
-  
     #p1 p{
       font-size: 18px;
     }
-  
-     
-    
     #p1 img{
       width:200px;
       height: 130px;
@@ -739,7 +634,6 @@ width: 100%;
       border-radius: 5%;
       margin: auto;
     }
-
     .pRight h2{
       padding: 2%;
       font-family:'Times New Roman', Times, serif;
@@ -752,7 +646,6 @@ width: 100%;
     padding: 5% 1%;
     text-align: center;
   }
-  
   .p-button{
     padding: 2% 4%;
     border: none;
@@ -763,8 +656,6 @@ width: 100%;
   .p-button a{
     color: #000;
   }
-   
-  
   @media screen and (max-width: 768px) {
     #p1{
       display: flex;
@@ -780,36 +671,26 @@ width: 100%;
       margin: 0.5%;
     }
     .psec{
-      
       width: 80%;
       margin: auto;
       display: grid;
       grid-template-columns: repeat(1,1fr);
       grid-template-rows: repeat(3,1fr);
       gap: 3%;
-     
-      
     }
   }
-
-
   @media screen and (max-width: 480px) {
     #p1{
       display: block;
       height: auto;
     }
-   
-  
     #p1{
       padding: 10%;
     }
     .p-button{
       margin: 0.5%;
     } 
-   
     .psec{
-     
-      
       width: 80%;
       margin: auto;
       display: grid;
@@ -817,8 +698,6 @@ width: 100%;
       grid-template-rows: repeat(3,1fr);
       gap: 3%;
       font-size: 20px;
-     
-      
     }
     .psec #p1 p {
       font-size: 14px;
@@ -826,81 +705,63 @@ width: 100%;
       font-weight: 400;
     }
   }
-
-
-
 #contact{
   text-align: center;
-  padding: 10%;
-  
+  padding: 5% 5% 0% 5%;
+  background-color:var(--tan_shadow);
+  color: #12343b;
 }
-
 #contact div{
   margin-top: 1%;
-  
   display: flex;
   width: 40%;
   margin: auto;
   justify-content: center;
- 
-
 }
 #contact h1{
 margin-bottom: 2%;
 }
 #contact div img{
     width: 8%;
-   
   }
 #contact div:last-child img{
   width:100%
 }
 #contact div:last-child{
- 
   display: flex;
   align-items: center;
 }
-  
 @media screen and (max-width: 768px) {
   #contact{
     font-size: 16px;
     margin-top: 5%;
   }
   #contact div:last-child img{
-    
     width: 50%;
   }
   #contact div:nth-child(3){
-   
     display: flex;
     width: 80%;
     align-items: center;
   }
 }
 @media screen and (max-width: 480px) {
-
   #contact{
     margin-top: 1%;
     font-size: 12px;
   }
-
   #contact div:nth-child(3){
-   
     display: flex;
     width: 80%;
     align-items: center;
   }
-
   #contact div:nth-child(3) img {
     width: 10%;
   }
   #contact div:last-child img{
-    
     width: 100%;
   }
   #contact div:last-child{
- 
-   
     width:10%;
     justify-content: space-around;
     align-items: center;
