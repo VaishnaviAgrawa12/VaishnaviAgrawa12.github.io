@@ -565,7 +565,7 @@ width: 100%;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2,1fr);
   column-gap: 7%;
-  width: 60%;
+  width: 70%;
   margin: auto;
   grid-template-areas: 
   "ps pr tw"
@@ -574,7 +574,7 @@ width: 100%;
 #skills div p,#soft-skills div p , #c-skills div p{
   text-align: center;
   font-size: 10px;
-  padding: 3% 10%;
+  padding: 3% 12%;
   padding-bottom: 5%;
   font-weight: bold;
 }
