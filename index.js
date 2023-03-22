@@ -4,7 +4,7 @@ let navlist = document.querySelector(".navlist");
 menu.onclick = () => {
     menu.classList.toggle("bx-x");
     navlist.classList.toggle("active");
-    // document.getElementById('home').style.display = "none";
+    // document.getElementById('creek').style.color = "#C0C0C0";
 };
 
 window.onscroll = () => {

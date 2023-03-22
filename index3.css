@@ -84,11 +84,12 @@
   width: 100%;
 }     
 #menu-icon {
-  font-size: 35px;
+  font-size: 25px;
   color: var(--txt-clr);
   z-index: 10001;
   cursor: pointer;
   display: none;
+  margin: 3%;
 }
     #icon{
         position: 10px;
@@ -129,17 +130,17 @@ p {
   justify-content:center;
   padding: 10%;
 }
-    #home{
+#home{
        padding-top: 20px;
        display: flex;
     } 
-     #home img{
+#home img{
         border-radius: 50%;
         width:25%;
         margin: auto;
         margin-right: 10%;
       }
-      .homeLeft{
+.homeLeft{
        width:75%;
        margin: auto;
        padding: 5%;
@@ -157,7 +158,7 @@ p {
   border: 3px solid;
   padding: 0.25em 0.5em;
   box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
-  position: relative;
+  /* position: relative; */
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -172,18 +173,21 @@ p {
   top: 5px;
   left: 5px;
 }
-@media (min-width: 768px) {
-  .button-54 {
-    padding: 0.25em 0.75em;
-  }
-}
+
 @media screen and (max-width: 768px) {
   #home img {
     width: 30%;
     margin-right: 3%;
   }
+  .button-54 {
+    padding: 0.25em 0.75em;
+  }
 }
 @media screen and (max-width: 480px) {
+  
+  .page-header h3{
+    font-size: 20px;
+  }
   .hello {
     font-size: 16px;
   }
@@ -211,30 +215,7 @@ p {
     width: 100%;
     margin: auto;
   }
-  /* 
-  .menu-icon {
-      display: block;
-      margin-right: 5%;
- }
- .nav-bar {
-  display: none;
-  position: absolute;
-  top: 3.7rem;
-  left: 0;
-  color: var(--navy-blue_shadow);
-  width: 100%;
-  background-color: var(--silver);
-  text-align: end;
-  overflow-x: auto;
-}
-.nav-bar.responsive  {
- display: block;
-}
-.nav-bar a {
-display: block;
-padding-right: 10%;
-color: var(--navy-blue_shadow);
-} */
+
 #menu-icon {
   display: block;
   
@@ -259,14 +240,15 @@ color: var(--navy-blue_shadow);
   transition: all 0.4s;
   color: var(--navy-blue_shadow);
   width: 100%;
-  background-color: var(--silver);
+  background-color: var(--navy-blue_shadow);
 }
 .navlist a {
   display: block;
-  padding: 1rem;
+  padding: 1rem 2rem;
   margin: 0.8rem;
   border-right: 2px solid var(--bg-clr);
-  color: var(--bg-clr);
+  color: var(--silver);
+
 }
 .navlist a:hover {
   background: var(--tan);
@@ -512,6 +494,9 @@ grid-area: vs;
   grid-area:  ad;
 }
 @media screen and (max-width: 850px){
+  body{
+    overflow-x: hidden;
+  }
   #skills{
     margin: auto;
     width: 80%;
@@ -705,9 +690,12 @@ width: 100%;
       font-weight: 400;
     }
   }
+
+  /*----------------------------------------------------------Contact------------------------------------------------------------------*/
 #contact{
+  margin-top: 5%;
+  padding: 1%;
   text-align: center;
-  padding: 5% 5% 0% 5%;
   background-color:var(--tan_shadow);
   color: #12343b;
 }
@@ -717,15 +705,16 @@ width: 100%;
   width: 40%;
   margin: auto;
   justify-content: center;
+  align-items: center;
 }
 #contact h1{
-margin-bottom: 2%;
+margin-bottom: 1%;
 }
 #contact div img{
-    width: 8%;
+    width: 5%;
   }
 #contact div:last-child img{
-  width:100%
+  width:80%
 }
 #contact div:last-child{
   display: flex;
@@ -747,16 +736,12 @@ margin-bottom: 2%;
 }
 @media screen and (max-width: 480px) {
   #contact{
-    margin-top: 1%;
+    margin-top: 12%;
     font-size: 12px;
   }
-  #contact div:nth-child(3){
-    display: flex;
-    width: 80%;
-    align-items: center;
-  }
-  #contact div:nth-child(3) img {
-    width: 10%;
+  #contact div:nth-child(2) img {
+    width: 8%;
+   
   }
   #contact div:last-child img{
     width: 100%;
