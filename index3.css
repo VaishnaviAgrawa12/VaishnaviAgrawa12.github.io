@@ -626,7 +626,9 @@ width: 100%;
     #p1:hover{
       background-color: #c89666;
       color:var(--navy-blue_shadow);
+    
     }
+   
   .pRight p:nth-child(3){
     padding: 5% 1%;
     text-align: center;
@@ -635,7 +637,7 @@ width: 100%;
     padding: 2% 4%;
     border: none;
     border-radius: 30%;
-    background-color: var(--silver);
+    background-color: var(--tan);
     margin: 2%;
   }
   .p-button a{
