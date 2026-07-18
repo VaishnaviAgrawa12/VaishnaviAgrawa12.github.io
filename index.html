@@ -202,10 +202,12 @@
   .term-bar .dots i:nth-child(3) { background: var(--lime); }
   .term-body { padding: 14px 18px; flex: 1; white-space: pre-wrap; word-break: break-word; }
   .term-body .kw { color: var(--accent); font-weight: 700; }
-  .term-body .banner { color: var(--accent); }
-  .term-body .info { color: var(--teal); font-weight: 700; }
-  .term-body .log { color: var(--text-mid); }
-  .term-body .up { color: var(--lime); font-weight: 700; }
+  .term-body .req { color: var(--text-mid); }
+  .term-body .k { color: var(--teal); }
+  .term-body .s { color: var(--sky); }
+  .term-body .n { color: var(--violet); }
+  .term-body .resp { color: var(--text); }
+  .term-body .verdict { color: var(--lime); font-weight: 700; }
   .term-body .dim { color: var(--text-low); }
   .term-cursor {
     display: inline-block; width: 7px; height: 14px;
@@ -227,7 +229,8 @@
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
   }
   .term-run:hover { border-color: var(--accent); background: var(--accent); color: var(--ground); }
-  .term-foot .note { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .term-foot a { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .term-foot a:hover { color: var(--accent); }
 
   /* ============ Sections ============ */
   section { padding: 72px 0; border-top: 1px solid var(--line-soft); position: relative; }
@@ -454,10 +457,15 @@
   /* ============ 005 Experience ============ */
   .xp-company { margin-bottom: 42px; }
   .xp-company:last-child { margin-bottom: 0; }
+  .xp-company .company-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
+  }
   .xp-company .company {
     font-size: 19px; font-weight: 900; letter-spacing: -0.01em;
-    text-transform: uppercase; margin-bottom: 18px;
+    text-transform: uppercase;
   }
+  .xp-company .company-dates { color: var(--text-low); white-space: nowrap; }
   .role {
     border-left: 2px solid var(--line);
     padding: 4px 0 4px 22px;
@@ -469,7 +477,18 @@
   .role .role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
   .role .role-title { font-weight: 700; font-size: 15px; }
   .role .role-dates { color: var(--text-low); white-space: nowrap; }
-  .role .role-desc { color: var(--text-mid); font-size: 14px; margin-top: 6px; max-width: 640px; }
+  .role .role-list { list-style: none; margin-top: 8px; }
+  .role .role-list li {
+    color: var(--text-mid); font-size: 14px; max-width: 680px;
+    position: relative; padding-left: 18px; margin-bottom: 7px;
+  }
+  .role .role-list li:last-child { margin-bottom: 0; }
+  .role .role-list li::before {
+    content: "\25B8";
+    position: absolute; left: 0;
+    color: var(--violet);
+  }
+  .role .role-list strong { color: var(--text); font-weight: 700; }
 
   /* ============ 006 About ============ */
   .about-grid { display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: start; }
@@ -624,15 +643,15 @@
           </div>
         </div>
 
-        <div class="term hf" style="--d:.9s" aria-label="Animated terminal running a Spring Boot application">
+        <div class="term hf" style="--d:.9s" aria-label="Sample request to the live Purchase Decision API">
           <div class="term-bar">
             <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span>backend @ localhost</span>
+            <span>purchase-decision-api</span>
           </div>
           <div class="term-body" id="termBody" aria-live="polite"></div>
           <div class="term-foot">
-            <button class="term-run" id="termRun" type="button">&#9654; Run</button>
-            <span class="note">// simulated. the real ones are below &darr;</span>
+            <button class="term-run" id="termRun" type="button">&#9654; Run request</button>
+            <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
           </div>
         </div>
       </div>
@@ -909,31 +928,48 @@
       </div>
 
       <div class="xp-company reveal">
-        <div class="company">ResourceDekho</div>
+        <div class="company-head">
+          <div class="company">ResourceDekho</div>
+          <span class="company-dates mono">Jun 2023 - Aug 2025</span>
+        </div>
         <div class="role">
           <div class="role-head">
             <span class="role-title">Backend Developer Trainee</span>
             <span class="role-dates mono">Jun 2025 - Aug 2025</span>
           </div>
-          <p class="role-desc">Java &amp; Node.js in a team environment, code review.</p>
+          <ul class="role-list">
+            <li>Worked on backend features in Java and Node.js within a team development environment</li>
+            <li>Participated in code review cycles, incorporating feedback from senior developers</li>
+            <li>Gained hands-on exposure to team backend practices and version-control workflows</li>
+          </ul>
         </div>
         <div class="role">
           <div class="role-head">
             <span class="role-title">Product Support Engineer &middot; Client: Signzy</span>
             <span class="role-dates mono">Jun 2023 - Jun 2025</span>
           </div>
-          <p class="role-desc">Debugged Java API failures across live B2B integrations.</p>
+          <ul class="role-list">
+            <li>Resolved <strong>100+ L2 incidents</strong> on Java-based APIs at Signzy (RegTech / digital KYC), debugging payload mismatches, header failures, and authentication and vKYC workflow errors</li>
+            <li>Traced production failures through logs and request/response flows alongside backend and DevOps teams</li>
+            <li>Automated Bash log-triaging, cutting manual debugging time by approximately <strong>40%</strong></li>
+            <li>Authored SOPs and RCA documentation, reducing escalations to development by <strong>25%</strong>; optimised SQL joins for response times</li>
+          </ul>
         </div>
       </div>
 
       <div class="xp-company reveal" style="--d:.1s">
-        <div class="company">Celcius Logistics</div>
+        <div class="company-head">
+          <div class="company">Celcius Logistics</div>
+          <span class="company-dates mono">Aug 2025 - Present</span>
+        </div>
         <div class="role">
           <div class="role-head">
             <span class="role-title">Technical Support Engineer</span>
-            <span class="role-dates mono">Aug 2025 - Present</span>
           </div>
-          <p class="role-desc">Production application support, incident triage, log analysis.</p>
+          <ul class="role-list">
+            <li>Support production logistics and order-processing applications: triage incidents, analyse logs to isolate root causes, coordinate with engineering on fixes</li>
+            <li>Maintain SOPs and technical documentation</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -954,7 +990,7 @@
           <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
         </div>
         <figure class="portrait reveal" style="--d:.1s">
-          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="619" height="1100">
+          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="455" height="860">
           <figcaption class="mono">
             <span>Vaishnavi Agrawal</span>
             <span class="tag">// hi</span>
@@ -1016,24 +1052,22 @@
     motifs.forEach(function (el) { mio.observe(el); });
   }
 
-  /* ---------- 3. Spring Boot terminal ---------- */
+  /* ---------- 3. Typing API terminal ---------- */
   var termBody = document.getElementById("termBody");
   var termRun = document.getElementById("termRun");
-  var bs = String.fromCharCode(92); // backslash, kept out of string literals
-  var BANNER = [
-    "  .   ____          _",
-    " /" + bs + bs + " / ___'_ __ _ _(_)",
-    "( ( )" + bs + "___ | '_ | '_| |",
-    " " + bs + bs + "/  ___)| |_)| | | |",
-    "  '  |____| .__|_| |_|",
-    " ========|_|========",
-    " :: Spring Boot ::  (Java 21)"
-  ].join("\n");
-  var LOGS = [
-    " Starting Application using Java 21",
-    " Tomcat initialized on port 8080",
-    " HikariPool-1 :: Start completed",
-    " Started Application. Ready."
+  var REQ_LINES = [
+    { text: "$ ", cls: "dim" },
+    { text: "POST", cls: "kw" },
+    { text: " /api/decisions", cls: "req" },
+    { text: "\n{\n  ", cls: "dim" },
+    { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"standing desk\"", cls: "s" },
+    { text: ",\n  ", cls: "dim" },
+    { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "24000", cls: "n" },
+    { text: ",\n  ", cls: "dim" },
+    { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "60000", cls: "n" },
+    { text: ",\n  ", cls: "dim" },
+    { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "300000", cls: "n" },
+    { text: "\n}", cls: "dim" }
   ];
   var running = false;
 
@@ -1044,39 +1078,37 @@
     return s;
   }
 
-  function appendLog(line) {
-    termBody.appendChild(el("info", "INFO"));
-    termBody.appendChild(el("log", line + "\n"));
-  }
-
-  function appendHealth(target) {
-    target.appendChild(el("log", "{"));
-    target.appendChild(el("dim", "\"status\""));
-    target.appendChild(el("log", ": "));
-    target.appendChild(el("up", "\"UP\""));
-    target.appendChild(el("log", "}"));
-  }
-
   function showFinalState() {
     termBody.textContent = "";
-    termBody.appendChild(el("dim", "$ "));
-    termBody.appendChild(el("kw", "mvn spring-boot:run"));
-    termBody.appendChild(el("banner", "\n" + BANNER + "\n"));
-    LOGS.forEach(appendLog);
-    termBody.appendChild(el("dim", "$ "));
-    termBody.appendChild(el("kw", "curl localhost:8080/actuator/health"));
-    termBody.appendChild(el("log", "\n"));
-    appendHealth(termBody);
+    REQ_LINES.forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
+    appendResponse(42, true);
   }
 
-  function typeInto(span, text, cursor, done) {
-    var i = 0;
-    (function tick() {
-      span.textContent += text.charAt(i);
-      i++;
-      if (i < text.length) setTimeout(tick, 14 + Math.random() * 24);
-      else done();
-    })();
+  function appendResponse(score, instant) {
+    termBody.appendChild(el("dim", "\n\n// 200 OK · sample response\n"));
+    termBody.appendChild(el("resp", "{\n  "));
+    termBody.appendChild(el("k", "\"verdict\""));
+    termBody.appendChild(el("dim", ": "));
+    termBody.appendChild(el("verdict", "\"WAIT\""));
+    termBody.appendChild(el("dim", ",\n  "));
+    termBody.appendChild(el("k", "\"score\""));
+    termBody.appendChild(el("dim", ": "));
+    var scoreEl = el("kw", instant ? String(score) : "0");
+    termBody.appendChild(scoreEl);
+    termBody.appendChild(el("dim", ",\n  "));
+    termBody.appendChild(el("k", "\"timeline\""));
+    termBody.appendChild(el("dim", ": "));
+    termBody.appendChild(el("s", "\"save 2 more months\""));
+    termBody.appendChild(el("resp", "\n}"));
+    if (instant) return;
+    var start = null, dur = 900;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      scoreEl.textContent = String(Math.round(p * score));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   }
 
   function typeSequence() {
@@ -1086,52 +1118,33 @@
     termBody.textContent = "";
     if (reduced) { showFinalState(); running = false; termRun.disabled = false; return; }
 
-    var cursor = el("term-cursor", "");
+    var cursor = document.createElement("span");
     cursor.className = "term-cursor";
-
-    function finish() {
-      cursor.remove();
-      running = false;
-      termRun.disabled = false;
-      termRun.innerHTML = "&#8635; Run again";
-    }
-
-    termBody.appendChild(el("dim", "$ "));
-    var cmd1 = el("kw", "");
-    termBody.appendChild(cmd1);
     termBody.appendChild(cursor);
 
-    typeInto(cmd1, "mvn spring-boot:run", cursor, function () {
-      setTimeout(function () {
-        termBody.insertBefore(el("banner", "\n" + BANNER + "\n"), cursor);
-        var li = 0;
-        (function logTick() {
-          if (li < LOGS.length) {
-            var info = el("info", "INFO");
-            var log = el("log", LOGS[li] + "\n");
-            termBody.insertBefore(info, cursor);
-            termBody.insertBefore(log, cursor);
-            li++;
-            setTimeout(logTick, 260 + Math.random() * 320);
-          } else {
-            setTimeout(function () {
-              termBody.insertBefore(el("dim", "$ "), cursor);
-              var cmd2 = el("kw", "");
-              termBody.insertBefore(cmd2, cursor);
-              typeInto(cmd2, "curl localhost:8080/actuator/health", cursor, function () {
-                setTimeout(function () {
-                  termBody.insertBefore(el("log", "\n"), cursor);
-                  var frag = document.createDocumentFragment();
-                  appendHealth(frag);
-                  termBody.insertBefore(frag, cursor);
-                  setTimeout(finish, 600);
-                }, 300);
-              });
-            }, 400);
-          }
-        })();
-      }, 420);
-    });
+    var li = 0, ci = 0;
+    function typeChar() {
+      if (li >= REQ_LINES.length) {
+        setTimeout(function () {
+          cursor.remove();
+          appendResponse(42, false);
+          running = false;
+          termRun.disabled = false;
+          termRun.innerHTML = "&#8635; Run again";
+        }, 350);
+        return;
+      }
+      var line = REQ_LINES[li];
+      if (ci === 0) {
+        line._el = el(line.cls, "");
+        termBody.insertBefore(line._el, cursor);
+      }
+      line._el.textContent += line.text.charAt(ci);
+      ci++;
+      if (ci >= line.text.length) { li++; ci = 0; }
+      setTimeout(typeChar, 12 + Math.random() * 22);
+    }
+    typeChar();
   }
 
   termRun.addEventListener("click", typeSequence);
