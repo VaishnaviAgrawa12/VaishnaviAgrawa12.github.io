@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vaishnavi Agrawal · Java Backend Developer</title>
-<meta name="description" content="Java backend developer in Ahmedabad. Spring Boot, PostgreSQL, JWT, Docker. Four backend projects, one running in production.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230C0C0E'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%23C65A3A'/%3E%3C/svg%3E">
+<meta name="description" content="Java backend developer. Spring Boot, PostgreSQL, JWT, Docker. Backend projects with one live in production, plus writing on Java and Spring Boot.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230C0C0E'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%23F25C8A'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Archivo+Narrow:wght@700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,17 +19,17 @@
     --text: #EDEDE8;
     --text-mid: #9A9A92;
     --text-low: #5E5E58;
-    --rust: #C65A3A;
-    --rust-hi: #D06845;
+    --accent: #F25C8A;
+    --accent-hi: #FF6E99;
     --lime: #D4F04A;
-    --amber: #E8A33D;
+    --sky: #6BA8FF;
     --teal: #4EC9B0;
     --violet: #9B7BF5;
   }
   :root.accent-flip {
-    --rust: #D4F04A;
-    --rust-hi: #E2F86A;
-    --lime: #C65A3A;
+    --accent: #D4F04A;
+    --accent-hi: #E2F86A;
+    --lime: #F25C8A;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,10 +47,10 @@
     overflow-x: hidden;
   }
 
-  ::selection { background: var(--rust); color: var(--ground); }
+  ::selection { background: var(--accent); color: var(--ground); }
 
   :focus-visible {
-    outline: 2px solid var(--rust);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
     border-radius: 1px;
   }
@@ -73,7 +73,7 @@
   }
   header.top .name { text-transform: uppercase; font-weight: 700; }
   header.top .loc { color: var(--text-low); text-transform: uppercase; }
-  header.top a.name:hover { color: var(--rust); }
+  header.top a.name:hover { color: var(--accent); }
 
   /* ============ Hero ============ */
   .hero { position: relative; padding: 76px 0 72px; overflow: hidden; }
@@ -93,7 +93,7 @@
   .hero-drift {
     position: absolute; inset: -20%;
     background:
-      radial-gradient(420px 420px at 70% 30%, rgba(198, 90, 58, 0.14), transparent 70%),
+      radial-gradient(420px 420px at 70% 30%, rgba(242, 92, 138, 0.12), transparent 70%),
       radial-gradient(340px 340px at 20% 80%, rgba(155, 123, 245, 0.08), transparent 70%),
       radial-gradient(300px 300px at 88% 78%, rgba(78, 201, 176, 0.07), transparent 70%);
     animation: drift 26s ease-in-out infinite alternate;
@@ -114,7 +114,7 @@
     align-items: center;
   }
 
-  .eyebrow { color: var(--rust); text-transform: uppercase; display: block; margin-bottom: 24px; }
+  .eyebrow { color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 24px; }
 
   h1 {
     font-family: "Archivo Narrow", "Archivo", sans-serif;
@@ -126,7 +126,7 @@
   }
   h1 .line { display: block; overflow: hidden; }
   h1 .line > span { display: inline-block; }
-  h1 .accent > span { color: var(--rust); }
+  h1 .accent > span { color: var(--accent); }
 
   .hl { opacity: 0; transform: translateY(110%); }
   body.loaded .hl {
@@ -163,14 +163,14 @@
   .btn::before {
     content: "";
     position: absolute; inset: 0;
-    background: var(--rust);
+    background: var(--accent);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .btn:hover { border-color: var(--rust); color: var(--ground); }
+  .btn:hover { border-color: var(--accent); color: var(--ground); }
   .btn:hover::before { transform: scaleX(1); }
-  .btn.primary { background: var(--rust); border-color: var(--rust); color: var(--ground); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--ground); }
   .btn.primary::before { background: var(--ground); }
   .btn.primary:hover { color: var(--text); }
 
@@ -181,9 +181,9 @@
     border-radius: 10px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 12px;
-    line-height: 1.75;
+    line-height: 1.7;
     display: flex; flex-direction: column;
-    min-height: 330px;
+    min-height: 340px;
     overflow: hidden;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   }
@@ -197,21 +197,19 @@
   }
   .term-bar .dots { display: flex; gap: 6px; }
   .term-bar .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
-  .term-bar .dots i:nth-child(1) { background: var(--rust); }
-  .term-bar .dots i:nth-child(2) { background: var(--amber); }
-  .term-bar .dots i:nth-child(3) { background: var(--teal); }
-  .term-body { padding: 16px 18px; flex: 1; white-space: pre-wrap; word-break: break-word; }
-  .term-body .req { color: var(--text-mid); }
-  .term-body .kw { color: var(--rust); font-weight: 700; }
-  .term-body .k { color: var(--teal); }
-  .term-body .s { color: var(--amber); }
-  .term-body .n { color: var(--violet); }
-  .term-body .resp { color: var(--text); }
-  .term-body .verdict { color: var(--lime); font-weight: 700; }
+  .term-bar .dots i:nth-child(1) { background: var(--accent); }
+  .term-bar .dots i:nth-child(2) { background: var(--sky); }
+  .term-bar .dots i:nth-child(3) { background: var(--lime); }
+  .term-body { padding: 14px 18px; flex: 1; white-space: pre-wrap; word-break: break-word; }
+  .term-body .kw { color: var(--accent); font-weight: 700; }
+  .term-body .banner { color: var(--accent); }
+  .term-body .info { color: var(--teal); font-weight: 700; }
+  .term-body .log { color: var(--text-mid); }
+  .term-body .up { color: var(--lime); font-weight: 700; }
   .term-body .dim { color: var(--text-low); }
   .term-cursor {
     display: inline-block; width: 7px; height: 14px;
-    background: var(--rust);
+    background: var(--accent);
     vertical-align: -2px;
     animation: blink 0.9s steps(1) infinite;
   }
@@ -225,20 +223,20 @@
   .term-run {
     font-family: inherit; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
     background: transparent; border: 1px solid var(--line);
-    color: var(--rust); padding: 7px 14px; cursor: pointer; border-radius: 4px;
+    color: var(--accent); padding: 7px 14px; cursor: pointer; border-radius: 4px;
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
   }
-  .term-run:hover { border-color: var(--rust); background: var(--rust); color: var(--ground); }
-  .term-foot a { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
-  .term-foot a:hover { color: var(--rust); }
+  .term-run:hover { border-color: var(--accent); background: var(--accent); color: var(--ground); }
+  .term-foot .note { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
 
   /* ============ Sections ============ */
   section { padding: 72px 0; border-top: 1px solid var(--line-soft); position: relative; }
 
   .section-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 42px; }
-  .section-head .num { color: var(--sc, var(--rust)); }
+  .section-head .num { color: var(--sc, var(--accent)); }
   .section-head h2 { font-size: 24px; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; }
-  .section-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--sc, var(--rust)), var(--line-soft) 40%); align-self: center; opacity: 0.5; }
+  .section-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--sc, var(--accent)), var(--line-soft) 40%); align-self: center; opacity: 0.5; }
+  .section-lede { color: var(--text-mid); margin: -26px 0 36px; max-width: 560px; }
 
   /* ============ 001 Projects ============ */
   .project-row {
@@ -260,29 +258,13 @@
   .project-row .year { color: var(--text-low); text-align: right; }
   .project-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
 
-  .project-row:not(.lime):hover {
+  .project-row:hover {
     transform: translateX(8px);
-    border-top-color: var(--pc, var(--rust));
+    border-top-color: var(--pc, var(--accent));
     background: var(--card);
   }
-  .project-row:not(.lime):hover .title { color: var(--pc, var(--rust)); }
-  .project-row:hover .arrow { transform: translateX(4px); color: var(--pc, var(--rust)); }
-
-  .project-row.lime {
-    background: var(--lime);
-    border-top-color: var(--lime);
-    color: var(--ground);
-  }
-  .project-row.lime .idx, .project-row.lime .stack,
-  .project-row.lime .year, .project-row.lime .arrow { color: rgba(12, 12, 14, 0.65); }
-  .project-row.lime .title { color: var(--ground); }
-  .project-row.lime .tag-live { color: var(--ground); border-color: rgba(12, 12, 14, 0.5); }
-  .project-row.lime:hover { transform: translateX(8px); animation: limePulse 1.6s ease-in-out infinite; }
-  .project-row.lime:hover .arrow { color: var(--ground); }
-  @keyframes limePulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(212, 240, 74, 0.0); filter: brightness(1); }
-    50%      { box-shadow: 0 0 34px 0 rgba(212, 240, 74, 0.28); filter: brightness(1.05); }
-  }
+  .project-row:hover .title { color: var(--pc, var(--accent)); }
+  .project-row:hover .arrow { transform: translateX(4px); color: var(--pc, var(--accent)); }
 
   .tag-live {
     font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -291,7 +273,7 @@
     padding: 2px 9px; border-radius: 999px; line-height: 1.5;
   }
 
-  /* ============ 002 In Detail (Superwhisper tiles) ============ */
+  /* ============ 002 In Detail ============ */
   .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .card {
     background: var(--card);
@@ -304,11 +286,11 @@
   .card:nth-child(even) { background: var(--card-alt); }
   .card:hover {
     transform: translateY(-6px);
-    border-color: var(--ac, var(--rust));
+    border-color: var(--ac, var(--accent));
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
   }
-  .card.c1 { --ac: var(--rust); }
-  .card.c2 { --ac: var(--amber); }
+  .card.c1 { --ac: var(--accent); }
+  .card.c2 { --ac: var(--sky); }
   .card.c3 { --ac: var(--teal); }
   .card.c4 { --ac: var(--violet); }
 
@@ -317,7 +299,7 @@
     border: 1px solid var(--line-soft);
     border-radius: 10px;
     background:
-      radial-gradient(70% 90% at 50% 0%, color-mix(in srgb, var(--ac, var(--rust)) 9%, transparent), transparent 70%),
+      radial-gradient(70% 90% at 50% 0%, color-mix(in srgb, var(--ac, var(--accent)) 9%, transparent), transparent 70%),
       var(--ground);
     overflow: hidden;
   }
@@ -335,9 +317,9 @@
   }
   .badge {
     width: 11px; height: 11px; border-radius: 3px;
-    background: var(--ac, var(--rust));
+    background: var(--ac, var(--accent));
     flex: none;
-    box-shadow: 0 0 12px color-mix(in srgb, var(--ac, var(--rust)) 55%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--ac, var(--accent)) 55%, transparent);
   }
   .card p { color: var(--text-mid); font-size: 14px; flex: 1; }
   .card p strong { color: var(--text); font-weight: 700; }
@@ -353,13 +335,13 @@
   }
   .card:hover .chip {
     color: var(--text-mid);
-    border-color: color-mix(in srgb, var(--ac, var(--rust)) 35%, var(--line));
+    border-color: color-mix(in srgb, var(--ac, var(--accent)) 35%, var(--line));
   }
   .card-links { display: flex; gap: 20px; padding-top: 13px; border-top: 1px solid var(--line-soft); }
   .card-links a {
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--ac, var(--rust));
+    color: var(--ac, var(--accent));
   }
   .card-links a:hover { color: var(--text); }
 
@@ -411,7 +393,53 @@
   }
   @keyframes crudPulse { 0%, 100% { opacity: 0.45; } 12% { opacity: 1; } 25% { opacity: 0.45; } }
 
-  /* ============ 003 Stack ============ */
+  /* ============ 003 Writing ============ */
+  .article-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto 72px 28px;
+    align-items: baseline;
+    gap: 20px;
+    padding: 22px 16px;
+    border-top: 1px solid var(--line-soft);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, border-color 0.25s ease;
+  }
+  .article-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
+  .article-row .idx { color: var(--pc, var(--text-low)); }
+  .article-row .a-title {
+    font-weight: 800; font-size: 17px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .article-row .topic { color: var(--text-mid); text-align: right; }
+  .article-row .date { color: var(--text-low); text-align: right; }
+  .article-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
+  .article-row:hover {
+    transform: translateX(8px);
+    border-top-color: var(--pc, var(--accent));
+    background: var(--card);
+  }
+  .article-row:hover .a-title { color: var(--pc, var(--accent)); }
+  .article-row:hover .arrow { transform: translate(3px, -3px); color: var(--pc, var(--accent)); }
+
+  .tag-new {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ground); background: var(--lime);
+    padding: 2px 9px; border-radius: 999px; line-height: 1.5;
+  }
+
+  .writing-more {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    padding: 20px 16px 0;
+    color: var(--text-mid); font-size: 14px;
+  }
+  .writing-more a {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--lime);
+  }
+  .writing-more a:hover { color: var(--text); }
+
+  /* ============ 004 Stack ============ */
   .stack-row {
     display: grid; grid-template-columns: 160px 1fr;
     gap: 24px; padding: 18px 4px;
@@ -420,10 +448,10 @@
   }
   .stack-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
   .stack-row:hover { background: var(--card); }
-  .stack-row .label { color: var(--sc, var(--rust)); text-transform: uppercase; padding-top: 3px; }
+  .stack-row .label { color: var(--sc, var(--accent)); text-transform: uppercase; padding-top: 3px; }
   .stack-row .items { color: var(--text-mid); font-size: 15px; }
 
-  /* ============ 004 Experience ============ */
+  /* ============ 005 Experience ============ */
   .xp-company { margin-bottom: 42px; }
   .xp-company:last-child { margin-bottom: 0; }
   .xp-company .company {
@@ -443,10 +471,13 @@
   .role .role-dates { color: var(--text-low); white-space: nowrap; }
   .role .role-desc { color: var(--text-mid); font-size: 14px; margin-top: 6px; max-width: 640px; }
 
-  /* ============ 005 About ============ */
+  /* ============ 006 About ============ */
   .about-grid { display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: start; }
   .about-text p { color: var(--text-mid); margin-bottom: 18px; max-width: 620px; }
+  .about-text p:last-child { margin-bottom: 0; }
   .about-text strong { color: var(--text); font-weight: 700; }
+  .about-text a { color: var(--lime); }
+  .about-text a:hover { color: var(--text); }
 
   .portrait {
     position: relative;
@@ -474,25 +505,16 @@
     content: "";
     position: absolute; top: 10px; right: 10px;
     width: 14px; height: 14px;
-    border-top: 2px solid var(--rust);
-    border-right: 2px solid var(--rust);
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
   }
-
-  .about-metrics { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 34px; }
-  .metric .value {
-    font-family: "Archivo Narrow", "Archivo", sans-serif;
-    font-weight: 700; font-size: 56px; line-height: 1;
-    letter-spacing: -0.03em; color: var(--mc, var(--rust));
-    font-variant-numeric: tabular-nums;
-  }
-  .metric .metric-label { color: var(--text-low); text-transform: uppercase; margin-top: 8px; display: block; max-width: 150px; }
 
   /* ============ Footer ============ */
-  footer { border-top: 1px solid var(--line-soft); padding: 40px 0 56px; }
+  footer { border-top: 1px solid var(--line-soft); padding: 40px 0 32px; }
   footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
   footer .links { display: flex; gap: 24px; flex-wrap: wrap; }
   footer a { color: var(--text-mid); text-transform: uppercase; }
-  footer a:hover { color: var(--rust); }
+  footer a:hover { color: var(--accent); }
   footer .open-to { color: var(--text-low); text-transform: uppercase; text-align: right; }
   footer .open-to .dot {
     display: inline-block; width: 6px; height: 6px; border-radius: 50%;
@@ -500,11 +522,18 @@
     animation: dotBlink 2.4s ease-in-out infinite;
   }
   @keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  footer .psst {
+    display: block; text-align: center;
+    margin-top: 30px;
+    color: var(--line);
+    transition: color 0.4s ease;
+  }
+  footer .psst:hover { color: var(--text-low); }
 
   .toast {
     position: fixed; bottom: 24px; left: 50%;
     transform: translate(-50%, 80px);
-    background: var(--card); border: 1px solid var(--rust); border-radius: 6px;
+    background: var(--card); border: 1px solid var(--accent); border-radius: 6px;
     color: var(--text);
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -537,7 +566,7 @@
   /* ============ Responsive ============ */
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; align-items: start; }
-    .term { min-height: 280px; }
+    .term { min-height: 300px; }
   }
   @media (max-width: 800px) {
     .cards { grid-template-columns: 1fr; }
@@ -551,6 +580,10 @@
     .project-row .stack { grid-column: 2; text-align: left; }
     .project-row .year { display: none; }
     .project-row .arrow { grid-row: 1; grid-column: 3; }
+    .article-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 20px 10px; }
+    .article-row .topic { grid-column: 2; text-align: left; }
+    .article-row .date { display: none; }
+    .article-row .arrow { grid-row: 1; grid-column: 3; }
     .stack-row { grid-template-columns: 1fr; gap: 6px; }
     footer .wrap { flex-direction: column; align-items: flex-start; }
     footer .open-to { text-align: left; }
@@ -562,7 +595,7 @@
 <header class="top">
   <div class="wrap">
     <a class="name mono" href="#top">Vaishnavi Agrawal</a>
-    <span class="loc mono">Ahmedabad, India</span>
+    <span class="loc mono">Java &middot; Backend &middot; Writing</span>
   </div>
 </header>
 
@@ -574,31 +607,32 @@
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <span class="eyebrow mono hf">Java Backend Developer / Ahmedabad</span>
+          <span class="eyebrow mono hf">Java Backend Developer</span>
           <h1 aria-label="I build backend systems in Java, and I ship them.">
             <span class="line"><span class="hl" style="--d:.1s">I build</span></span>
             <span class="line"><span class="hl" style="--d:.2s">backend systems</span></span>
             <span class="line"><span class="hl" style="--d:.3s">in Java,</span></span>
             <span class="line accent"><span class="hl" style="--d:.4s">and I ship them.</span></span>
           </h1>
-          <p class="lede hf" style="--d:.6s">Spring Boot, PostgreSQL, JWT, Docker. Four backend projects, one running in production. Three years inside production systems taught me how software actually breaks. Now I build it.</p>
-          <p class="hero-meta mono hf" style="--d:.7s">4 repos &middot; 1 live API &middot; Spring Boot 3 &middot; Java 21</p>
+          <p class="lede hf" style="--d:.6s">Spring Boot, PostgreSQL, JWT, Docker. REST APIs that are built, tested, deployed, with one live in production right now. I watched production systems break from the inside; now I build them, and I write about what I learn along the way.</p>
+          <p class="hero-meta mono hf" style="--d:.7s">Spring Boot 3 &middot; Java 21 &middot; PostgreSQL &middot; Docker</p>
           <div class="hero-actions hf" style="--d:.8s">
             <a class="btn primary" id="magnet" href="#projects"><span>View projects &rarr;</span></a>
+            <a class="btn" href="#writing"><span>Read my writing &darr;</span></a>
             <a class="btn" href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener"><span>GitHub &#8599;</span></a>
             <a class="btn" href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener"><span>LinkedIn &#8599;</span></a>
           </div>
         </div>
 
-        <div class="term hf" style="--d:.9s" aria-label="Sample request to the live Purchase Decision API">
+        <div class="term hf" style="--d:.9s" aria-label="Animated terminal running a Spring Boot application">
           <div class="term-bar">
             <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span>purchase-decision-api</span>
+            <span>backend @ localhost</span>
           </div>
           <div class="term-body" id="termBody" aria-live="polite"></div>
           <div class="term-foot">
-            <button class="term-run" id="termRun" type="button">&#9654; Run request</button>
-            <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
+            <button class="term-run" id="termRun" type="button">&#9654; Run</button>
+            <span class="note">// simulated. the real ones are below &darr;</span>
           </div>
         </div>
       </div>
@@ -608,20 +642,20 @@
   <!-- ============ 001 Projects ============ -->
   <section id="projects">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--rust)">
+      <div class="section-head reveal" style="--sc:var(--accent)">
         <span class="num mono">001</span>
         <h2>Projects</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
 
-      <a class="project-row lime reveal" href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">
+      <a class="project-row reveal" style="--pc:var(--accent)" href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">
         <span class="idx mono">01</span>
         <span class="title">Purchase Decision API <span class="tag-live">Live</span></span>
         <span class="stack mono">Spring Boot &middot; JWT &middot; LLM &middot; CI/CD</span>
         <span class="year mono">2026</span>
         <span class="arrow">&rarr;</span>
       </a>
-      <a class="project-row reveal" style="--d:.07s; --pc:var(--amber)" href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">
+      <a class="project-row reveal" style="--d:.07s; --pc:var(--sky)" href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">
         <span class="idx mono">02</span>
         <span class="title">Library Management System</span>
         <span class="stack mono">Spring Security &middot; Role-Based Access</span>
@@ -648,7 +682,7 @@
   <!-- ============ 002 In Detail ============ -->
   <section id="detail">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--amber)">
+      <div class="section-head reveal" style="--sc:var(--sky)">
         <span class="num mono">002</span>
         <h2>In Detail</h2>
         <span class="rule" aria-hidden="true"></span>
@@ -661,9 +695,9 @@
             <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
               <rect x="36" y="48" width="88" height="34" rx="3" stroke="#5E5E58" stroke-width="1.5"/>
               <text x="80" y="69" fill="#9A9A92" font-size="11" text-anchor="middle">RULES</text>
-              <rect class="llm-box" x="36" y="110" width="88" height="34" rx="3" stroke="#C65A3A" stroke-width="1.5"/>
-              <text class="llm-box" x="80" y="131" fill="#C65A3A" font-size="11" text-anchor="middle">LLM</text>
-              <path class="flow-line" d="M124 65 H 190 V 92 H 250" stroke="#C65A3A" stroke-width="1.5"/>
+              <rect class="llm-box" x="36" y="110" width="88" height="34" rx="3" stroke="#F25C8A" stroke-width="1.5"/>
+              <text class="llm-box" x="80" y="131" fill="#F25C8A" font-size="11" text-anchor="middle">LLM</text>
+              <path class="flow-line" d="M124 65 H 190 V 92 H 250" stroke="#F25C8A" stroke-width="1.5"/>
               <path class="flow-line" d="M124 127 H 190 V 100 H 250" stroke="#5E5E58" stroke-width="1.5"/>
               <path class="fallback" d="M80 82 V 110" stroke="#D4F04A" stroke-width="1.5"/>
               <text x="94" y="102" fill="#D4F04A" font-size="8" opacity="0.7">fallback</text>
@@ -672,7 +706,7 @@
                 <text x="298" y="49" fill="#5E5E58" font-size="11" text-anchor="middle">BUY</text>
               </g>
               <g class="node-wait">
-                <rect x="250" y="80" width="96" height="30" rx="3" fill="#C65A3A" fill-opacity="0.9"/>
+                <rect x="250" y="80" width="96" height="30" rx="3" fill="#F25C8A" fill-opacity="0.9"/>
                 <text x="298" y="99" fill="#0C0C0E" font-size="11" font-weight="700" text-anchor="middle">WAIT</text>
               </g>
               <g class="node-skip">
@@ -701,17 +735,17 @@
         <article class="card c2 reveal" style="--d:.08s">
           <div class="motif m2" aria-hidden="true">
             <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
-              <rect class="book" style="--i:0" x="60"  y="60"  width="22" height="90" fill="#E8A33D" fill-opacity="0.9"/>
+              <rect class="book" style="--i:0" x="60"  y="60"  width="22" height="90" fill="#6BA8FF" fill-opacity="0.9"/>
               <rect class="book" style="--i:1" x="90"  y="45"  width="22" height="105" fill="#242426" stroke="#5E5E58"/>
               <rect class="book" style="--i:2" x="120" y="70"  width="22" height="80" fill="#242426" stroke="#5E5E58"/>
-              <rect class="book" style="--i:3" x="150" y="52"  width="22" height="98" fill="#E8A33D" fill-opacity="0.5"/>
+              <rect class="book" style="--i:3" x="150" y="52"  width="22" height="98" fill="#6BA8FF" fill-opacity="0.5"/>
               <rect class="book" style="--i:4" x="180" y="64"  width="22" height="86" fill="#242426" stroke="#5E5E58"/>
               <line x1="48" y1="150" x2="220" y2="150" stroke="#242426" stroke-width="2"/>
               <g class="key-g">
-                <circle cx="290" cy="80" r="16" stroke="#E8A33D" stroke-width="2"/>
-                <line x1="290" y1="96" x2="290" y2="128" stroke="#E8A33D" stroke-width="2"/>
-                <line x1="290" y1="118" x2="300" y2="118" stroke="#E8A33D" stroke-width="2"/>
-                <line x1="290" y1="128" x2="302" y2="128" stroke="#E8A33D" stroke-width="2"/>
+                <circle cx="290" cy="80" r="16" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="96" x2="290" y2="128" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="118" x2="300" y2="118" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="128" x2="302" y2="128" stroke="#6BA8FF" stroke-width="2"/>
               </g>
               <g font-size="11" text-anchor="middle">
                 <text class="role-t" x="290" y="160" fill="#D4F04A">ADMIN</text>
@@ -770,16 +804,16 @@
                 <text x="77"  y="100" fill="#4EC9B0" font-size="11" text-anchor="middle">POST</text>
               </g>
               <g class="crud-tile" style="--i:1">
-                <rect x="124" y="62" width="70" height="66" rx="3" stroke="#E8A33D" stroke-width="1.5"/>
-                <text x="159" y="100" fill="#E8A33D" font-size="11" text-anchor="middle">PUT</text>
+                <rect x="124" y="62" width="70" height="66" rx="3" stroke="#6BA8FF" stroke-width="1.5"/>
+                <text x="159" y="100" fill="#6BA8FF" font-size="11" text-anchor="middle">PUT</text>
               </g>
               <g class="crud-tile" style="--i:2">
                 <rect x="206" y="62" width="70" height="66" rx="3" stroke="#9B7BF5" stroke-width="1.5"/>
                 <text x="241" y="100" fill="#9B7BF5" font-size="11" text-anchor="middle">PATCH</text>
               </g>
               <g class="crud-tile" style="--i:3">
-                <rect x="288" y="62" width="70" height="66" rx="3" stroke="#C65A3A" stroke-width="1.5"/>
-                <text x="323" y="100" fill="#C65A3A" font-size="11" text-anchor="middle">DELETE</text>
+                <rect x="288" y="62" width="70" height="66" rx="3" stroke="#F25C8A" stroke-width="1.5"/>
+                <text x="323" y="100" fill="#F25C8A" font-size="11" text-anchor="middle">DELETE</text>
               </g>
             </svg>
           </div>
@@ -801,29 +835,75 @@
     </div>
   </section>
 
-  <!-- ============ 003 Stack ============ -->
+  <!-- ============ 003 Writing ============ -->
+  <section id="writing">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--lime)">
+        <span class="num mono">003</span>
+        <h2>Writing</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+      <p class="section-lede reveal">I write about the things I debug. Java and Spring Boot, from the inside, on Medium.</p>
+
+      <a class="article-row reveal" style="--pc:var(--lime)" href="https://medium.com/@vaishnaviagrawal2999/stop-bad-requests-at-the-door-with-spring-validation-e13e826d90e1" target="_blank" rel="noopener">
+        <span class="idx mono">w1</span>
+        <span class="a-title">Stop Bad Requests at the Door with Spring Validation <span class="tag-new">New</span></span>
+        <span class="topic mono">Validation</span>
+        <span class="date mono">Jul 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+      <a class="article-row reveal" style="--d:.07s; --pc:var(--accent)" href="https://medium.com/@vaishnaviagrawal2999/how-i-cleaned-up-error-handling-in-my-spring-boot-api-5a63463e7f43" target="_blank" rel="noopener">
+        <span class="idx mono">w2</span>
+        <span class="a-title">How I Cleaned Up Error Handling in My Spring Boot API</span>
+        <span class="topic mono">Error Handling</span>
+        <span class="date mono">Jul 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+      <a class="article-row reveal" style="--d:.14s; --pc:var(--sky)" href="https://medium.com/@vaishnaviagrawal2999/how-one-property-can-triple-your-spring-boot-throughput-0863a37d9557" target="_blank" rel="noopener">
+        <span class="idx mono">w3</span>
+        <span class="a-title">How One Property Can Triple Your Spring Boot Throughput</span>
+        <span class="topic mono">Performance</span>
+        <span class="date mono">Jul 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+      <a class="article-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://medium.com/@vaishnaviagrawal2999/your-api-has-no-memory-heres-how-jwt-fixes-that-47313babc620" target="_blank" rel="noopener">
+        <span class="idx mono">w4</span>
+        <span class="a-title">Your API Has No Memory. Here's How JWT Fixes That.</span>
+        <span class="topic mono">JWT &amp; Auth</span>
+        <span class="date mono">Jun 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+
+      <div class="writing-more reveal" style="--d:.28s">
+        <span>Plus more on Java streams, lambdas, and functional interfaces.</span>
+        <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">All articles on Medium &#8599;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 004 Stack ============ -->
   <section id="stack">
     <div class="wrap">
       <div class="section-head reveal" style="--sc:var(--teal)">
-        <span class="num mono">003</span>
+        <span class="num mono">004</span>
         <h2>Stack</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
 
-      <div class="stack-row reveal" style="--sc:var(--rust)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
-      <div class="stack-row reveal" style="--d:.05s; --sc:var(--amber)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
+      <div class="stack-row reveal" style="--sc:var(--accent)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
+      <div class="stack-row reveal" style="--d:.05s; --sc:var(--sky)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
       <div class="stack-row reveal" style="--d:.1s; --sc:var(--teal)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
       <div class="stack-row reveal" style="--d:.15s; --sc:var(--violet)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
       <div class="stack-row reveal" style="--d:.2s; --sc:var(--lime)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
-      <div class="stack-row reveal" style="--d:.25s; --sc:var(--rust)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
+      <div class="stack-row reveal" style="--d:.25s; --sc:var(--accent)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
     </div>
   </section>
 
-  <!-- ============ 004 Experience ============ -->
+  <!-- ============ 005 Experience ============ -->
   <section id="experience">
     <div class="wrap">
       <div class="section-head reveal" style="--sc:var(--violet)">
-        <span class="num mono">004</span>
+        <span class="num mono">005</span>
         <h2>Experience</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
@@ -859,39 +939,25 @@
     </div>
   </section>
 
-  <!-- ============ 005 About ============ -->
+  <!-- ============ 006 About ============ -->
   <section id="about">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--lime)">
-        <span class="num mono">005</span>
+      <div class="section-head reveal" style="--sc:var(--accent)">
+        <span class="num mono">006</span>
         <h2>About</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
       <div class="about-grid">
         <div class="about-text">
           <p class="reveal">I'm a Java backend developer. I build REST APIs with Spring Boot, secure them with JWT and Spring Security, back them with PostgreSQL, and deploy them with Docker and CI/CD. <strong>One of them is running in production right now.</strong></p>
-          <p class="reveal" style="--d:.07s">Before this I spent three years inside production systems on the support side, which is where I learned how software actually fails: reading stack traces, tracing API errors, and working with backend teams on root causes.</p>
-          <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently.</p>
-          <div class="about-metrics reveal" style="--d:.2s">
-            <div class="metric" style="--mc:var(--rust)">
-              <div class="value"><span class="counter" data-target="3" data-pad="2">00</span></div>
-              <span class="metric-label mono">Years inside production systems</span>
-            </div>
-            <div class="metric" style="--mc:var(--amber)">
-              <div class="value"><span class="counter" data-target="4" data-pad="2">00</span></div>
-              <span class="metric-label mono">Backend projects built</span>
-            </div>
-            <div class="metric" style="--mc:var(--teal)">
-              <div class="value"><span class="counter" data-target="1" data-pad="2">00</span></div>
-              <span class="metric-label mono">API live in production</span>
-            </div>
-          </div>
+          <p class="reveal" style="--d:.07s">Before this I worked inside production systems on the support side, which is where I learned how software actually fails: reading stack traces, tracing API errors, and working with backend teams on root causes.</p>
+          <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
         </div>
         <figure class="portrait reveal" style="--d:.1s">
           <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="619" height="1100">
           <figcaption class="mono">
             <span>Vaishnavi Agrawal</span>
-            <span class="tag">Ahmedabad</span>
+            <span class="tag">// hi</span>
           </figcaption>
         </figure>
       </div>
@@ -910,6 +976,7 @@
     </nav>
     <span class="open-to mono"><span class="dot"></span>Open to Java backend developer roles</span>
   </div>
+  <span class="psst mono" aria-hidden="true">psst: &uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr; B A</span>
 </footer>
 
 <div class="toast" id="toast" role="status"></div>
@@ -949,22 +1016,24 @@
     motifs.forEach(function (el) { mio.observe(el); });
   }
 
-  /* ---------- 3. Typing API terminal ---------- */
+  /* ---------- 3. Spring Boot terminal ---------- */
   var termBody = document.getElementById("termBody");
   var termRun = document.getElementById("termRun");
-  var REQ_LINES = [
-    { text: "$ ", cls: "dim" },
-    { text: "POST", cls: "kw" },
-    { text: " /api/decisions", cls: "req" },
-    { text: "\n{\n  ", cls: "dim" },
-    { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"standing desk\"", cls: "s" },
-    { text: ",\n  ", cls: "dim" },
-    { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "24000", cls: "n" },
-    { text: ",\n  ", cls: "dim" },
-    { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "60000", cls: "n" },
-    { text: ",\n  ", cls: "dim" },
-    { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "300000", cls: "n" },
-    { text: "\n}", cls: "dim" }
+  var bs = String.fromCharCode(92); // backslash, kept out of string literals
+  var BANNER = [
+    "  .   ____          _",
+    " /" + bs + bs + " / ___'_ __ _ _(_)",
+    "( ( )" + bs + "___ | '_ | '_| |",
+    " " + bs + bs + "/  ___)| |_)| | | |",
+    "  '  |____| .__|_| |_|",
+    " ========|_|========",
+    " :: Spring Boot ::  (Java 21)"
+  ].join("\n");
+  var LOGS = [
+    " Starting Application using Java 21",
+    " Tomcat initialized on port 8080",
+    " HikariPool-1 :: Start completed",
+    " Started Application. Ready."
   ];
   var running = false;
 
@@ -975,37 +1044,39 @@
     return s;
   }
 
-  function showFinalState() {
-    termBody.textContent = "";
-    REQ_LINES.forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
-    appendResponse(42, true);
+  function appendLog(line) {
+    termBody.appendChild(el("info", "INFO"));
+    termBody.appendChild(el("log", line + "\n"));
   }
 
-  function appendResponse(score, instant) {
-    termBody.appendChild(el("dim", "\n\n// 200 OK · sample response\n"));
-    termBody.appendChild(el("resp", "{\n  "));
-    termBody.appendChild(el("k", "\"verdict\""));
-    termBody.appendChild(el("dim", ": "));
-    termBody.appendChild(el("verdict", "\"WAIT\""));
-    termBody.appendChild(el("dim", ",\n  "));
-    termBody.appendChild(el("k", "\"score\""));
-    termBody.appendChild(el("dim", ": "));
-    var scoreEl = el("kw", instant ? String(score) : "0");
-    termBody.appendChild(scoreEl);
-    termBody.appendChild(el("dim", ",\n  "));
-    termBody.appendChild(el("k", "\"timeline\""));
-    termBody.appendChild(el("dim", ": "));
-    termBody.appendChild(el("s", "\"save 2 more months\""));
-    termBody.appendChild(el("resp", "\n}"));
-    if (instant) return;
-    var start = null, dur = 900;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / dur, 1);
-      scoreEl.textContent = String(Math.round(p * score));
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+  function appendHealth(target) {
+    target.appendChild(el("log", "{"));
+    target.appendChild(el("dim", "\"status\""));
+    target.appendChild(el("log", ": "));
+    target.appendChild(el("up", "\"UP\""));
+    target.appendChild(el("log", "}"));
+  }
+
+  function showFinalState() {
+    termBody.textContent = "";
+    termBody.appendChild(el("dim", "$ "));
+    termBody.appendChild(el("kw", "mvn spring-boot:run"));
+    termBody.appendChild(el("banner", "\n" + BANNER + "\n"));
+    LOGS.forEach(appendLog);
+    termBody.appendChild(el("dim", "$ "));
+    termBody.appendChild(el("kw", "curl localhost:8080/actuator/health"));
+    termBody.appendChild(el("log", "\n"));
+    appendHealth(termBody);
+  }
+
+  function typeInto(span, text, cursor, done) {
+    var i = 0;
+    (function tick() {
+      span.textContent += text.charAt(i);
+      i++;
+      if (i < text.length) setTimeout(tick, 14 + Math.random() * 24);
+      else done();
+    })();
   }
 
   function typeSequence() {
@@ -1015,33 +1086,52 @@
     termBody.textContent = "";
     if (reduced) { showFinalState(); running = false; termRun.disabled = false; return; }
 
-    var cursor = document.createElement("span");
+    var cursor = el("term-cursor", "");
     cursor.className = "term-cursor";
+
+    function finish() {
+      cursor.remove();
+      running = false;
+      termRun.disabled = false;
+      termRun.innerHTML = "&#8635; Run again";
+    }
+
+    termBody.appendChild(el("dim", "$ "));
+    var cmd1 = el("kw", "");
+    termBody.appendChild(cmd1);
     termBody.appendChild(cursor);
 
-    var li = 0, ci = 0;
-    function typeChar() {
-      if (li >= REQ_LINES.length) {
-        setTimeout(function () {
-          cursor.remove();
-          appendResponse(42, false);
-          running = false;
-          termRun.disabled = false;
-          termRun.innerHTML = "&#8635; Run again";
-        }, 350);
-        return;
-      }
-      var line = REQ_LINES[li];
-      if (ci === 0) {
-        line._el = el(line.cls, "");
-        termBody.insertBefore(line._el, cursor);
-      }
-      line._el.textContent += line.text.charAt(ci);
-      ci++;
-      if (ci >= line.text.length) { li++; ci = 0; }
-      setTimeout(typeChar, 12 + Math.random() * 22);
-    }
-    typeChar();
+    typeInto(cmd1, "mvn spring-boot:run", cursor, function () {
+      setTimeout(function () {
+        termBody.insertBefore(el("banner", "\n" + BANNER + "\n"), cursor);
+        var li = 0;
+        (function logTick() {
+          if (li < LOGS.length) {
+            var info = el("info", "INFO");
+            var log = el("log", LOGS[li] + "\n");
+            termBody.insertBefore(info, cursor);
+            termBody.insertBefore(log, cursor);
+            li++;
+            setTimeout(logTick, 260 + Math.random() * 320);
+          } else {
+            setTimeout(function () {
+              termBody.insertBefore(el("dim", "$ "), cursor);
+              var cmd2 = el("kw", "");
+              termBody.insertBefore(cmd2, cursor);
+              typeInto(cmd2, "curl localhost:8080/actuator/health", cursor, function () {
+                setTimeout(function () {
+                  termBody.insertBefore(el("log", "\n"), cursor);
+                  var frag = document.createDocumentFragment();
+                  appendHealth(frag);
+                  termBody.insertBefore(frag, cursor);
+                  setTimeout(finish, 600);
+                }, 300);
+              });
+            }, 400);
+          }
+        })();
+      }, 420);
+    });
   }
 
   termRun.addEventListener("click", typeSequence);
@@ -1060,42 +1150,7 @@
     showFinalState();
   }
 
-  /* ---------- 4. Animated counters ---------- */
-  var counters = document.querySelectorAll(".counter");
-  function pad(n, w) {
-    var s = String(n);
-    while (s.length < w) s = "0" + s;
-    return s;
-  }
-  function runCounter(elm) {
-    var target = parseInt(elm.dataset.target, 10);
-    var width = parseInt(elm.dataset.pad || "0", 10);
-    if (reduced) { elm.textContent = pad(target, width); return; }
-    var start = null, dur = 1100;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / dur, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      elm.textContent = pad(Math.round(eased * target), width);
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  if ("IntersectionObserver" in window && !reduced) {
-    var cio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          runCounter(entry.target);
-          cio.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.6 });
-    counters.forEach(function (c) { cio.observe(c); });
-  } else {
-    counters.forEach(runCounter);
-  }
-
-  /* ---------- 5. Magnetic primary button ---------- */
+  /* ---------- 4. Magnetic primary button ---------- */
   var magnet = document.getElementById("magnet");
   if (magnet && !reduced && window.matchMedia("(hover: hover)").matches) {
     var RADIUS = 90;
@@ -1113,7 +1168,7 @@
     }, { passive: true });
   }
 
-  /* ---------- 6. Konami code ---------- */
+  /* ---------- 5. Konami code ---------- */
   var KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
   var kIdx = 0;
   var toast = document.getElementById("toast");
@@ -1127,8 +1182,8 @@
         var root = document.documentElement;
         root.classList.toggle("accent-flip");
         toast.textContent = root.classList.contains("accent-flip")
-          ? "// accent flipped to acid-lime. ↑↑↓↓←→←→BA to undo"
-          : "// back to rust";
+          ? "// colors flipped. same code to undo"
+          : "// and we're back";
         toast.classList.add("show");
         clearTimeout(toastTimer);
         toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 3200);
