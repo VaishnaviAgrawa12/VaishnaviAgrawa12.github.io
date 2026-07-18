@@ -233,6 +233,35 @@
   .term-foot a { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
   .term-foot a:hover { color: var(--accent); }
 
+  /* ============ Ticker ============ */
+  .ticker {
+    border-top: 1px solid var(--line-soft);
+    overflow: hidden;
+    padding: 13px 0;
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tick 30s linear infinite;
+  }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .tgroup { display: flex; align-items: center; gap: 28px; padding-right: 28px; }
+  .tgroup span {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tgroup .dia { color: var(--line); font-size: 8px; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  /* ============ Hero spotlight ============ */
+  .hero-spot {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
   /* ============ Sections ============ */
   section { padding: 72px 0; border-top: 1px solid var(--line-soft); position: relative; }
 
@@ -624,6 +653,7 @@
   <!-- ============ Hero ============ -->
   <div class="hero">
     <div class="hero-drift" aria-hidden="true"></div>
+    <div class="hero-spot" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-grid">
         <div>
@@ -655,6 +685,34 @@
             <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Ticker ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="tgroup">
+        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
+        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+        <span style="color:var(--lime)">Open to work</span><span class="dia">&#9670;</span>
+      </div>
+      <div class="tgroup">
+        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
+        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+        <span style="color:var(--lime)">Open to work</span><span class="dia">&#9670;</span>
       </div>
     </div>
   </div>
@@ -991,7 +1049,7 @@
           <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
         </div>
         <figure class="portrait reveal" style="--d:.1s">
-          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="455" height="930">
+          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="510" height="920">
           <figcaption class="mono">
             <span>Vaishnavi Agrawal</span>
             <span class="tag">// hi</span>
@@ -1182,7 +1240,70 @@
     }, { passive: true });
   }
 
-  /* ---------- 5. Konami code ---------- */
+  /* ---------- 5. Card 3D tilt ---------- */
+  if (!reduced && window.matchMedia("(hover: hover)").matches) {
+    document.querySelectorAll(".card").forEach(function (card) {
+      card.addEventListener("mouseenter", function () {
+        card.style.transition = "transform 0.08s linear, border-color 0.3s ease, box-shadow 0.3s ease";
+      });
+      card.addEventListener("mousemove", function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = "translateY(-6px) perspective(900px) rotateX(" + (-py * 4).toFixed(2) + "deg) rotateY(" + (px * 5).toFixed(2) + "deg)";
+      }, { passive: true });
+      card.addEventListener("mouseleave", function () {
+        card.style.transition = "";
+        card.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------- 6. Section heading scramble ---------- */
+  var GLYPHS = "#/<>[]{}=+*";
+  function scramble(elm) {
+    var finalText = elm.textContent;
+    var start = null, dur = 600;
+    function frame(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var settled = Math.floor(p * finalText.length);
+      var out = finalText.slice(0, settled);
+      for (var i = settled; i < finalText.length; i++) {
+        out += finalText[i] === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      }
+      elm.textContent = out;
+      if (p < 1) requestAnimationFrame(frame);
+      else elm.textContent = finalText;
+    }
+    requestAnimationFrame(frame);
+  }
+  if (!reduced && "IntersectionObserver" in window) {
+    var sio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          scramble(entry.target);
+          sio.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll(".section-head h2").forEach(function (h) { sio.observe(h); });
+  }
+
+  /* ---------- 7. Hero cursor spotlight ---------- */
+  var hero = document.querySelector(".hero");
+  var spot = document.querySelector(".hero-spot");
+  if (hero && spot && !reduced && window.matchMedia("(hover: hover)").matches) {
+    hero.addEventListener("mousemove", function (e) {
+      var r = hero.getBoundingClientRect();
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      spot.style.opacity = "1";
+      spot.style.background = "radial-gradient(240px at " + x + "px " + y + "px, rgba(95, 179, 167, 0.10), transparent 70%)";
+    }, { passive: true });
+    hero.addEventListener("mouseleave", function () { spot.style.opacity = "0"; });
+  }
+
+  /* ---------- 8. Konami code ---------- */
   var KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
   var kIdx = 0;
   var toast = document.getElementById("toast");
