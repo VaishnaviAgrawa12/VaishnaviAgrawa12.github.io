@@ -23,13 +23,14 @@
     --accent-hi: #5FB3A7;
     --sand: #C9A876;
     --sand-hi: #D9BC8E;
+    --sky: #6BA8FF;
+    --violet: #9B7BF5;
     --lime: #D4F04A;
   }
   :root.accent-flip {
-    --accent: #C9A876;
-    --accent-hi: #D9BC8E;
-    --sand: #4A9188;
-    --sand-hi: #5FB3A7;
+    --accent: #D4F04A;
+    --accent-hi: #E2F86A;
+    --lime: #4A9188;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -94,8 +95,8 @@
     position: absolute; inset: -20%;
     background:
       radial-gradient(420px 420px at 70% 30%, rgba(74, 145, 136, 0.14), transparent 70%),
-      radial-gradient(340px 340px at 20% 80%, rgba(201, 168, 118, 0.09), transparent 70%),
-      radial-gradient(300px 300px at 88% 78%, rgba(74, 145, 136, 0.06), transparent 70%);
+      radial-gradient(340px 340px at 20% 80%, rgba(155, 123, 245, 0.08), transparent 70%),
+      radial-gradient(300px 300px at 88% 78%, rgba(201, 168, 118, 0.07), transparent 70%);
     animation: drift 26s ease-in-out infinite alternate;
     pointer-events: none;
   }
@@ -198,14 +199,14 @@
   .term-bar .dots { display: flex; gap: 6px; }
   .term-bar .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
   .term-bar .dots i:nth-child(1) { background: var(--accent); }
-  .term-bar .dots i:nth-child(2) { background: var(--sand); }
+  .term-bar .dots i:nth-child(2) { background: var(--sky); }
   .term-bar .dots i:nth-child(3) { background: var(--lime); }
   .term-body { padding: 14px 18px; flex: 1; white-space: pre-wrap; word-break: break-word; }
   .term-body .kw { color: var(--accent); font-weight: 700; }
   .term-body .req { color: var(--text-mid); }
-  .term-body .k { color: var(--sand); }
-  .term-body .s { color: var(--text); }
-  .term-body .n { color: var(--accent-hi); }
+  .term-body .k { color: var(--sky); }
+  .term-body .s { color: var(--sand); }
+  .term-body .n { color: var(--violet); }
   .term-body .resp { color: var(--text); }
   .term-body .verdict { color: var(--lime); font-weight: 700; }
   .term-body .dim { color: var(--text-low); }
@@ -293,9 +294,9 @@
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
   }
   .card.c1 { --ac: var(--accent); }
-  .card.c2 { --ac: var(--sand); }
-  .card.c3 { --ac: var(--accent); }
-  .card.c4 { --ac: var(--sand); }
+  .card.c2 { --ac: var(--sky); }
+  .card.c3 { --ac: var(--sand); }
+  .card.c4 { --ac: var(--violet); }
 
   .motif {
     margin: 14px 14px 0;
@@ -438,7 +439,7 @@
   .writing-more a {
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--sand);
+    color: var(--lime);
   }
   .writing-more a:hover { color: var(--text); }
 
@@ -473,7 +474,7 @@
     transition: border-color 0.25s ease, padding-left 0.25s ease;
   }
   .role:last-child { margin-bottom: 0; }
-  .role:hover { border-left-color: var(--sand); padding-left: 28px; }
+  .role:hover { border-left-color: var(--violet); padding-left: 28px; }
   .role .role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
   .role .role-title { font-weight: 700; font-size: 15px; }
   .role .role-dates { color: var(--text-low); white-space: nowrap; }
@@ -486,7 +487,7 @@
   .role .role-list li::before {
     content: "\25B8";
     position: absolute; left: 0;
-    color: var(--sand);
+    color: var(--violet);
   }
   .role .role-list strong { color: var(--text); font-weight: 700; }
 
@@ -495,7 +496,7 @@
   .about-text p { color: var(--text-mid); margin-bottom: 18px; max-width: 620px; }
   .about-text p:last-child { margin-bottom: 0; }
   .about-text strong { color: var(--text); font-weight: 700; }
-  .about-text a { color: var(--sand); }
+  .about-text a { color: var(--lime); }
   .about-text a:hover { color: var(--text); }
 
   .portrait {
@@ -519,7 +520,7 @@
     text-transform: uppercase;
     display: flex; justify-content: space-between; align-items: baseline;
   }
-  .portrait figcaption .tag { color: var(--sand); }
+  .portrait figcaption .tag { color: var(--lime); }
   .portrait::after {
     content: "";
     position: absolute; top: 10px; right: 10px;
@@ -674,21 +675,21 @@
         <span class="year mono">2026</span>
         <span class="arrow">&rarr;</span>
       </a>
-      <a class="project-row reveal" style="--d:.07s; --pc:var(--sand)" href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">
+      <a class="project-row reveal" style="--d:.07s; --pc:var(--sky)" href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">
         <span class="idx mono">02</span>
         <span class="title">Library Management System</span>
         <span class="stack mono">Spring Security &middot; Role-Based Access</span>
         <span class="year mono">2026</span>
         <span class="arrow">&rarr;</span>
       </a>
-      <a class="project-row reveal" style="--d:.14s; --pc:var(--accent)" href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">
+      <a class="project-row reveal" style="--d:.14s; --pc:var(--sand)" href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">
         <span class="idx mono">03</span>
         <span class="title">Patient Management System</span>
         <span class="stack mono">CRUD &middot; JPA &middot; JUnit</span>
         <span class="year mono">2025</span>
         <span class="arrow">&rarr;</span>
       </a>
-      <a class="project-row reveal" style="--d:.21s; --pc:var(--sand)" href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">
+      <a class="project-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">
         <span class="idx mono">04</span>
         <span class="title">Employee CRUD API</span>
         <span class="stack mono">REST &middot; Docker</span>
@@ -701,7 +702,7 @@
   <!-- ============ 002 In Detail ============ -->
   <section id="detail">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--sand)">
+      <div class="section-head reveal" style="--sc:var(--sky)">
         <span class="num mono">002</span>
         <h2>In Detail</h2>
         <span class="rule" aria-hidden="true"></span>
@@ -754,17 +755,17 @@
         <article class="card c2 reveal" style="--d:.08s">
           <div class="motif m2" aria-hidden="true">
             <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
-              <rect class="book" style="--i:0" x="60"  y="60"  width="22" height="90" fill="#C9A876" fill-opacity="0.9"/>
+              <rect class="book" style="--i:0" x="60"  y="60"  width="22" height="90" fill="#6BA8FF" fill-opacity="0.9"/>
               <rect class="book" style="--i:1" x="90"  y="45"  width="22" height="105" fill="#242426" stroke="#5E5E58"/>
               <rect class="book" style="--i:2" x="120" y="70"  width="22" height="80" fill="#242426" stroke="#5E5E58"/>
-              <rect class="book" style="--i:3" x="150" y="52"  width="22" height="98" fill="#C9A876" fill-opacity="0.5"/>
+              <rect class="book" style="--i:3" x="150" y="52"  width="22" height="98" fill="#6BA8FF" fill-opacity="0.5"/>
               <rect class="book" style="--i:4" x="180" y="64"  width="22" height="86" fill="#242426" stroke="#5E5E58"/>
               <line x1="48" y1="150" x2="220" y2="150" stroke="#242426" stroke-width="2"/>
               <g class="key-g">
-                <circle cx="290" cy="80" r="16" stroke="#C9A876" stroke-width="2"/>
-                <line x1="290" y1="96" x2="290" y2="128" stroke="#C9A876" stroke-width="2"/>
-                <line x1="290" y1="118" x2="300" y2="118" stroke="#C9A876" stroke-width="2"/>
-                <line x1="290" y1="128" x2="302" y2="128" stroke="#C9A876" stroke-width="2"/>
+                <circle cx="290" cy="80" r="16" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="96" x2="290" y2="128" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="118" x2="300" y2="118" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="128" x2="302" y2="128" stroke="#6BA8FF" stroke-width="2"/>
               </g>
               <g font-size="11" text-anchor="middle">
                 <text class="role-t" x="290" y="160" fill="#D4F04A">ADMIN</text>
@@ -796,7 +797,7 @@
                 <line x1="80" y1="0" x2="80" y2="190"/><line x1="160" y1="0" x2="160" y2="190"/><line x1="240" y1="0" x2="240" y2="190"/><line x1="320" y1="0" x2="320" y2="190"/>
               </g>
               <path class="ekg" d="M0 95 H 90 L 110 95 L 122 60 L 136 130 L 148 95 H 210 L 226 95 L 238 52 L 254 138 L 266 95 H 400"
-                    stroke="#4A9188" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                    stroke="#C9A876" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
               <circle class="pulse-dot" cx="366" cy="95" r="4" fill="#D4F04A"/>
             </svg>
           </div>
@@ -823,12 +824,12 @@
                 <text x="77"  y="100" fill="#4A9188" font-size="11" text-anchor="middle">POST</text>
               </g>
               <g class="crud-tile" style="--i:1">
-                <rect x="124" y="62" width="70" height="66" rx="3" stroke="#C9A876" stroke-width="1.5"/>
-                <text x="159" y="100" fill="#C9A876" font-size="11" text-anchor="middle">PUT</text>
+                <rect x="124" y="62" width="70" height="66" rx="3" stroke="#6BA8FF" stroke-width="1.5"/>
+                <text x="159" y="100" fill="#6BA8FF" font-size="11" text-anchor="middle">PUT</text>
               </g>
               <g class="crud-tile" style="--i:2">
-                <rect x="206" y="62" width="70" height="66" rx="3" stroke="#4A9188" stroke-width="1.5"/>
-                <text x="241" y="100" fill="#4A9188" font-size="11" text-anchor="middle">PATCH</text>
+                <rect x="206" y="62" width="70" height="66" rx="3" stroke="#9B7BF5" stroke-width="1.5"/>
+                <text x="241" y="100" fill="#9B7BF5" font-size="11" text-anchor="middle">PATCH</text>
               </g>
               <g class="crud-tile" style="--i:3">
                 <rect x="288" y="62" width="70" height="66" rx="3" stroke="#C9A876" stroke-width="1.5"/>
@@ -857,35 +858,35 @@
   <!-- ============ 003 Writing ============ -->
   <section id="writing">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--accent)">
+      <div class="section-head reveal" style="--sc:var(--lime)">
         <span class="num mono">003</span>
         <h2>Writing</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
       <p class="section-lede reveal">I write about the things I debug. Java and Spring Boot, from the inside, on Medium.</p>
 
-      <a class="article-row reveal" style="--pc:var(--accent)" href="https://medium.com/@vaishnaviagrawal2999/stop-bad-requests-at-the-door-with-spring-validation-e13e826d90e1" target="_blank" rel="noopener">
+      <a class="article-row reveal" style="--pc:var(--lime)" href="https://medium.com/@vaishnaviagrawal2999/stop-bad-requests-at-the-door-with-spring-validation-e13e826d90e1" target="_blank" rel="noopener">
         <span class="idx mono">w1</span>
         <span class="a-title">Stop Bad Requests at the Door with Spring Validation <span class="tag-new">New</span></span>
         <span class="topic mono">Validation</span>
         <span class="date mono">Jul 2026</span>
         <span class="arrow">&#8599;</span>
       </a>
-      <a class="article-row reveal" style="--d:.07s; --pc:var(--sand)" href="https://medium.com/@vaishnaviagrawal2999/how-i-cleaned-up-error-handling-in-my-spring-boot-api-5a63463e7f43" target="_blank" rel="noopener">
+      <a class="article-row reveal" style="--d:.07s; --pc:var(--sky)" href="https://medium.com/@vaishnaviagrawal2999/how-i-cleaned-up-error-handling-in-my-spring-boot-api-5a63463e7f43" target="_blank" rel="noopener">
         <span class="idx mono">w2</span>
         <span class="a-title">How I Cleaned Up Error Handling in My Spring Boot API</span>
         <span class="topic mono">Error Handling</span>
         <span class="date mono">Jul 2026</span>
         <span class="arrow">&#8599;</span>
       </a>
-      <a class="article-row reveal" style="--d:.14s; --pc:var(--accent)" href="https://medium.com/@vaishnaviagrawal2999/how-one-property-can-triple-your-spring-boot-throughput-0863a37d9557" target="_blank" rel="noopener">
+      <a class="article-row reveal" style="--d:.14s; --pc:var(--sand)" href="https://medium.com/@vaishnaviagrawal2999/how-one-property-can-triple-your-spring-boot-throughput-0863a37d9557" target="_blank" rel="noopener">
         <span class="idx mono">w3</span>
         <span class="a-title">How One Property Can Triple Your Spring Boot Throughput</span>
         <span class="topic mono">Performance</span>
         <span class="date mono">Jul 2026</span>
         <span class="arrow">&#8599;</span>
       </a>
-      <a class="article-row reveal" style="--d:.21s; --pc:var(--sand)" href="https://medium.com/@vaishnaviagrawal2999/your-api-has-no-memory-heres-how-jwt-fixes-that-47313babc620" target="_blank" rel="noopener">
+      <a class="article-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://medium.com/@vaishnaviagrawal2999/your-api-has-no-memory-heres-how-jwt-fixes-that-47313babc620" target="_blank" rel="noopener">
         <span class="idx mono">w4</span>
         <span class="a-title">Your API Has No Memory. Here's How JWT Fixes That.</span>
         <span class="topic mono">JWT &amp; Auth</span>
@@ -910,18 +911,18 @@
       </div>
 
       <div class="stack-row reveal" style="--sc:var(--accent)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
-      <div class="stack-row reveal" style="--d:.05s; --sc:var(--sand)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
-      <div class="stack-row reveal" style="--d:.1s; --sc:var(--accent)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
-      <div class="stack-row reveal" style="--d:.15s; --sc:var(--sand)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
-      <div class="stack-row reveal" style="--d:.2s; --sc:var(--accent)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
-      <div class="stack-row reveal" style="--d:.25s; --sc:var(--sand)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
+      <div class="stack-row reveal" style="--d:.05s; --sc:var(--sky)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
+      <div class="stack-row reveal" style="--d:.1s; --sc:var(--sand)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
+      <div class="stack-row reveal" style="--d:.15s; --sc:var(--violet)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
+      <div class="stack-row reveal" style="--d:.2s; --sc:var(--lime)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
+      <div class="stack-row reveal" style="--d:.25s; --sc:var(--accent)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
     </div>
   </section>
 
   <!-- ============ 005 Experience ============ -->
   <section id="experience">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--sand)">
+      <div class="section-head reveal" style="--sc:var(--violet)">
         <span class="num mono">005</span>
         <h2>Experience</h2>
         <span class="rule" aria-hidden="true"></span>
@@ -978,7 +979,7 @@
   <!-- ============ 006 About ============ -->
   <section id="about">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--sand)">
+      <div class="section-head reveal" style="--sc:var(--accent)">
         <span class="num mono">006</span>
         <h2>About</h2>
         <span class="rule" aria-hidden="true"></span>
@@ -990,7 +991,7 @@
           <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
         </div>
         <figure class="portrait reveal" style="--d:.1s">
-          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="455" height="860">
+          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="455" height="930">
           <figcaption class="mono">
             <span>Vaishnavi Agrawal</span>
             <span class="tag">// hi</span>
