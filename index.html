@@ -32,6 +32,39 @@
     --accent-hi: #E2F86A;
     --lime: #4A9188;
   }
+  :root.light {
+    --ground: #F4F3EE;
+    --card: #FFFFFF;
+    --card-alt: #EBEAE4;
+    --line: #D5D3CA;
+    --line-soft: #E3E1D9;
+    --text: #1C1C1A;
+    --text-mid: #55554F;
+    --text-low: #8A8A82;
+    --accent: #3E837A;
+    --accent-hi: #326B64;
+    --sand: #A87F42;
+    --sand-hi: #8F6B36;
+    --sky: #3D74D6;
+    --violet: #7757E0;
+    --lime: #7F921A;
+  }
+  :root.light .term {
+    --card: #141416;
+    --card-alt: #191919;
+    --line: #242426;
+    --line-soft: #1B1B1D;
+    --text: #EDEDE8;
+    --text-mid: #9A9A92;
+    --text-low: #5E5E58;
+    --accent: #4A9188;
+    --accent-hi: #5FB3A7;
+    --sand: #C9A876;
+    --sky: #6BA8FF;
+    --violet: #9B7BF5;
+    --lime: #D4F04A;
+  }
+  :root.light .hero-drift { opacity: 0.5; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -46,6 +79,7 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
   ::selection { background: var(--accent); color: var(--ground); }
@@ -74,6 +108,18 @@
   }
   header.top .name { text-transform: uppercase; font-weight: 700; }
   header.top .loc { color: var(--text-low); text-transform: uppercase; }
+  header.top .right { display: flex; align-items: center; gap: 16px; }
+  .theme-toggle {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-mid);
+    padding: 6px 12px; border-radius: 999px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
   header.top a.name:hover { color: var(--accent); }
 
   /* ============ Hero ============ */
@@ -648,7 +694,10 @@
 <header class="top">
   <div class="wrap">
     <a class="name mono" href="#top">Vaishnavi Agrawal</a>
-    <span class="loc mono">Java &middot; Backend &middot; Writing</span>
+    <div class="right">
+      <span class="loc mono">Java &middot; Backend &middot; Writing</span>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">&#9788; Light</button>
+    </div>
   </div>
 </header>
 
@@ -1332,6 +1381,14 @@
     }, { passive: true });
     hero.addEventListener("mouseleave", function () { spot.style.opacity = "0"; });
   }
+
+  /* ---------- 7b. Light / dark toggle ---------- */
+  var themeToggle = document.getElementById("themeToggle");
+  themeToggle.addEventListener("click", function () {
+    var light = document.documentElement.classList.toggle("light");
+    themeToggle.innerHTML = light ? "&#9789; Dark" : "&#9788; Light";
+    themeToggle.setAttribute("aria-pressed", String(light));
+  });
 
   /* ---------- 8. Konami code ---------- */
   var KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
