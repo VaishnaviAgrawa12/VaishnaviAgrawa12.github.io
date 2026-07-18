@@ -209,6 +209,8 @@
   .term-body .n { color: var(--violet); }
   .term-body .resp { color: var(--text); }
   .term-body .verdict { color: var(--lime); font-weight: 700; }
+  .term-body .v-wait { color: var(--sand); font-weight: 700; }
+  .term-body .v-skip { color: var(--violet); font-weight: 700; }
   .term-body .dim { color: var(--text-low); }
   .term-cursor {
     display: inline-block; width: 7px; height: 14px;
@@ -1112,20 +1114,31 @@
   /* ---------- 3. Typing API terminal ---------- */
   var termBody = document.getElementById("termBody");
   var termRun = document.getElementById("termRun");
-  var REQ_LINES = [
-    { text: "$ ", cls: "dim" },
-    { text: "POST", cls: "kw" },
-    { text: " /api/decisions", cls: "req" },
-    { text: "\n{\n  ", cls: "dim" },
-    { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"standing desk\"", cls: "s" },
-    { text: ",\n  ", cls: "dim" },
-    { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "24000", cls: "n" },
-    { text: ",\n  ", cls: "dim" },
-    { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "60000", cls: "n" },
-    { text: ",\n  ", cls: "dim" },
-    { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "300000", cls: "n" },
-    { text: "\n}", cls: "dim" }
+  var SCENARIOS = [
+    { item: "standing desk", price: "24000", income: "60000", goal: "300000",
+      verdict: "WAIT", vcls: "v-wait", score: 42, timeline: "save 2 more months" },
+    { item: "mechanical keyboard", price: "4500", income: "60000", goal: "300000",
+      verdict: "BUY", vcls: "verdict", score: 81, timeline: "no impact on your goal" },
+    { item: "new iPhone", price: "140000", income: "60000", goal: "300000",
+      verdict: "SKIP", vcls: "v-skip", score: 9, timeline: "pushes goal back 6 months" }
   ];
+  var scIdx = Math.floor(Math.random() * SCENARIOS.length);
+  function reqLines(sc) {
+    return [
+      { text: "$ ", cls: "dim" },
+      { text: "POST", cls: "kw" },
+      { text: " /api/decisions", cls: "req" },
+      { text: "\n{\n  ", cls: "dim" },
+      { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"" + sc.item + "\"", cls: "s" },
+      { text: ",\n  ", cls: "dim" },
+      { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.price, cls: "n" },
+      { text: ",\n  ", cls: "dim" },
+      { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.income, cls: "n" },
+      { text: ",\n  ", cls: "dim" },
+      { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.goal, cls: "n" },
+      { text: "\n}", cls: "dim" }
+    ];
+  }
   var running = false;
 
   function el(cls, text) {
@@ -1136,42 +1149,46 @@
   }
 
   function showFinalState() {
+    var sc = SCENARIOS[scIdx];
     termBody.textContent = "";
-    REQ_LINES.forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
-    appendResponse(42, true);
+    reqLines(sc).forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
+    appendResponse(sc, true);
   }
 
-  function appendResponse(score, instant) {
+  function appendResponse(sc, instant) {
     termBody.appendChild(el("dim", "\n\n// 200 OK · sample response\n"));
     termBody.appendChild(el("resp", "{\n  "));
     termBody.appendChild(el("k", "\"verdict\""));
     termBody.appendChild(el("dim", ": "));
-    termBody.appendChild(el("verdict", "\"WAIT\""));
+    termBody.appendChild(el(sc.vcls, "\"" + sc.verdict + "\""));
     termBody.appendChild(el("dim", ",\n  "));
     termBody.appendChild(el("k", "\"score\""));
     termBody.appendChild(el("dim", ": "));
-    var scoreEl = el("kw", instant ? String(score) : "0");
+    var scoreEl = el("kw", instant ? String(sc.score) : "0");
     termBody.appendChild(scoreEl);
     termBody.appendChild(el("dim", ",\n  "));
     termBody.appendChild(el("k", "\"timeline\""));
     termBody.appendChild(el("dim", ": "));
-    termBody.appendChild(el("s", "\"save 2 more months\""));
+    termBody.appendChild(el("s", "\"" + sc.timeline + "\""));
     termBody.appendChild(el("resp", "\n}"));
     if (instant) return;
     var start = null, dur = 900;
     function step(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
-      scoreEl.textContent = String(Math.round(p * score));
+      scoreEl.textContent = String(Math.round(p * sc.score));
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
 
-  function typeSequence() {
+  function typeSequence(advance) {
     if (running) return;
     running = true;
     termRun.disabled = true;
+    if (advance) scIdx = (scIdx + 1) % SCENARIOS.length;
+    var sc = SCENARIOS[scIdx];
+    var lines = reqLines(sc);
     termBody.textContent = "";
     if (reduced) { showFinalState(); running = false; termRun.disabled = false; return; }
 
@@ -1181,17 +1198,17 @@
 
     var li = 0, ci = 0;
     function typeChar() {
-      if (li >= REQ_LINES.length) {
+      if (li >= lines.length) {
         setTimeout(function () {
           cursor.remove();
-          appendResponse(42, false);
+          appendResponse(sc, false);
           running = false;
           termRun.disabled = false;
-          termRun.innerHTML = "&#8635; Run again";
+          termRun.innerHTML = "&#8635; Try another";
         }, 350);
         return;
       }
-      var line = REQ_LINES[li];
+      var line = lines[li];
       if (ci === 0) {
         line._el = el(line.cls, "");
         termBody.insertBefore(line._el, cursor);
@@ -1204,7 +1221,7 @@
     typeChar();
   }
 
-  termRun.addEventListener("click", typeSequence);
+  termRun.addEventListener("click", function () { typeSequence(true); });
 
   if (!reduced && "IntersectionObserver" in window) {
     var tio = new IntersectionObserver(function (entries) {
