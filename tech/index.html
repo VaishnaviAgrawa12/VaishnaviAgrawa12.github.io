@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaishnavi Agrawal · Java Backend Developer</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Java backend developer. Spring Boot, PostgreSQL, JWT, Docker. Backend projects with one live in production, plus writing on Java and Spring Boot.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230C0C0E'/%3E%3Crect x='3' y='3' width='10' height='10' fill='%23C9A876'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Archivo+Narrow:wght@700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground: #0C0C0E;
+    --card: #141416;
+    --card-alt: #191919;
+    --line: #242426;
+    --line-soft: #1B1B1D;
+    --text: #EDEDE8;
+    --text-mid: #9A9A92;
+    --text-low: #5E5E58;
+    --accent: #C9A876;
+    --accent-hi: #D9BC8E;
+    --sand: #4A9188;
+    --sand-hi: #5FB3A7;
+    --sky: #6BA8FF;
+    --violet: #9B7BF5;
+    --lime: #D4F04A;
+  }
+  :root.accent-flip {
+    --accent: #D4F04A;
+    --accent-hi: #E2F86A;
+    --lime: #4A9188;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ground);
+    color: var(--text);
+    font-family: "Archivo", system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: var(--ground); }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+  /* ============ Top bar ============ */
+  header.top { border-bottom: 1px solid var(--line-soft); position: relative; z-index: 2; }
+  header.top .wrap {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 20px; padding-bottom: 20px;
+  }
+  header.top .name { text-transform: uppercase; font-weight: 700; }
+  header.top .loc { color: var(--text-low); text-transform: uppercase; }
+  header.top a.name:hover { color: var(--accent); }
+
+  /* ============ Hero ============ */
+  .hero { position: relative; padding: 76px 0 72px; overflow: hidden; }
+
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 20%, #000 0%, transparent 70%);
+    mask-image: radial-gradient(ellipse 80% 70% at 30% 20%, #000 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-drift {
+    position: absolute; inset: -20%;
+    background:
+      radial-gradient(420px 420px at 70% 30%, rgba(74, 145, 136, 0.14), transparent 70%),
+      radial-gradient(340px 340px at 20% 80%, rgba(155, 123, 245, 0.08), transparent 70%),
+      radial-gradient(300px 300px at 88% 78%, rgba(201, 168, 118, 0.07), transparent 70%);
+    animation: drift 26s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(-4%, 3%) scale(1.06); }
+    100% { transform: translate(3%, -3%) scale(1.02); }
+  }
+
+  .hero .wrap { position: relative; z-index: 1; }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 44px;
+    align-items: center;
+  }
+
+  .eyebrow { color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 24px; }
+
+  h1 {
+    font-family: "Archivo Narrow", "Archivo", sans-serif;
+    font-weight: 700;
+    font-size: clamp(34px, 5.6vw, 64px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  h1 .line { display: block; overflow: hidden; }
+  h1 .line > span { display: inline-block; }
+  h1 .accent > span { color: var(--accent); }
+
+  .hl { opacity: 0; transform: translateY(110%); }
+  body.loaded .hl {
+    animation: riseIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
+  .hf { opacity: 0; transform: translateY(20px); }
+  body.loaded .hf {
+    animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  .lede { margin-top: 26px; max-width: 520px; color: var(--text-mid); font-size: 15px; }
+  .hero-meta { margin-top: 16px; color: var(--text-low); }
+
+  .hero-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 12px 20px;
+    border: 1px solid var(--line);
+    color: var(--text);
+    overflow: hidden;
+    cursor: pointer;
+    background: transparent;
+    transition: border-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+  }
+  .btn > span { position: relative; z-index: 1; }
+  .btn::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn:hover { border-color: var(--accent); color: var(--ground); }
+  .btn:hover::before { transform: scaleX(1); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--ground); }
+  .btn.primary::before { background: var(--ground); }
+  .btn.primary:hover { color: var(--text); }
+
+  /* ============ Terminal ============ */
+  .term {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    display: flex; flex-direction: column;
+    min-height: 340px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  }
+  .term-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--text-low);
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--card-alt);
+  }
+  .term-bar .dots { display: flex; gap: 6px; }
+  .term-bar .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
+  .term-bar .dots i:nth-child(1) { background: var(--accent); }
+  .term-bar .dots i:nth-child(2) { background: var(--sky); }
+  .term-bar .dots i:nth-child(3) { background: var(--lime); }
+  .term-body { padding: 14px 18px; flex: 1; white-space: pre-wrap; word-break: break-word; }
+  .term-body .kw { color: var(--accent); font-weight: 700; }
+  .term-body .req { color: var(--text-mid); }
+  .term-body .k { color: var(--sky); }
+  .term-body .s { color: var(--sand); }
+  .term-body .n { color: var(--violet); }
+  .term-body .resp { color: var(--text); }
+  .term-body .verdict { color: var(--lime); font-weight: 700; }
+  .term-body .v-wait { color: var(--sand); font-weight: 700; }
+  .term-body .v-skip { color: var(--violet); font-weight: 700; }
+  .term-body .dim { color: var(--text-low); }
+  .term-cursor {
+    display: inline-block; width: 7px; height: 14px;
+    background: var(--accent);
+    vertical-align: -2px;
+    animation: blink 0.9s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .term-foot {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--line-soft);
+    background: var(--card-alt);
+  }
+  .term-run {
+    font-family: inherit; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent; border: 1px solid var(--line);
+    color: var(--accent); padding: 7px 14px; cursor: pointer; border-radius: 4px;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .term-run:hover { border-color: var(--accent); background: var(--accent); color: var(--ground); }
+  .term-foot a { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .term-foot a:hover { color: var(--accent); }
+
+  /* ============ Ticker ============ */
+  .ticker {
+    border-top: 1px solid var(--line-soft);
+    overflow: hidden;
+    padding: 13px 0;
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: tick 30s linear infinite;
+  }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .tgroup { display: flex; align-items: center; gap: 28px; padding-right: 28px; }
+  .tgroup span {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tgroup .dia { color: var(--line); font-size: 8px; }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  /* ============ Hero spotlight ============ */
+  .hero-spot {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  /* ============ Sections ============ */
+  section { padding: 72px 0; border-top: 1px solid var(--line-soft); position: relative; }
+
+  .section-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 42px; }
+  .section-head .num { color: var(--sc, var(--accent)); }
+  .section-head h2 { font-size: 24px; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; }
+  .section-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--sc, var(--accent)), var(--line-soft) 40%); align-self: center; opacity: 0.5; }
+  .section-lede { color: var(--text-mid); margin: -26px 0 36px; max-width: 560px; }
+
+  /* ============ 001 Projects ============ */
+  .project-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto 56px 28px;
+    align-items: baseline;
+    gap: 20px;
+    padding: 24px 16px;
+    border-top: 1px solid var(--line-soft);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, border-color 0.25s ease;
+  }
+  .project-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
+  .project-row .idx { color: var(--pc, var(--text-low)); }
+  .project-row .title {
+    font-weight: 800; font-size: 19px; letter-spacing: -0.01em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .project-row .stack { color: var(--text-mid); text-align: right; }
+  .project-row .year { color: var(--text-low); text-align: right; }
+  .project-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
+
+  .project-row:hover {
+    transform: translateX(8px);
+    border-top-color: var(--pc, var(--accent));
+    background: var(--card);
+  }
+  .project-row:hover .title { color: var(--pc, var(--accent)); }
+  .project-row:hover .arrow { transform: translateX(4px); color: var(--pc, var(--accent)); }
+
+  .tag-live {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--lime); border: 1px solid var(--lime);
+    padding: 2px 9px; border-radius: 999px; line-height: 1.5;
+  }
+
+  /* ============ 002 In Detail ============ */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:nth-child(even) { background: var(--card-alt); }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--ac, var(--accent));
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+  }
+  .card.c1 { --ac: var(--accent); }
+  .card.c2 { --ac: var(--sky); }
+  .card.c3 { --ac: var(--sand); }
+  .card.c4 { --ac: var(--violet); }
+
+  .motif {
+    margin: 14px 14px 0;
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    background:
+      radial-gradient(70% 90% at 50% 0%, color-mix(in srgb, var(--ac, var(--accent)) 9%, transparent), transparent 70%),
+      var(--ground);
+    overflow: hidden;
+  }
+  .motif svg {
+    display: block; width: 100%; height: auto;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card:hover .motif svg { transform: scale(1.045); }
+
+  .card-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 13px; flex: 1; }
+  .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .card h3 {
+    font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .badge {
+    width: 11px; height: 11px; border-radius: 3px;
+    background: var(--ac, var(--accent));
+    flex: none;
+    box-shadow: 0 0 12px color-mix(in srgb, var(--ac, var(--accent)) 55%, transparent);
+  }
+  .card p { color: var(--text-mid); font-size: 14px; flex: 1; }
+  .card p strong { color: var(--text); font-weight: 700; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.05em;
+    color: var(--text-low);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 3px 8px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .card:hover .chip {
+    color: var(--text-mid);
+    border-color: color-mix(in srgb, var(--ac, var(--accent)) 35%, var(--line));
+  }
+  .card-links { display: flex; gap: 20px; padding-top: 13px; border-top: 1px solid var(--line-soft); }
+  .card-links a {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ac, var(--accent));
+  }
+  .card-links a:hover { color: var(--text); }
+
+  /* --- Motif animations --- */
+  .m1 .flow-line { stroke-dasharray: 6 5; }
+  .active .m1 .flow-line, .card:hover .m1 .flow-line { animation: dashFlow 1.2s linear infinite; }
+  @keyframes dashFlow { to { stroke-dashoffset: -22; } }
+  .active .m1 .llm-box, .card:hover .m1 .llm-box { animation: flicker 2.4s steps(1) infinite; }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; } 62% { opacity: 1; }
+    64% { opacity: 0.25; } 66% { opacity: 1; }
+    72% { opacity: 0.4; } 74% { opacity: 1; }
+  }
+  .m1 .fallback { stroke-dasharray: 3 4; opacity: 0.4; }
+  .active .m1 .fallback, .card:hover .m1 .fallback { animation: fbGlow 2.4s ease-in-out infinite; }
+  @keyframes fbGlow { 0%, 55% { opacity: 0.4; } 70%, 85% { opacity: 1; } 100% { opacity: 0.4; } }
+  .active .m1 .node-wait rect, .card:hover .m1 .node-wait rect { animation: waitLit 2.4s ease-in-out infinite; }
+  @keyframes waitLit { 0%, 100% { fill-opacity: 0.85; } 50% { fill-opacity: 1; } }
+
+  .m2 .book { transform-origin: bottom center; transform-box: fill-box; }
+  .active .m2 .book, .card:hover .m2 .book {
+    animation: bookBob 2.6s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.18s);
+  }
+  @keyframes bookBob { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.92); } }
+  .m2 .role-t { opacity: 0; }
+  .active .m2 .role-t, .card:hover .m2 .role-t { animation: roleCycle 4.5s steps(1) infinite; }
+  .m2 .role-t:nth-of-type(1) { animation-delay: 0s; }
+  .m2 .role-t:nth-of-type(2) { animation-delay: 1.5s; }
+  .m2 .role-t:nth-of-type(3) { animation-delay: 3s; }
+  @keyframes roleCycle { 0% { opacity: 1; } 33.3% { opacity: 0; } 100% { opacity: 0; } }
+  .active .m2 .key-g, .card:hover .m2 .key-g { animation: keyTurn 4.5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes keyTurn { 0%, 100% { transform: rotate(0deg); } 33% { transform: rotate(90deg); } 66% { transform: rotate(180deg); } }
+
+  .m3 .ekg { stroke-dasharray: 640; stroke-dashoffset: 640; }
+  .active .m3 .ekg, .card:hover .m3 .ekg { animation: ekgDraw 3s linear infinite; }
+  @keyframes ekgDraw {
+    0% { stroke-dashoffset: 640; opacity: 1; }
+    70% { stroke-dashoffset: 0; opacity: 1; }
+    85% { opacity: 0; }
+    100% { stroke-dashoffset: 640; opacity: 0; }
+  }
+  .active .m3 .pulse-dot, .card:hover .m3 .pulse-dot { animation: dotPulse 1.5s ease-in-out infinite; }
+  @keyframes dotPulse { 0%, 100% { opacity: 0.3; r: 3; } 50% { opacity: 1; r: 5; } }
+
+  .active .m4 .crud-tile, .card:hover .m4 .crud-tile {
+    animation: crudPulse 2.8s ease-in-out infinite;
+    animation-delay: calc(var(--i) * 0.7s);
+  }
+  @keyframes crudPulse { 0%, 100% { opacity: 0.45; } 12% { opacity: 1; } 25% { opacity: 0.45; } }
+
+  /* ============ 003 Writing ============ */
+  .article-row {
+    display: grid;
+    grid-template-columns: 44px 1fr auto 72px 28px;
+    align-items: baseline;
+    gap: 20px;
+    padding: 22px 16px;
+    border-top: 1px solid var(--line-soft);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, border-color 0.25s ease;
+  }
+  .article-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
+  .article-row .idx { color: var(--pc, var(--text-low)); }
+  .article-row .a-title {
+    font-weight: 800; font-size: 17px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .article-row .topic { color: var(--text-mid); text-align: right; }
+  .article-row .date { color: var(--text-low); text-align: right; }
+  .article-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
+  .article-row:hover {
+    transform: translateX(8px);
+    border-top-color: var(--pc, var(--accent));
+    background: var(--card);
+  }
+  .article-row:hover .a-title { color: var(--pc, var(--accent)); }
+  .article-row:hover .arrow { transform: translate(3px, -3px); color: var(--pc, var(--accent)); }
+
+  .tag-new {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ground); background: var(--lime);
+    padding: 2px 9px; border-radius: 999px; line-height: 1.5;
+  }
+
+  .writing-more {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    padding: 20px 16px 0;
+    color: var(--text-mid); font-size: 14px;
+  }
+  .writing-more a {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--lime);
+  }
+  .writing-more a:hover { color: var(--text); }
+
+  /* ============ 004 Stack ============ */
+  .stack-row {
+    display: grid; grid-template-columns: 160px 1fr;
+    gap: 24px; padding: 18px 4px;
+    border-top: 1px solid var(--line-soft);
+    transition: background 0.2s ease;
+  }
+  .stack-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
+  .stack-row:hover { background: var(--card); }
+  .stack-row .label { color: var(--sc, var(--accent)); text-transform: uppercase; padding-top: 3px; }
+  .stack-row .items { color: var(--text-mid); font-size: 15px; }
+
+  /* ============ 005 Experience ============ */
+  .xp-company { margin-bottom: 42px; }
+  .xp-company:last-child { margin-bottom: 0; }
+  .xp-company .company-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
+  }
+  .xp-company .company {
+    font-size: 19px; font-weight: 900; letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .xp-company .company-dates { color: var(--text-low); white-space: nowrap; }
+  .role {
+    border-left: 2px solid var(--line);
+    padding: 4px 0 4px 22px;
+    margin-left: 2px; margin-bottom: 22px;
+    transition: border-color 0.25s ease, padding-left 0.25s ease;
+  }
+  .role:last-child { margin-bottom: 0; }
+  .role:hover { border-left-color: var(--violet); padding-left: 28px; }
+  .role .role-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .role .role-title { font-weight: 700; font-size: 15px; }
+  .role .role-dates { color: var(--text-low); white-space: nowrap; }
+  .role .role-list { list-style: none; margin-top: 8px; }
+  .role .role-list li {
+    color: var(--text-mid); font-size: 14px; max-width: 680px;
+    position: relative; padding-left: 18px; margin-bottom: 7px;
+  }
+  .role .role-list li:last-child { margin-bottom: 0; }
+  .role .role-list li::before {
+    content: "\25B8";
+    position: absolute; left: 0;
+    color: var(--violet);
+  }
+  .role .role-list strong { color: var(--text); font-weight: 700; }
+
+  /* ============ 006 About ============ */
+  .about-grid { display: grid; grid-template-columns: 1fr 280px; gap: 56px; align-items: start; }
+  .about-text p { color: var(--text-mid); margin-bottom: 18px; max-width: 620px; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-text strong { color: var(--text); font-weight: 700; }
+  .about-text a { color: var(--lime); }
+  .about-text a:hover { color: var(--text); }
+
+  .portrait {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .portrait img {
+    display: block; width: 100%; height: auto;
+    filter: saturate(1.04) contrast(1.02);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .portrait:hover img { transform: scale(1.03); }
+  .portrait figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 24px 14px 12px;
+    background: linear-gradient(transparent, rgba(12, 12, 14, 0.85));
+    color: var(--text);
+    text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .portrait figcaption .tag { color: var(--lime); }
+  .portrait::after {
+    content: "";
+    position: absolute; top: 10px; right: 10px;
+    width: 14px; height: 14px;
+    border-top: 2px solid var(--sand);
+    border-right: 2px solid var(--sand);
+  }
+
+  /* ============ Footer ============ */
+  footer { border-top: 1px solid var(--line-soft); padding: 40px 0 32px; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  footer .links { display: flex; gap: 24px; flex-wrap: wrap; }
+  footer a { color: var(--text-mid); text-transform: uppercase; }
+  footer a:hover { color: var(--accent); }
+  footer .open-to { color: var(--text-low); text-transform: uppercase; text-align: right; }
+  footer .open-to .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--lime); margin-right: 8px; vertical-align: 1px;
+    animation: dotBlink 2.4s ease-in-out infinite;
+  }
+  @keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  footer .psst {
+    display: block; text-align: center;
+    margin-top: 30px;
+    color: var(--line);
+    transition: color 0.4s ease;
+  }
+  footer .psst:hover { color: var(--text-low); }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translate(-50%, 80px);
+    background: var(--card); border: 1px solid var(--accent); border-radius: 6px;
+    color: var(--text);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 18px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    opacity: 0; pointer-events: none; z-index: 50;
+  }
+  .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+  /* ============ Scroll reveal ============ */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--d, 0s);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ============ Reduced motion ============ */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001s !important;
+    }
+    .hl, .hf, .reveal { opacity: 1 !important; transform: none !important; }
+    .hero-drift { animation: none; }
+  }
+
+  /* ============ Responsive ============ */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; align-items: start; }
+    .term { min-height: 300px; }
+  }
+  @media (max-width: 800px) {
+    .cards { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-grid .portrait { order: -1; max-width: 320px; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 56px 0 52px; }
+    section { padding: 56px 0; }
+    .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 20px 10px; }
+    .project-row .stack { grid-column: 2; text-align: left; }
+    .project-row .year { display: none; }
+    .project-row .arrow { grid-row: 1; grid-column: 3; }
+    .article-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 20px 10px; }
+    .article-row .topic { grid-column: 2; text-align: left; }
+    .article-row .date { display: none; }
+    .article-row .arrow { grid-row: 1; grid-column: 3; }
+    .stack-row { grid-template-columns: 1fr; gap: 6px; }
+    footer .wrap { flex-direction: column; align-items: flex-start; }
+    footer .open-to { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="name mono" href="#top">Vaishnavi Agrawal</a>
+    <span class="loc mono">Java &middot; Backend &middot; Writing</span>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ Hero ============ -->
+  <div class="hero">
+    <div class="hero-drift" aria-hidden="true"></div>
+    <div class="hero-spot" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow mono hf">Java Backend Developer</span>
+          <h1 aria-label="I build backend systems in Java, and I ship them.">
+            <span class="line"><span class="hl" style="--d:.1s">I build</span></span>
+            <span class="line"><span class="hl" style="--d:.2s">backend systems</span></span>
+            <span class="line"><span class="hl" style="--d:.3s">in Java,</span></span>
+            <span class="line accent"><span class="hl" style="--d:.4s">and I ship them.</span></span>
+          </h1>
+          <p class="lede hf" style="--d:.6s">Spring Boot, PostgreSQL, JWT, Docker. REST APIs that are built, tested, deployed, with one live in production right now. I watched production systems break from the inside; now I build them, and I write about what I learn along the way.</p>
+          <p class="hero-meta mono hf" style="--d:.7s">Spring Boot 3 &middot; Java 21 &middot; PostgreSQL &middot; Docker</p>
+          <div class="hero-actions hf" style="--d:.8s">
+            <a class="btn primary" id="magnet" href="#projects"><span>View projects &rarr;</span></a>
+            <a class="btn" href="#writing"><span>Read my writing &darr;</span></a>
+            <a class="btn" href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener"><span>GitHub &#8599;</span></a>
+            <a class="btn" href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener"><span>LinkedIn &#8599;</span></a>
+          </div>
+        </div>
+
+        <div class="term hf" style="--d:.9s" aria-label="Sample request to the live Purchase Decision API">
+          <div class="term-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>purchase-decision-api</span>
+          </div>
+          <div class="term-body" id="termBody" aria-live="polite"></div>
+          <div class="term-foot">
+            <button class="term-run" id="termRun" type="button">&#9654; Run request</button>
+            <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Ticker ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="tgroup">
+        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
+        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+      </div>
+      <div class="tgroup">
+        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
+        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 001 Projects ============ -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--accent)">
+        <span class="num mono">001</span>
+        <h2>Projects</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <a class="project-row reveal" style="--pc:var(--accent)" href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">
+        <span class="idx mono">01</span>
+        <span class="title">Purchase Decision API <span class="tag-live">Live</span></span>
+        <span class="stack mono">Spring Boot &middot; JWT &middot; LLM &middot; CI/CD</span>
+        <span class="year mono">2026</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="project-row reveal" style="--d:.07s; --pc:var(--sky)" href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">
+        <span class="idx mono">02</span>
+        <span class="title">Library Management System</span>
+        <span class="stack mono">Spring Security &middot; Role-Based Access</span>
+        <span class="year mono">2026</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="project-row reveal" style="--d:.14s; --pc:var(--sand)" href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">
+        <span class="idx mono">03</span>
+        <span class="title">Patient Management System</span>
+        <span class="stack mono">CRUD &middot; JPA &middot; JUnit</span>
+        <span class="year mono">2025</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a class="project-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">
+        <span class="idx mono">04</span>
+        <span class="title">Employee CRUD API</span>
+        <span class="stack mono">REST &middot; Docker</span>
+        <span class="year mono">2025</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 002 In Detail ============ -->
+  <section id="detail">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--sky)">
+        <span class="num mono">002</span>
+        <h2>In Detail</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+      <div class="cards">
+
+        <!-- 01 Purchase Decision API -->
+        <article class="card c1 reveal">
+          <div class="motif m1" aria-hidden="true">
+            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+              <rect x="36" y="48" width="88" height="34" rx="3" stroke="#5E5E58" stroke-width="1.5"/>
+              <text x="80" y="69" fill="#9A9A92" font-size="11" text-anchor="middle">RULES</text>
+              <rect class="llm-box" x="36" y="110" width="88" height="34" rx="3" stroke="#4A9188" stroke-width="1.5"/>
+              <text class="llm-box" x="80" y="131" fill="#4A9188" font-size="11" text-anchor="middle">LLM</text>
+              <path class="flow-line" d="M124 65 H 190 V 92 H 250" stroke="#4A9188" stroke-width="1.5"/>
+              <path class="flow-line" d="M124 127 H 190 V 100 H 250" stroke="#5E5E58" stroke-width="1.5"/>
+              <path class="fallback" d="M80 82 V 110" stroke="#D4F04A" stroke-width="1.5"/>
+              <text x="94" y="102" fill="#D4F04A" font-size="8" opacity="0.7">fallback</text>
+              <g class="node-buy">
+                <rect x="250" y="30" width="96" height="30" rx="3" stroke="#242426" stroke-width="1.5"/>
+                <text x="298" y="49" fill="#5E5E58" font-size="11" text-anchor="middle">BUY</text>
+              </g>
+              <g class="node-wait">
+                <rect x="250" y="80" width="96" height="30" rx="3" fill="#4A9188" fill-opacity="0.9"/>
+                <text x="298" y="99" fill="#0C0C0E" font-size="11" font-weight="700" text-anchor="middle">WAIT</text>
+              </g>
+              <g class="node-skip">
+                <rect x="250" y="130" width="96" height="30" rx="3" stroke="#242426" stroke-width="1.5"/>
+                <text x="298" y="149" fill="#5E5E58" font-size="11" text-anchor="middle">SKIP</text>
+              </g>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <h3><span class="badge" aria-hidden="true"></span>Purchase Decision API</h3>
+              <span class="tag-live">Live</span>
+            </div>
+            <p>REST API that scores a purchase against income, savings goals, and spending history, returning a verdict, score, and savings timeline. <strong>Design decision:</strong> a deterministic rule engine produces the verdict; a separate LLM layer writes the explanation, with a rule-based fallback so the endpoint always returns a valid result even when the model call fails. Deployed on Railway with CI/CD; verified the fallback by breaking the LLM call on purpose.</p>
+            <div class="chips">
+              <span class="chip">Java 21</span><span class="chip">Spring Boot 3</span><span class="chip">Spring Security</span><span class="chip">JWT</span><span class="chip">JPA</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">JUnit 5</span>
+            </div>
+            <div class="card-links">
+              <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Live API &#8599;</a>
+              <a href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">Source &#8599;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 Library Management -->
+        <article class="card c2 reveal" style="--d:.08s">
+          <div class="motif m2" aria-hidden="true">
+            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+              <rect class="book" style="--i:0" x="60"  y="60"  width="22" height="90" fill="#6BA8FF" fill-opacity="0.9"/>
+              <rect class="book" style="--i:1" x="90"  y="45"  width="22" height="105" fill="#242426" stroke="#5E5E58"/>
+              <rect class="book" style="--i:2" x="120" y="70"  width="22" height="80" fill="#242426" stroke="#5E5E58"/>
+              <rect class="book" style="--i:3" x="150" y="52"  width="22" height="98" fill="#6BA8FF" fill-opacity="0.5"/>
+              <rect class="book" style="--i:4" x="180" y="64"  width="22" height="86" fill="#242426" stroke="#5E5E58"/>
+              <line x1="48" y1="150" x2="220" y2="150" stroke="#242426" stroke-width="2"/>
+              <g class="key-g">
+                <circle cx="290" cy="80" r="16" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="96" x2="290" y2="128" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="118" x2="300" y2="118" stroke="#6BA8FF" stroke-width="2"/>
+                <line x1="290" y1="128" x2="302" y2="128" stroke="#6BA8FF" stroke-width="2"/>
+              </g>
+              <g font-size="11" text-anchor="middle">
+                <text class="role-t" x="290" y="160" fill="#D4F04A">ADMIN</text>
+                <text class="role-t" x="290" y="160" fill="#9A9A92">LIBRARIAN</text>
+                <text class="role-t" x="290" y="160" fill="#9A9A92">MEMBER</text>
+              </g>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <h3><span class="badge" aria-hidden="true"></span>Library Management System</h3>
+            </div>
+            <p>REST backend for book issuance, returns, and transactions, with role-based access control (admin / librarian / member) enforced through a Spring Security filter chain.</p>
+            <div class="chips">
+              <span class="chip">Java 21</span><span class="chip">Spring Boot</span><span class="chip">Spring Security</span><span class="chip">Hibernate</span><span class="chip">MySQL</span><span class="chip">Swagger</span>
+            </div>
+            <div class="card-links">
+              <a href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">Source &#8599;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 Patient Management -->
+        <article class="card c3 reveal" style="--d:.12s">
+          <div class="motif m3" aria-hidden="true">
+            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="#1B1B1D" stroke-width="1">
+                <line x1="0" y1="47"  x2="400" y2="47"/><line x1="0" y1="95" x2="400" y2="95"/><line x1="0" y1="143" x2="400" y2="143"/>
+                <line x1="80" y1="0" x2="80" y2="190"/><line x1="160" y1="0" x2="160" y2="190"/><line x1="240" y1="0" x2="240" y2="190"/><line x1="320" y1="0" x2="320" y2="190"/>
+              </g>
+              <path class="ekg" d="M0 95 H 90 L 110 95 L 122 60 L 136 130 L 148 95 H 210 L 226 95 L 238 52 L 254 138 L 266 95 H 400"
+                    stroke="#C9A876" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle class="pulse-dot" cx="366" cy="95" r="4" fill="#D4F04A"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <h3><span class="badge" aria-hidden="true"></span>Patient Management System</h3>
+            </div>
+            <p>Healthcare CRUD backend: records, appointments, history. Layered controller-service-repository architecture, validation, global exception handling, and JUnit tests over the service layer.</p>
+            <div class="chips">
+              <span class="chip">Java 21</span><span class="chip">Spring Boot</span><span class="chip">Spring Data JPA</span><span class="chip">PostgreSQL</span><span class="chip">JUnit</span>
+            </div>
+            <div class="card-links">
+              <a href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">Source &#8599;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 04 Employee CRUD -->
+        <article class="card c4 reveal" style="--d:.16s">
+          <div class="motif m4" aria-hidden="true">
+            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
+              <g class="crud-tile" style="--i:0">
+                <rect x="42"  y="62" width="70" height="66" rx="3" stroke="#4A9188" stroke-width="1.5"/>
+                <text x="77"  y="100" fill="#4A9188" font-size="11" text-anchor="middle">POST</text>
+              </g>
+              <g class="crud-tile" style="--i:1">
+                <rect x="124" y="62" width="70" height="66" rx="3" stroke="#6BA8FF" stroke-width="1.5"/>
+                <text x="159" y="100" fill="#6BA8FF" font-size="11" text-anchor="middle">PUT</text>
+              </g>
+              <g class="crud-tile" style="--i:2">
+                <rect x="206" y="62" width="70" height="66" rx="3" stroke="#9B7BF5" stroke-width="1.5"/>
+                <text x="241" y="100" fill="#9B7BF5" font-size="11" text-anchor="middle">PATCH</text>
+              </g>
+              <g class="crud-tile" style="--i:3">
+                <rect x="288" y="62" width="70" height="66" rx="3" stroke="#C9A876" stroke-width="1.5"/>
+                <text x="323" y="100" fill="#C9A876" font-size="11" text-anchor="middle">DELETE</text>
+              </g>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <h3><span class="badge" aria-hidden="true"></span>Employee CRUD API</h3>
+            </div>
+            <p>Full CRUD with DTOs across POST / PUT / PATCH / DELETE, containerised with Docker, tested in Postman.</p>
+            <div class="chips">
+              <span class="chip">Java 21</span><span class="chip">Spring Boot</span><span class="chip">MySQL</span><span class="chip">Docker</span><span class="chip">Postman</span>
+            </div>
+            <div class="card-links">
+              <a href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">Source &#8599;</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 003 Writing ============ -->
+  <section id="writing">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--lime)">
+        <span class="num mono">003</span>
+        <h2>Writing</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+      <p class="section-lede reveal">I write about the things I debug. Java and Spring Boot, from the inside, on Medium.</p>
+
+      <a class="article-row reveal" style="--pc:var(--lime)" href="https://medium.com/@vaishnaviagrawal2999/stop-bad-requests-at-the-door-with-spring-validation-e13e826d90e1" target="_blank" rel="noopener">
+        <span class="idx mono">w1</span>
+        <span class="a-title">Stop Bad Requests at the Door with Spring Validation <span class="tag-new">New</span></span>
+        <span class="topic mono">Validation</span>
+        <span class="date mono">Jul 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+      <a class="article-row reveal" style="--d:.07s; --pc:var(--sky)" href="https://medium.com/@vaishnaviagrawal2999/how-i-cleaned-up-error-handling-in-my-spring-boot-api-5a63463e7f43" target="_blank" rel="noopener">
+        <span class="idx mono">w2</span>
+        <span class="a-title">How I Cleaned Up Error Handling in My Spring Boot API</span>
+        <span class="topic mono">Error Handling</span>
+        <span class="date mono">Jul 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+      <a class="article-row reveal" style="--d:.14s; --pc:var(--sand)" href="https://medium.com/@vaishnaviagrawal2999/how-one-property-can-triple-your-spring-boot-throughput-0863a37d9557" target="_blank" rel="noopener">
+        <span class="idx mono">w3</span>
+        <span class="a-title">How One Property Can Triple Your Spring Boot Throughput</span>
+        <span class="topic mono">Performance</span>
+        <span class="date mono">Jul 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+      <a class="article-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://medium.com/@vaishnaviagrawal2999/your-api-has-no-memory-heres-how-jwt-fixes-that-47313babc620" target="_blank" rel="noopener">
+        <span class="idx mono">w4</span>
+        <span class="a-title">Your API Has No Memory. Here's How JWT Fixes That.</span>
+        <span class="topic mono">JWT &amp; Auth</span>
+        <span class="date mono">Jun 2026</span>
+        <span class="arrow">&#8599;</span>
+      </a>
+
+      <div class="writing-more reveal" style="--d:.28s">
+        <span>Plus more on Java streams, lambdas, and functional interfaces.</span>
+        <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">All articles on Medium &#8599;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 004 Stack ============ -->
+  <section id="stack">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--sand)">
+        <span class="num mono">004</span>
+        <h2>Stack</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="stack-row reveal" style="--sc:var(--accent)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
+      <div class="stack-row reveal" style="--d:.05s; --sc:var(--sky)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
+      <div class="stack-row reveal" style="--d:.1s; --sc:var(--sand)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
+      <div class="stack-row reveal" style="--d:.15s; --sc:var(--violet)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
+      <div class="stack-row reveal" style="--d:.2s; --sc:var(--lime)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
+      <div class="stack-row reveal" style="--d:.25s; --sc:var(--accent)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 005 Experience ============ -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--violet)">
+        <span class="num mono">005</span>
+        <h2>Experience</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="xp-company reveal">
+        <div class="company-head">
+          <div class="company">ResourceDekho</div>
+          <span class="company-dates mono">Jun 2023 - Aug 2025</span>
+        </div>
+        <div class="role">
+          <div class="role-head">
+            <span class="role-title">Backend Developer Trainee</span>
+            <span class="role-dates mono">Jun 2025 - Aug 2025</span>
+          </div>
+          <ul class="role-list">
+            <li>Worked on backend features in Java and Node.js within a team development environment</li>
+            <li>Participated in code review cycles, incorporating feedback from senior developers</li>
+            <li>Gained hands-on exposure to team backend practices and version-control workflows</li>
+          </ul>
+        </div>
+        <div class="role">
+          <div class="role-head">
+            <span class="role-title">Technical Engineer &middot; Client: Signzy</span>
+            <span class="role-dates mono">Jun 2023 - Jun 2025</span>
+          </div>
+          <ul class="role-list">
+            <li>Resolved <strong>100+ L2 incidents</strong> on Java-based APIs at Signzy (RegTech / digital KYC), debugging payload mismatches, header failures, and authentication and vKYC workflow errors</li>
+            <li>Traced production failures through logs and request/response flows alongside backend and DevOps teams</li>
+            <li>Automated Bash log-triaging, cutting manual debugging time by approximately <strong>40%</strong></li>
+            <li>Authored SOPs and RCA documentation, reducing escalations to development by <strong>25%</strong>; optimised SQL joins for response times</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="xp-company reveal" style="--d:.1s">
+        <div class="company-head">
+          <div class="company">Celcius Logistics</div>
+          <span class="company-dates mono">Aug 2025 - Present</span>
+        </div>
+        <div class="role">
+          <div class="role-head">
+            <span class="role-title">Technical Engineer</span>
+          </div>
+          <ul class="role-list">
+            <li>Keep production logistics and order-processing applications healthy: triage incidents, analyse logs to isolate root causes, coordinate with engineering on fixes</li>
+            <li>Maintain SOPs and technical documentation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 006 About ============ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--accent)">
+        <span class="num mono">006</span>
+        <h2>About</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="reveal">I'm a Java backend developer. I build REST APIs with Spring Boot, secure them with JWT and Spring Security, back them with PostgreSQL, and deploy them with Docker and CI/CD. <strong>One of them is running in production right now.</strong></p>
+          <p class="reveal" style="--d:.07s">Before this I worked inside production systems, which is where I learned how software actually fails: reading stack traces, tracing API errors, and working with backend teams on root causes.</p>
+          <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
+        </div>
+        <figure class="portrait reveal" style="--d:.1s">
+          <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="843" height="843">
+          <figcaption class="mono">
+            <span>Vaishnavi Agrawal</span>
+            <span class="tag">// hi</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="links mono" aria-label="Contact links">
+      <a href="mailto:vaishnaviagrawal2999@gmail.com">Email</a>
+      <a href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">Writing</a>
+    </nav>
+    <span class="open-to mono"><span class="dot"></span>Open to Java backend developer roles</span>
+  </div>
+  <span class="psst mono" aria-hidden="true">psst: &uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr; B A</span>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 1. Hero load sequence ---------- */
+  window.addEventListener("load", function () {
+    document.body.classList.add("loaded");
+  });
+  setTimeout(function () { document.body.classList.add("loaded"); }, 1200);
+
+  /* ---------- 2. Scroll reveals + motif activation ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  var motifs = document.querySelectorAll(".motif");
+  if (reduced || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    reveals.forEach(function (el) { io.observe(el); });
+
+    var mio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle("active", entry.isIntersecting);
+      });
+    }, { threshold: 0.35 });
+    motifs.forEach(function (el) { mio.observe(el); });
+  }
+
+  /* ---------- 3. Typing API terminal ---------- */
+  var termBody = document.getElementById("termBody");
+  var termRun = document.getElementById("termRun");
+  var SCENARIOS = [
+    { item: "standing desk", price: "24000", income: "60000", goal: "300000",
+      verdict: "WAIT", vcls: "v-wait", score: 42, timeline: "save 2 more months" },
+    { item: "mechanical keyboard", price: "4500", income: "60000", goal: "300000",
+      verdict: "BUY", vcls: "verdict", score: 81, timeline: "no impact on your goal" },
+    { item: "new iPhone", price: "140000", income: "60000", goal: "300000",
+      verdict: "SKIP", vcls: "v-skip", score: 9, timeline: "pushes goal back 6 months" }
+  ];
+  var scIdx = Math.floor(Math.random() * SCENARIOS.length);
+  function reqLines(sc) {
+    return [
+      { text: "$ ", cls: "dim" },
+      { text: "POST", cls: "kw" },
+      { text: " /api/decisions", cls: "req" },
+      { text: "\n{\n  ", cls: "dim" },
+      { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"" + sc.item + "\"", cls: "s" },
+      { text: ",\n  ", cls: "dim" },
+      { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.price, cls: "n" },
+      { text: ",\n  ", cls: "dim" },
+      { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.income, cls: "n" },
+      { text: ",\n  ", cls: "dim" },
+      { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.goal, cls: "n" },
+      { text: "\n}", cls: "dim" }
+    ];
+  }
+  var running = false;
+
+  function el(cls, text) {
+    var s = document.createElement("span");
+    if (cls) s.className = cls;
+    s.textContent = text || "";
+    return s;
+  }
+
+  function showFinalState() {
+    var sc = SCENARIOS[scIdx];
+    termBody.textContent = "";
+    reqLines(sc).forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
+    appendResponse(sc, true);
+  }
+
+  function appendResponse(sc, instant) {
+    termBody.appendChild(el("dim", "\n\n// 200 OK · sample response\n"));
+    termBody.appendChild(el("resp", "{\n  "));
+    termBody.appendChild(el("k", "\"verdict\""));
+    termBody.appendChild(el("dim", ": "));
+    termBody.appendChild(el(sc.vcls, "\"" + sc.verdict + "\""));
+    termBody.appendChild(el("dim", ",\n  "));
+    termBody.appendChild(el("k", "\"score\""));
+    termBody.appendChild(el("dim", ": "));
+    var scoreEl = el("kw", instant ? String(sc.score) : "0");
+    termBody.appendChild(scoreEl);
+    termBody.appendChild(el("dim", ",\n  "));
+    termBody.appendChild(el("k", "\"timeline\""));
+    termBody.appendChild(el("dim", ": "));
+    termBody.appendChild(el("s", "\"" + sc.timeline + "\""));
+    termBody.appendChild(el("resp", "\n}"));
+    if (instant) return;
+    var start = null, dur = 900;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      scoreEl.textContent = String(Math.round(p * sc.score));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function typeSequence(advance) {
+    if (running) return;
+    running = true;
+    termRun.disabled = true;
+    if (advance) scIdx = (scIdx + 1) % SCENARIOS.length;
+    var sc = SCENARIOS[scIdx];
+    var lines = reqLines(sc);
+    termBody.textContent = "";
+    if (reduced) { showFinalState(); running = false; termRun.disabled = false; return; }
+
+    var cursor = document.createElement("span");
+    cursor.className = "term-cursor";
+    termBody.appendChild(cursor);
+
+    var li = 0, ci = 0;
+    function typeChar() {
+      if (li >= lines.length) {
+        setTimeout(function () {
+          cursor.remove();
+          appendResponse(sc, false);
+          running = false;
+          termRun.disabled = false;
+          termRun.innerHTML = "&#8635; Try another";
+        }, 350);
+        return;
+      }
+      var line = lines[li];
+      if (ci === 0) {
+        line._el = el(line.cls, "");
+        termBody.insertBefore(line._el, cursor);
+      }
+      line._el.textContent += line.text.charAt(ci);
+      ci++;
+      if (ci >= line.text.length) { li++; ci = 0; }
+      setTimeout(typeChar, 12 + Math.random() * 22);
+    }
+    typeChar();
+  }
+
+  termRun.addEventListener("click", function () { typeSequence(true); });
+
+  if (!reduced && "IntersectionObserver" in window) {
+    var tio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setTimeout(typeSequence, 900);
+          tio.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    tio.observe(termBody);
+  } else {
+    showFinalState();
+  }
+
+  /* ---------- 4. Magnetic primary button ---------- */
+  var magnet = document.getElementById("magnet");
+  if (magnet && !reduced && window.matchMedia("(hover: hover)").matches) {
+    var RADIUS = 90;
+    document.addEventListener("mousemove", function (e) {
+      var r = magnet.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var dx = e.clientX - cx, dy = e.clientY - cy;
+      var dist = Math.hypot(dx, dy);
+      if (dist < RADIUS + Math.max(r.width, r.height) / 2) {
+        var pull = Math.max(0, 1 - dist / (RADIUS + r.width / 2));
+        magnet.style.transform = "translate(" + dx * pull * 0.3 + "px," + dy * pull * 0.3 + "px)";
+      } else {
+        magnet.style.transform = "";
+      }
+    }, { passive: true });
+  }
+
+  /* ---------- 5. Card 3D tilt ---------- */
+  if (!reduced && window.matchMedia("(hover: hover)").matches) {
+    document.querySelectorAll(".card").forEach(function (card) {
+      card.addEventListener("mouseenter", function () {
+        card.style.transition = "transform 0.08s linear, border-color 0.3s ease, box-shadow 0.3s ease";
+      });
+      card.addEventListener("mousemove", function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = "translateY(-6px) perspective(900px) rotateX(" + (-py * 4).toFixed(2) + "deg) rotateY(" + (px * 5).toFixed(2) + "deg)";
+      }, { passive: true });
+      card.addEventListener("mouseleave", function () {
+        card.style.transition = "";
+        card.style.transform = "";
+      });
+    });
+  }
+
+  /* ---------- 6. Section heading scramble ---------- */
+  var GLYPHS = "#/<>[]{}=+*";
+  function scramble(elm) {
+    var finalText = elm.textContent;
+    var start = null, dur = 600;
+    function frame(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var settled = Math.floor(p * finalText.length);
+      var out = finalText.slice(0, settled);
+      for (var i = settled; i < finalText.length; i++) {
+        out += finalText[i] === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      }
+      elm.textContent = out;
+      if (p < 1) requestAnimationFrame(frame);
+      else elm.textContent = finalText;
+    }
+    requestAnimationFrame(frame);
+  }
+  if (!reduced && "IntersectionObserver" in window) {
+    var sio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          scramble(entry.target);
+          sio.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll(".section-head h2").forEach(function (h) { sio.observe(h); });
+  }
+
+  /* ---------- 7. Hero cursor spotlight ---------- */
+  var hero = document.querySelector(".hero");
+  var spot = document.querySelector(".hero-spot");
+  if (hero && spot && !reduced && window.matchMedia("(hover: hover)").matches) {
+    hero.addEventListener("mousemove", function (e) {
+      var r = hero.getBoundingClientRect();
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      spot.style.opacity = "1";
+      spot.style.background = "radial-gradient(240px at " + x + "px " + y + "px, rgba(95, 179, 167, 0.10), transparent 70%)";
+    }, { passive: true });
+    hero.addEventListener("mouseleave", function () { spot.style.opacity = "0"; });
+  }
+
+  /* ---------- 8. Konami code ---------- */
+  var KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+  var kIdx = 0;
+  var toast = document.getElementById("toast");
+  var toastTimer;
+  document.addEventListener("keydown", function (e) {
+    var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (key === KONAMI[kIdx]) {
+      kIdx++;
+      if (kIdx === KONAMI.length) {
+        kIdx = 0;
+        var root = document.documentElement;
+        root.classList.toggle("accent-flip");
+        toast.textContent = root.classList.contains("accent-flip")
+          ? "// colors flipped. same code to undo"
+          : "// and we're back";
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 3200);
+      }
+    } else {
+      kIdx = key === KONAMI[0] ? 1 : 0;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
