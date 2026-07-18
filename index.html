@@ -307,6 +307,8 @@
     color: var(--lime); border: 1px solid var(--lime);
     padding: 2px 9px; border-radius: 999px; line-height: 1.5;
   }
+  .tag-live[data-href] { cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+  .tag-live[data-href]:hover { background: var(--lime); color: var(--ground); }
 
   /* ============ 002 In Detail ============ */
   .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -728,7 +730,7 @@
 
       <a class="project-row reveal" style="--pc:var(--accent)" href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">
         <span class="idx mono">01</span>
-        <span class="title">Purchase Decision API <span class="tag-live">Live</span></span>
+        <span class="title">Purchase Decision API <span class="tag-live" role="link" tabindex="0" data-href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" title="Open the live API">Live</span></span>
         <span class="stack mono">Spring Boot &middot; JWT &middot; LLM &middot; CI/CD</span>
         <span class="year mono">2026</span>
         <span class="arrow">&rarr;</span>
@@ -796,7 +798,7 @@
           <div class="card-body">
             <div class="card-top">
               <h3><span class="badge" aria-hidden="true"></span>Purchase Decision API</h3>
-              <span class="tag-live">Live</span>
+              <span class="tag-live" role="link" tabindex="0" data-href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" title="Open the live API">Live</span>
             </div>
             <p>REST API that scores a purchase against income, savings goals, and spending history, returning a verdict, score, and savings timeline. <strong>Design decision:</strong> a deterministic rule engine produces the verdict; a separate LLM layer writes the explanation, with a rule-based fallback so the endpoint always returns a valid result even when the model call fails. Deployed on Railway with CI/CD; verified the fallback by breaking the LLM call on purpose.</p>
             <div class="chips">
@@ -1254,6 +1256,19 @@
       }
     }, { passive: true });
   }
+
+  /* ---------- 4b. Live tag opens the live API ---------- */
+  document.querySelectorAll(".tag-live[data-href]").forEach(function (tag) {
+    function go(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(tag.dataset.href, "_blank", "noopener");
+    }
+    tag.addEventListener("click", go);
+    tag.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") go(e);
+    });
+  });
 
   /* ---------- 5. Card 3D tilt ---------- */
   if (!reduced && window.matchMedia("(hover: hover)").matches) {
