@@ -672,19 +672,44 @@
     .about-grid .portrait { order: -1; max-width: 320px; }
   }
   @media (max-width: 640px) {
-    .hero { padding: 56px 0 52px; }
-    section { padding: 56px 0; }
-    .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 20px 10px; }
+    .wrap { padding: 0 18px; }
+    header.top .loc { display: none; }
+    .hero { padding: 44px 0; }
+    section { padding: 48px 0; }
+    h1 { font-size: clamp(32px, 10.5vw, 44px); }
+    .eyebrow { margin-bottom: 18px; }
+    .lede { font-size: 14px; margin-top: 20px; }
+    .hero-grid { gap: 30px; }
+    .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+    .hero-actions .btn { justify-content: center; padding: 12px 8px; font-size: 11px; }
+    .term { min-height: 0; font-size: 11px; }
+    .ticker { padding: 10px 0; }
+    .section-head { gap: 12px; margin-bottom: 30px; }
+    .section-head h2 { font-size: 19px; }
+    .section-lede { margin: -18px 0 26px; font-size: 14px; }
+    .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
+    .project-row .title { font-size: 16px; }
     .project-row .stack { grid-column: 2; text-align: left; }
     .project-row .year { display: none; }
     .project-row .arrow { grid-row: 1; grid-column: 3; }
-    .article-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 20px 10px; }
+    .article-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
+    .article-row .a-title { font-size: 15px; }
     .article-row .topic { grid-column: 2; text-align: left; }
     .article-row .date { display: none; }
     .article-row .arrow { grid-row: 1; grid-column: 3; }
     .stack-row { grid-template-columns: 1fr; gap: 6px; }
+    .cards { gap: 14px; }
+    .card-body { padding: 18px 18px 16px; }
+    .motif { margin: 10px 10px 0; }
+    .card h3 { font-size: 15px; }
+    .role { padding-left: 16px; }
+    .role:hover { padding-left: 16px; }
+    .xp-company .company { font-size: 17px; }
+    .about-grid { gap: 30px; }
+    .about-grid .portrait { max-width: 100%; }
     footer .wrap { flex-direction: column; align-items: flex-start; }
     footer .open-to { text-align: left; }
+    .toast { width: calc(100% - 36px); text-align: center; box-sizing: border-box; }
   }
 </style>
 </head>
