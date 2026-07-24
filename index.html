@@ -491,7 +491,10 @@
     font-weight: 800; font-size: 17px; letter-spacing: -0.01em;
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   }
-  .article-row .topic { color: var(--text-mid); text-align: right; }
+  .article-row .topic {
+    color: var(--text-mid); text-align: right;
+    max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
   .article-row .date { color: var(--text-low); text-align: right; }
   .article-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
   .article-row:hover {
@@ -610,9 +613,20 @@
   /* ============ Footer ============ */
   footer { border-top: 1px solid var(--line-soft); padding: 40px 0 32px; }
   footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
-  footer .links { display: flex; gap: 24px; flex-wrap: wrap; }
-  footer a { color: var(--text-mid); text-transform: uppercase; }
+  footer .links { display: flex; column-gap: 22px; row-gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  footer a { color: var(--text-mid); text-transform: uppercase; position: relative; }
+  footer a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+    background: var(--accent); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.25s ease;
+  }
   footer a:hover { color: var(--accent); }
+  footer a:hover::after { transform: scaleX(1); }
+  footer .links-sep {
+    color: var(--text-low); text-transform: uppercase; opacity: 0.55;
+    padding-left: 8px; border-left: 1px solid var(--line-soft);
+    font-size: 0.85em; align-self: center;
+  }
   footer .open-to { color: var(--text-low); text-transform: uppercase; text-align: right; }
   footer .open-to .dot {
     display: inline-block; width: 6px; height: 6px; border-radius: 50%;
@@ -709,6 +723,7 @@
     .about-grid .portrait { max-width: 100%; }
     footer .wrap { flex-direction: column; align-items: flex-start; }
     footer .open-to { text-align: left; }
+    footer .links-sep { flex-basis: 100%; padding-left: 0; border-left: 0; margin-top: 4px; }
     .toast { width: calc(100% - 36px); text-align: center; box-sizing: border-box; }
   }
 </style>
@@ -801,9 +816,9 @@
         <span class="rule" aria-hidden="true"></span>
       </div>
 
-      <a class="project-row reveal" style="--pc:var(--accent)" href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">
+      <a class="project-row reveal" style="--pc:var(--accent)" href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">
         <span class="idx mono">01</span>
-        <span class="title">Purchase Decision API <span class="tag-live" role="link" tabindex="0" data-href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" title="Open the live API">Live</span></span>
+        <span class="title">Purchase Decision API <span class="tag-live" title="This project is deployed live">Live</span></span>
         <span class="stack mono">Spring Boot &middot; JWT &middot; LLM &middot; CI/CD</span>
         <span class="year mono">2026</span>
         <span class="arrow">&rarr;</span>
@@ -812,14 +827,14 @@
         <span class="idx mono">02</span>
         <span class="title">Library Management System</span>
         <span class="stack mono">Spring Security &middot; Role-Based Access</span>
-        <span class="year mono">2026</span>
+        <span class="year mono">2025</span>
         <span class="arrow">&rarr;</span>
       </a>
       <a class="project-row reveal" style="--d:.14s; --pc:var(--sand)" href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">
         <span class="idx mono">03</span>
         <span class="title">Patient Management System</span>
         <span class="stack mono">CRUD &middot; JPA &middot; JUnit</span>
-        <span class="year mono">2025</span>
+        <span class="year mono">2026</span>
         <span class="arrow">&rarr;</span>
       </a>
       <a class="project-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">
@@ -998,6 +1013,8 @@
       </div>
       <p class="section-lede reveal">I write about the things I debug. Java and Spring Boot, from the inside, on Medium.</p>
 
+      <!-- Rows below are a fallback; the script auto-fills this list from the Medium feed. -->
+      <div id="writingList">
       <a class="article-row reveal" style="--pc:var(--lime)" href="https://medium.com/@vaishnaviagrawal2999/stop-bad-requests-at-the-door-with-spring-validation-e13e826d90e1" target="_blank" rel="noopener">
         <span class="idx mono">w1</span>
         <span class="a-title">Stop Bad Requests at the Door with Spring Validation <span class="tag-new">New</span></span>
@@ -1026,6 +1043,7 @@
         <span class="date mono">Jun 2026</span>
         <span class="arrow">&#8599;</span>
       </a>
+      </div><!-- /#writingList -->
 
       <div class="writing-more reveal" style="--d:.28s">
         <span>Plus more on Java streams, lambdas, and functional interfaces.</span>
@@ -1142,7 +1160,11 @@
       <a href="mailto:vaishnaviagrawal2999@gmail.com">Email</a>
       <a href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">Writing</a>
+      <a href="https://x.com/VaishnaviAg29" target="_blank" rel="noopener">X</a>
+      <span class="links-sep" aria-hidden="true">writing</span>
+      <a href="https://vaishnaviagrawal1.substack.com" target="_blank" rel="noopener">Substack</a>
+      <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">Medium</a>
+      <a href="https://dev.to/vaishnavi_agrawal_c7f7d72" target="_blank" rel="noopener">Dev.to</a>
     </nav>
     <span class="open-to mono"><span class="dot"></span>Open to Java backend developer roles</span>
   </div>
@@ -1342,6 +1364,77 @@
       if (e.key === "Enter" || e.key === " ") go(e);
     });
   });
+
+  /* ---------- 4c. Auto-fetch latest Medium writing ---------- */
+  (function () {
+    var list = document.getElementById("writingList");
+    if (!list) return;
+
+    var FEED = "https://medium.com/feed/@vaishnaviagrawal2999";
+    var API = "https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(FEED);
+    var COLORS = ["var(--lime)", "var(--sky)", "var(--sand)", "var(--violet)"];
+    var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    var MAX = 6; // how many articles to show
+
+    function fmtDate(str) {
+      var d = new Date(str);
+      if (isNaN(d)) return "";
+      return MONTHS[d.getMonth()] + " " + d.getFullYear();
+    }
+
+    function topicOf(item) {
+      if (item.categories && item.categories.length) {
+        return item.categories[0].split("-").map(function (w) {
+          return w.charAt(0).toUpperCase() + w.slice(1);
+        }).join(" ");
+      }
+      return "Java";
+    }
+
+    function span(cls, text) {
+      var s = document.createElement("span");
+      if (cls) s.className = cls;
+      if (text != null) s.textContent = text;
+      return s;
+    }
+
+    function buildRow(item, i) {
+      var a = document.createElement("a");
+      a.className = "article-row reveal in";
+      a.style.setProperty("--pc", COLORS[i % COLORS.length]);
+      a.style.setProperty("--d", (i * 0.07).toFixed(2) + "s");
+      a.href = item.link;
+      a.target = "_blank";
+      a.rel = "noopener";
+
+      a.appendChild(span("idx mono", "w" + (i + 1)));
+
+      var title = span("a-title", item.title);
+      if (i === 0) {
+        title.appendChild(document.createTextNode(" "));
+        title.appendChild(span("tag-new", "New"));
+      }
+      a.appendChild(title);
+
+      a.appendChild(span("topic mono", topicOf(item)));
+      a.appendChild(span("date mono", fmtDate(item.pubDate)));
+      a.appendChild(span("arrow", "↗"));
+      return a;
+    }
+
+    fetch(API)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) {
+        if (!data || data.status !== "ok" || !data.items || !data.items.length) return;
+        var frag = document.createDocumentFragment();
+        data.items.slice(0, MAX).forEach(function (item, i) {
+          frag.appendChild(buildRow(item, i));
+        });
+        list.textContent = "";        // drop the hard-coded fallback rows
+        list.appendChild(frag);
+      })
+      .catch(function () { /* keep the hard-coded fallback rows */ });
+  })();
 
   /* ---------- 5. Card 3D tilt ---------- */
   if (!reduced && window.matchMedia("(hover: hover)").matches) {
