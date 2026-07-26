@@ -2659,7 +2659,7 @@
         body: "If any of this fits what you are hiring for, the links below are the fastest way to reach me." }
     ];
 
-    var i = -1, active = false, raf = 0;
+    var i = -1, active = false, settle = 0;
     var stepEl = document.getElementById("tourStep");
     var kickEl = document.getElementById("tourKicker");
     var titleEl = document.getElementById("tourTitle");
@@ -2680,7 +2680,6 @@
 
     /* keep the spotlight glued to the element as the page settles or resizes */
     function track() {
-      raf = 0;
       var t = target();
       if (!t || !active) return;
       var r = t.getBoundingClientRect();
@@ -2694,7 +2693,6 @@
       /* if the highlight is low on screen, dock the card at the top instead */
       card.classList.toggle("at-top", (top + bottom) / 2 > window.innerHeight * 0.56);
     }
-    function queueTrack() { if (!raf) raf = requestAnimationFrame(track); }
 
     function render() {
       var st = STEPS[i];
@@ -2717,11 +2715,21 @@
       /* leave room for the card at the bottom of the screen */
       var r = t.getBoundingClientRect();
       var want = window.scrollY + r.top - Math.max(70, (window.innerHeight - r.height - 190) / 2);
-      window.scrollTo({ top: Math.max(0, want), behavior: reduced ? "auto" : "smooth" });
-      /* track directly as well as on rAF: rAF is throttled in background tabs */
+      /* Jump rather than smooth-scroll: a smooth scroll can be interrupted or
+         throttled and leave the spotlight pointing at nothing. The hole's own
+         transition supplies the continuity between steps. */
+      window.scrollTo({ top: Math.max(0, want), behavior: "instant" });
+      /* Keep re-measuring across the whole smooth scroll. rAF alone is not
+         enough: it is throttled in background tabs, and a long scroll can
+         outlast a couple of fixed timeouts, which collapses the spotlight. */
       track();
-      setTimeout(track, 320);
-      setTimeout(track, 700);
+      clearInterval(settle);
+      var until = 1600;
+      settle = setInterval(function () {
+        track();
+        until -= 100;
+        if (until <= 0) clearInterval(settle);
+      }, 100);
     }
 
     function start() {
@@ -2733,6 +2741,7 @@
     }
     function end() {
       active = false;
+      clearInterval(settle);
       document.body.classList.remove("touring");
       if (startBtn) startBtn.focus({ preventScroll: true });
     }
@@ -2749,8 +2758,8 @@
       else if (e.key === "ArrowLeft") { e.preventDefault(); goto(i - 1); }
     });
 
-    window.addEventListener("scroll", function () { if (active) queueTrack(); }, { passive: true });
-    window.addEventListener("resize", function () { if (active) queueTrack(); }, { passive: true });
+    window.addEventListener("scroll", function () { if (active) track(); }, { passive: true });
+    window.addEventListener("resize", function () { if (active) track(); }, { passive: true });
   })();
 
   /* ---------- 8. Konami code ---------- */
