@@ -327,7 +327,7 @@
     gap: 20px;
     padding: 24px 16px;
     border-top: 1px solid var(--line-soft);
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, border-color 0.25s ease;
+    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.4s ease;
   }
   .project-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
   .project-row .idx { color: var(--pc, var(--text-low)); }
@@ -338,11 +338,11 @@
   .project-row .stack { color: var(--text-mid); text-align: right; }
   .project-row .year { color: var(--text-low); text-align: right; }
   .project-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
-
   .project-row:hover {
-    transform: translateX(8px);
+    --px: 10px;
     border-top-color: var(--pc, var(--accent));
     background: var(--card);
+    box-shadow: 0 22px 44px -28px rgba(0, 0, 0, 0.85);
   }
   .project-row:hover .title { color: var(--pc, var(--accent)); }
   .project-row:hover .arrow { transform: translateX(4px); color: var(--pc, var(--accent)); }
@@ -367,32 +367,51 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .card:nth-child(even) { background: var(--card-alt); }
+  .card:nth-child(even) { flex-direction: row-reverse; }
+  .card:nth-child(even) .motif { margin: 14px 14px 14px 0; }
   .card:hover {
-    transform: translateY(-6px);
+    --ty: -8px;
+    --tz: 34px;
     border-color: var(--ac, var(--accent));
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
   }
   .card.c1 { --ac: var(--accent); }
   .card.c2 { --ac: var(--sky); }
   .card.c3 { --ac: var(--sand); }
   .card.c4 { --ac: var(--violet); }
 
+  /* one column of wide cards: artwork on the left, the writing beside it */
+  .cards { grid-template-columns: 1fr; }
+  .card { flex-direction: row; align-items: stretch; }
   .motif {
-    margin: 14px 14px 0;
+    position: relative;
+    flex: 0 0 40%;
+    align-self: center;
+    margin: 14px 0 14px 14px;
     border: 1px solid var(--line-soft);
     border-radius: 10px;
-    background:
-      radial-gradient(70% 90% at 50% 0%, color-mix(in srgb, var(--ac, var(--accent)) 9%, transparent), transparent 70%),
-      var(--ground);
+    background: var(--ground);
     overflow: hidden;
+    /* crop the artwork's own title block; the card names the project below */
+    aspect-ratio: 800 / 355;
   }
-  .motif svg {
-    display: block; width: 100%; height: auto;
+  .motif img {
+    display: block; width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    transform: scale(var(--ms, 1.02));
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .card:hover .motif svg { transform: scale(1.045); }
+  .card:hover .motif img { --ms: 1.06; }
+  .motif::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(165deg, transparent 52%, color-mix(in srgb, var(--ac, var(--accent)) 16%, transparent));
+    opacity: 0; transition: opacity 0.35s ease;
+  }
+  .card:hover .motif::after { opacity: 1; }
 
-  .card-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 13px; flex: 1; }
+
+
+  .card-body { padding: 22px 24px; justify-content: center; display: flex; flex-direction: column; gap: 13px; flex: 1; }
   .card-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
   .card h3 {
     font-size: 16px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase;
@@ -428,53 +447,6 @@
   }
   .card-links a:hover { color: var(--text); }
 
-  /* --- Motif animations --- */
-  .m1 .flow-line { stroke-dasharray: 6 5; }
-  .active .m1 .flow-line, .card:hover .m1 .flow-line { animation: dashFlow 1.2s linear infinite; }
-  @keyframes dashFlow { to { stroke-dashoffset: -22; } }
-  .active .m1 .llm-box, .card:hover .m1 .llm-box { animation: flicker 2.4s steps(1) infinite; }
-  @keyframes flicker {
-    0%, 100% { opacity: 1; } 62% { opacity: 1; }
-    64% { opacity: 0.25; } 66% { opacity: 1; }
-    72% { opacity: 0.4; } 74% { opacity: 1; }
-  }
-  .m1 .fallback { stroke-dasharray: 3 4; opacity: 0.4; }
-  .active .m1 .fallback, .card:hover .m1 .fallback { animation: fbGlow 2.4s ease-in-out infinite; }
-  @keyframes fbGlow { 0%, 55% { opacity: 0.4; } 70%, 85% { opacity: 1; } 100% { opacity: 0.4; } }
-  .active .m1 .node-wait rect, .card:hover .m1 .node-wait rect { animation: waitLit 2.4s ease-in-out infinite; }
-  @keyframes waitLit { 0%, 100% { fill-opacity: 0.85; } 50% { fill-opacity: 1; } }
-
-  .m2 .book { transform-origin: bottom center; transform-box: fill-box; }
-  .active .m2 .book, .card:hover .m2 .book {
-    animation: bookBob 2.6s ease-in-out infinite;
-    animation-delay: calc(var(--i) * 0.18s);
-  }
-  @keyframes bookBob { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.92); } }
-  .m2 .role-t { opacity: 0; }
-  .active .m2 .role-t, .card:hover .m2 .role-t { animation: roleCycle 4.5s steps(1) infinite; }
-  .active .m2 .role-t:nth-of-type(2), .card:hover .m2 .role-t:nth-of-type(2) { animation-delay: 1.5s; }
-  .active .m2 .role-t:nth-of-type(3), .card:hover .m2 .role-t:nth-of-type(3) { animation-delay: 3s; }
-  @keyframes roleCycle { 0% { opacity: 1; } 33.3% { opacity: 0; } 100% { opacity: 0; } }
-  .active .m2 .key-g, .card:hover .m2 .key-g { animation: keyTurn 4.5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
-  @keyframes keyTurn { 0%, 100% { transform: rotate(0deg); } 33% { transform: rotate(90deg); } 66% { transform: rotate(180deg); } }
-
-  .m3 .ekg { stroke-dasharray: 640; stroke-dashoffset: 640; }
-  .active .m3 .ekg, .card:hover .m3 .ekg { animation: ekgDraw 3s linear infinite; }
-  @keyframes ekgDraw {
-    0% { stroke-dashoffset: 640; opacity: 1; }
-    70% { stroke-dashoffset: 0; opacity: 1; }
-    85% { opacity: 0; }
-    100% { stroke-dashoffset: 640; opacity: 0; }
-  }
-  .active .m3 .pulse-dot, .card:hover .m3 .pulse-dot { animation: dotPulse 1.5s ease-in-out infinite; }
-  @keyframes dotPulse { 0%, 100% { opacity: 0.3; r: 3; } 50% { opacity: 1; r: 5; } }
-
-  .active .m4 .crud-tile, .card:hover .m4 .crud-tile {
-    animation: crudPulse 2.8s ease-in-out infinite;
-    animation-delay: calc(var(--i) * 0.7s);
-  }
-  @keyframes crudPulse { 0%, 100% { opacity: 0.45; } 12% { opacity: 1; } 25% { opacity: 0.45; } }
-
   /* ============ 003 Writing ============ */
   .article-row {
     display: grid;
@@ -498,9 +470,11 @@
   .article-row .date { color: var(--text-low); text-align: right; }
   .article-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
   .article-row:hover {
-    transform: translateX(8px);
+    --px: 10px;
+    --tz: 26px;
     border-top-color: var(--pc, var(--accent));
     background: var(--card);
+    box-shadow: 0 22px 44px -28px rgba(0, 0, 0, 0.85);
   }
   .article-row:hover .a-title { color: var(--pc, var(--accent)); }
   .article-row:hover .arrow { transform: translate(3px, -3px); color: var(--pc, var(--accent)); }
@@ -655,13 +629,585 @@
   }
   .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-  /* ============ Scroll reveal ============ */
-  .reveal {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: var(--d, 0s);
+  /* ============ Scroll progress ============ */
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px;
+    z-index: 60; pointer-events: none;
+    background: linear-gradient(90deg, var(--accent), var(--sand) 45%, var(--violet) 78%, var(--lime));
+    transform: scaleX(var(--p, 0)); transform-origin: 0 50%;
+    opacity: 0.9;
   }
-  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ============ Scroll reveal (3D, bidirectional) ============ */
+  .reveal {
+    opacity: 0;
+    /* one transform for everything: reveal state (--ty/--tz/--rx) + hover (--px)
+       + pointer tilt (--ry) + scroll scrub (--sx/--sy/--sz/--srx/--sry) */
+    transform:
+      perspective(var(--persp, 1100px))
+      translate3d(calc(var(--px, 0px) + var(--sx, 0px)),
+                  calc(var(--rty, 18px) + var(--ty, 0px) + var(--sy, 0px)),
+                  calc(var(--rtz, -40px) + var(--tz, 0px) + var(--sz, 0px)))
+      rotateX(calc(var(--rrx, 4deg) + var(--rx, 0deg) + var(--srx, 0deg)))
+      rotateY(calc(var(--ry, 0deg) + var(--sry, 0deg)));
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.25s ease, border-color 0.25s ease, box-shadow 0.4s ease;
+    transition-delay: var(--d, 0s);
+    transform-style: preserve-3d;
+  }
+  .reveal.in { opacity: 1; --rty: 0px; --rtz: 0px; --rrx: 0deg; }
+  /* once settled, hover/tilt reacts instantly instead of inheriting the stagger */
+  .reveal.settled { transition-delay: 0s; }
+  .reveal.tilting { transition: transform 0.09s linear, border-color 0.3s ease, box-shadow 0.3s ease; transition-delay: 0s; }
+
+  /* ============ Depth: sheen that tracks the pointer ============ */
+  .sheen {
+    position: absolute; inset: 0; border-radius: inherit;
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--ac, var(--accent)) 22%, transparent), transparent 62%);
+    mix-blend-mode: screen;
+    z-index: 3;
+  }
+  :root.light .sheen { mix-blend-mode: multiply; opacity: 0; }
+  :root.light .hero-grain { opacity: 0.022; }
+  .card:hover .sheen, .term-3d:hover .sheen { opacity: 1; }
+  /* overflow:visible lets the children actually sit in front of the card in 3D
+     (a clipped parent flattens preserve-3d); .motif already clips its own svg */
+  .card { position: relative; overflow: visible; }
+
+  /* card contents float above the surface while tilting */
+  .card .motif, .card .card-body { transform: translateZ(var(--layer, 0px)); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .card:hover .motif { --layer: 20px; }
+  .card:hover .card-body { --layer: 10px; }
+
+  /* ============ Hero terminal in 3D ============ */
+  .term-3d { perspective: 1000px; position: relative; }
+  .term-3d .term {
+    position: relative;
+    transform:
+      rotateX(calc(var(--rx, 0deg) + var(--srx, 0deg)))
+      rotateY(calc(var(--ry, 0deg) + var(--sry, 0deg)))
+      translateZ(var(--tz, 0px));
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+  }
+  .term-3d.tilting .term { transition: transform 0.09s linear, box-shadow 0.5s ease; }
+  .term-3d:hover .term { box-shadow: 0 40px 70px -40px rgba(0, 0, 0, 0.9); }
+  .term-3d .term { overflow: visible; }
+  .term-3d .term-bar { border-radius: 10px 10px 0 0; }
+  .term-3d .term-foot { border-radius: 0 0 10px 10px; }
+  .term-3d .term > * { transform: translateZ(var(--layer, 0px)); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  .term-3d:hover .term > .term-bar { --layer: 14px; }
+  .term-3d:hover .term > .term-body { --layer: 8px; }
+  .term-3d:hover .term > .term-foot { --layer: 14px; }
+
+  /* hero copy drifts against the pointer for parallax depth */
+  .hero-par { transform: translate3d(calc(var(--hx, 0) * -10px), calc(var(--hy, 0) * -8px), 0); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+  /* ============ 3D stack cube ============ */
+  .stack-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
+  .cube-wrap { position: sticky; top: 90px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .cube-stage {
+    width: 240px; height: 240px;
+    perspective: 900px;
+    display: grid; place-items: center;
+    cursor: grab; touch-action: pan-y;
+  }
+  .cube-stage:active { cursor: grabbing; }
+  .cube {
+    position: relative; width: 150px; height: 150px;
+    transform-style: preserve-3d;
+    transform: rotateX(-22deg) rotateY(28deg);
+  }
+  .cube .face {
+    position: absolute; inset: 0;
+    display: grid; place-items: center; gap: 4px;
+    border: 1px solid color-mix(in srgb, var(--fc, var(--accent)) 65%, transparent);
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--fc, var(--accent)) 18%, transparent), transparent 70%),
+      color-mix(in srgb, var(--ground) 93%, transparent);
+    box-shadow: inset 0 0 26px -8px color-mix(in srgb, var(--fc, var(--accent)) 55%, transparent);
+    color: var(--fc, var(--accent));
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; text-align: center;
+    backface-visibility: visible;
+  }
+  .cube .face b { display: block; font-size: 9px; color: var(--text-low); letter-spacing: 0.14em; font-weight: 500; }
+  .cube .f1 { --fc: var(--accent); transform: translateZ(75px); }
+  .cube .f2 { --fc: var(--sky);    transform: rotateY(90deg) translateZ(75px); }
+  .cube .f3 { --fc: var(--sand);   transform: rotateY(180deg) translateZ(75px); }
+  .cube .f4 { --fc: var(--violet); transform: rotateY(-90deg) translateZ(75px); }
+  .cube .f5 { --fc: var(--lime);   transform: rotateX(90deg) translateZ(75px); }
+  .cube .f6 { --fc: var(--accent-hi); transform: rotateX(-90deg) translateZ(75px); }
+  :root.light .cube .face {
+    background:
+      linear-gradient(150deg, color-mix(in srgb, var(--fc, var(--accent)) 24%, transparent), transparent 70%),
+      color-mix(in srgb, #FFFFFF 94%, transparent);
+    box-shadow:
+      inset 0 0 26px -8px color-mix(in srgb, var(--fc, var(--accent)) 45%, transparent),
+      0 10px 24px -16px rgba(0, 0, 0, 0.5);
+  }
+  .cube-glow {
+    position: absolute; width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 68%);
+    filter: blur(14px); pointer-events: none;
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+  @keyframes glowPulse { 0%, 100% { opacity: 0.45; transform: scale(0.94); } 50% { opacity: 0.85; transform: scale(1.06); } }
+  .cube-hint { color: var(--text-low); text-transform: uppercase; text-align: center; }
+  .cube-hint b { color: var(--accent); font-weight: 500; }
+
+  /* ============ About: the portrait as a lit plate ============ */
+  #about { position: relative; overflow: hidden; }
+  .about-back {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image: var(--shot);
+    /* framed off the face and defocused, so it reads as set dressing not a second portrait */
+    background-size: 190%; background-position: 14% 8%;
+    opacity: 0.13;
+    filter: grayscale(1) contrast(1.15) blur(3px);
+    -webkit-mask-image: linear-gradient(100deg, transparent 34%, #000 78%);
+    mask-image: linear-gradient(100deg, transparent 34%, #000 78%);
+    transform: scale(1.08) translate3d(0, calc(var(--ap, 0) * -34px), 0);
+  }
+  :root.light .about-back { opacity: 0.07; }
+  #about .wrap { position: relative; z-index: 1; }
+
+  /* key light raking across the section */
+  .about-key {
+    position: absolute; top: -20%; left: 44%; width: 260px; height: 150%;
+    z-index: 0; pointer-events: none;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 16%, transparent) 45%, transparent 84%);
+    filter: blur(40px);
+    transform: rotate(15deg);
+    animation: keyBreathe 12s ease-in-out infinite;
+  }
+  @keyframes keyBreathe { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+  /* ============ 3D diorama: one request, end to end ============ */
+  .diorama { border-bottom: 1px solid var(--line-soft); padding: 44px 0 34px; overflow: hidden; }
+  .dio-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 34px; align-items: center; }
+  .dio-copy p { color: var(--text-mid); font-size: 14px; margin-top: 12px; }
+  .dio-copy .dio-note { color: var(--text-low); text-transform: uppercase; margin-top: 14px; }
+  .dio-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; color: var(--text-low); text-transform: uppercase; }
+  .dio-head b { color: var(--accent); font-weight: 500; }
+  .dio-stage {
+    height: 300px; display: grid; place-items: center;
+    perspective: 1400px; perspective-origin: 50% 40%;
+  }
+  .dio-scene {
+    position: relative; width: 520px; height: 120px;
+    transform-style: preserve-3d;
+    transform:
+      rotateX(calc(57deg + var(--dtx, 0deg)))
+      rotateZ(calc(-42deg + var(--p, 0) * 9deg + var(--dtz, 0deg)))
+      scale(var(--dio-s, 0.92));
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dio-floor {
+    position: absolute; inset: -120px -80px;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000, transparent 80%);
+    mask-image: radial-gradient(ellipse 55% 60% at 50% 50%, #000, transparent 80%);
+  }
+
+  /* a box: top face + two walls, so it reads as a solid object in iso */
+  .box {
+    position: absolute; top: 0; width: 64px; height: 64px;
+    transform-style: preserve-3d; --c: var(--accent); --h: 30px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .box:hover { transform: translateZ(24px); }
+  .box .top, .box .w1, .box .w2 { position: absolute; border: 1px solid var(--c); }
+  .box .top {
+    inset: 0; transform: translateZ(var(--h));
+    background:
+      linear-gradient(140deg, color-mix(in srgb, var(--c) 30%, transparent), transparent 72%),
+      color-mix(in srgb, var(--ground) 88%, transparent);
+    box-shadow: 0 0 30px -6px color-mix(in srgb, var(--c) 60%, transparent);
+    display: grid; place-items: center;
+  }
+  .box .w1 {
+    left: 0; top: 100%; width: 64px; height: var(--h);
+    transform-origin: 50% 0; transform: rotateX(90deg);
+    background: color-mix(in srgb, var(--c) 16%, var(--ground));
+  }
+  .box .w2 {
+    left: 100%; top: 0; width: var(--h); height: 64px;
+    transform-origin: 0 50%; transform: rotateY(-90deg);
+    background: color-mix(in srgb, var(--c) 26%, var(--ground));
+  }
+  .box .tag {
+    /* billboard: undo the stage rotation so labels face the reader */
+    transform: rotateZ(42deg) rotateX(-57deg) translateZ(2px);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;
+    color: var(--c); white-space: nowrap; text-align: center; line-height: 1.5;
+    text-shadow: 0 0 10px var(--ground);
+  }
+  .box .tag em { display: block; font-style: normal; color: var(--text-mid); font-size: 8px; font-weight: 500; }
+
+  .b-client  { left: 0;   --c: var(--text-low); --h: 18px; }
+  .b-gateway { left: 108px; --c: var(--accent); --h: 34px; }
+  .b-service { left: 216px; --c: var(--sky);    --h: 54px; }
+  .b-cache   { left: 216px; top: -104px; --c: var(--violet); --h: 22px; }
+  .b-db      { left: 340px; --c: var(--sand);   --h: 40px; }
+
+  /* postgres reads as a stack of platters */
+  .disc {
+    position: absolute; left: 340px; width: 64px; height: 64px;
+    border: 1px solid var(--sand); border-radius: 50%;
+    background: color-mix(in srgb, var(--sand) 14%, var(--ground));
+  }
+  .disc.d1 { transform: translateZ(46px); background: color-mix(in srgb, var(--sand) 30%, var(--ground)); }
+  .disc.d2 { transform: translateZ(58px); opacity: 0.55; }
+  .disc.d3 {
+    transform: translateZ(70px);
+    background: color-mix(in srgb, var(--sand) 22%, var(--ground));
+    display: grid; place-items: center;
+  }
+  .disc .tag {
+    transform: rotateZ(42deg) rotateX(-57deg);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sand); text-align: center; line-height: 1.5;
+    text-shadow: 0 0 10px var(--ground);
+  }
+  .disc .tag em { display: block; font-style: normal; color: var(--text-mid); font-size: 8px; font-weight: 500; }
+
+  .link {
+    position: absolute; height: 3px; top: 31px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 20%, transparent), var(--accent), color-mix(in srgb, var(--accent) 20%, transparent));
+    box-shadow: 0 0 12px -2px var(--accent);
+    opacity: 0.75;
+    transform: translateZ(8px);
+  }
+  .link.l1 { left: 64px;  width: 44px; }
+  .link.l2 { left: 172px; width: 44px; }
+  .link.l3 { left: 280px; width: 60px; }
+  .link.up {
+    left: 246px; top: -40px; width: 3px; height: 40px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--violet) 20%, transparent), var(--violet));
+    box-shadow: 0 0 12px -2px var(--violet);
+  }
+
+  /* traffic: requests out, responses back */
+  .pkt {
+    position: absolute; top: 27px; left: 24px;
+    width: 10px; height: 10px; border-radius: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 16px var(--accent);
+    transform: translateZ(40px);
+    animation: pktRun 3.6s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    animation-delay: var(--pd, 0s);
+  }
+  .pkt.back { background: var(--lime); box-shadow: 0 0 16px var(--lime); animation-name: pktBack; }
+  @keyframes pktRun {
+    0%   { transform: translate3d(0, 0, 40px) scale(0.5); opacity: 0; }
+    8%   { opacity: 1; }
+    30%  { transform: translate3d(120px, 0, 64px) scale(1.1); }
+    60%  { transform: translate3d(230px, 0, 78px) scale(1.1); }
+    92%  { opacity: 1; }
+    100% { transform: translate3d(340px, 0, 60px) scale(0.5); opacity: 0; }
+  }
+  @keyframes pktBack {
+    0%   { transform: translate3d(340px, 0, 60px) scale(0.5); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translate3d(0, 0, 40px) scale(0.5); opacity: 0; }
+  }
+
+  .dio-legend { display: flex; gap: 22px; margin-top: 8px; flex-wrap: wrap; justify-content: center; color: var(--text-low); text-transform: uppercase; }
+  .dio-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dio-legend i { width: 8px; height: 8px; border-radius: 2px; display: block; }
+
+  @media (max-width: 860px) {
+    .dio-layout { grid-template-columns: 1fr; gap: 20px; }
+  }
+  @media (max-width: 720px) {
+    .dio-stage { height: 230px; }
+    .dio-scene { --dio-s: 0.56; }
+  }
+
+  /* ============ 3D layered portrait ============ */
+  .portrait { transform-style: preserve-3d; }
+  .portrait img, .portrait figcaption, .portrait::after { transform: translateZ(30px); }
+  .p-plate {
+    position: absolute; inset: 0; border-radius: inherit;
+    border: 1px solid var(--line);
+    background: var(--card);
+    pointer-events: none;
+  }
+  .p-plate.a { transform: translate3d(16px, 16px, -30px); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+  .p-plate.b { transform: translate3d(30px, 30px, -70px); border-color: color-mix(in srgb, var(--sand) 35%, transparent); opacity: 0.6; }
+
+  /* extruded section numbers */
+  .section-head .num {
+    text-shadow:
+      1px 1px 0 color-mix(in srgb, var(--sc, var(--accent)) 55%, transparent),
+      2px 2px 0 color-mix(in srgb, var(--sc, var(--accent)) 35%, transparent),
+      3px 3px 0 color-mix(in srgb, var(--sc, var(--accent)) 18%, transparent),
+      4px 5px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ============ Cinematic hero ============ */
+  /* opening titles: the frame splits, then the scene pushes in */
+  .curtain {
+    position: fixed; left: 0; right: 0; height: 50vh;
+    background: var(--ground); z-index: 80; pointer-events: none;
+    transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .curtain.top { top: 0; }
+  .curtain.bot { bottom: 0; }
+  .curtain-line {
+    position: fixed; left: 0; right: 0; top: 50vh; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    z-index: 81; pointer-events: none;
+    transform: scaleX(0.15);
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease 0.5s;
+  }
+  body.rolling .curtain-line { transform: scaleX(1); opacity: 0; }
+  body.rolling .curtain.top { transform: translateY(-100%); }
+  body.rolling .curtain.bot { transform: translateY(100%); }
+  body.rolled .curtain, body.rolled .curtain-line { display: none; }
+
+  /* viewfinder furniture */
+  .hero-frame { position: absolute; inset: 22px 26px; pointer-events: none; z-index: 2; }
+  .hero-frame i {
+    position: absolute; width: 16px; height: 16px;
+    border: 1px solid var(--line);
+    opacity: 0; animation: frameIn 0.7s ease 1.15s forwards;
+  }
+  .hero-frame i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+  .hero-frame i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+  .hero-frame i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+  .hero-frame i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+  @keyframes frameIn { to { opacity: 1; } }
+  .hero-tc {
+    position: absolute; left: 26px; top: -3px;
+    display: flex; align-items: center; gap: 8px;
+    color: var(--text-low); text-transform: uppercase;
+    opacity: 0; animation: frameIn 0.7s ease 1.3s forwards;
+  }
+  .hero-tc .rec {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    animation: dotBlink 1.6s ease-in-out infinite;
+  }
+
+  /* volumetric light: shafts crossing the set */
+  .hero-rays { position: absolute; inset: -40% -15%; z-index: 0; pointer-events: none; overflow: hidden; }
+  .hero-rays i {
+    position: absolute; top: -20%; height: 150%;
+    filter: blur(26px);
+    opacity: 0;
+    animation: rayPass var(--dur, 19s) ease-in-out var(--del, 0s) infinite;
+  }
+  .hero-rays .r1 { left: 18%; width: 130px; --dur: 21s; --del: 0s;   --r: 14deg;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 30%, transparent) 40%, transparent 82%); }
+  .hero-rays .r2 { left: 46%; width: 84px;  --dur: 26s; --del: 6s;   --r: 9deg;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--sky) 22%, transparent) 45%, transparent 80%); }
+  .hero-rays .r3 { left: 70%; width: 170px; --dur: 30s; --del: 12s;  --r: 18deg;
+    background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--sand) 18%, transparent) 40%, transparent 78%); }
+  @keyframes rayPass {
+    0%   { opacity: 0;    transform: rotate(var(--r)) translateX(-90px); }
+    22%  { opacity: 0.85; }
+    62%  { opacity: 0.45; }
+    100% { opacity: 0;    transform: rotate(var(--r)) translateX(190px); }
+  }
+
+  /* horizon line where the grid floor meets the dark */
+  .hero-horizon {
+    position: absolute; left: -10%; right: -10%; bottom: 118px; height: 1px; z-index: 0;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.35; filter: blur(1px);
+    animation: horizonBreathe 9s ease-in-out infinite;
+  }
+  .hero-horizon::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 90px;
+    background: radial-gradient(60% 100% at 50% 100%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 72%);
+    filter: blur(14px);
+  }
+  @keyframes horizonBreathe { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.55; } }
+
+  /* dust in the beam: a depth field that parallaxes against the cursor */
+  .hero-dust { position: absolute; inset: 0; z-index: 0; pointer-events: none; perspective: 800px; transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+  .hero-dust i {
+    position: absolute; width: 3px; height: 3px; border-radius: 50%;
+    background: var(--text-mid); opacity: 0;
+    animation: mote var(--dur, 16s) linear var(--del, 0s) infinite;
+  }
+  @keyframes mote {
+    0%   { opacity: 0;    transform: translate3d(0, 0, var(--z, 0px)) scale(0.6); }
+    14%  { opacity: 0.55; }
+    76%  { opacity: 0.35; }
+    100% { opacity: 0;    transform: translate3d(var(--dx, 20px), -170px, calc(var(--z, 0px) + 140px)) scale(1.25); }
+  }
+
+  /* the terminal is grounded in the scene, not pasted on it */
+  .term-3d::after {
+    content: ""; position: absolute; left: 10%; right: 10%; bottom: -30px; height: 44px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6), transparent 72%);
+    filter: blur(12px); z-index: -1; pointer-events: none;
+  }
+  :root.light .term-3d::after { background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.28), transparent 72%); }
+
+  /* title-card treatment for the headline block */
+  .eyebrow { position: relative; }
+  .eyebrow::after {
+    content: ""; position: absolute; left: 0; width: 100%; bottom: -9px; height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    transform: scaleX(0); transform-origin: 0 50%;
+  }
+  body.loaded .eyebrow::after { animation: ruleDraw 1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards; }
+  @keyframes ruleDraw { to { transform: scaleX(1); } }
+  h1 .accent > span { text-shadow: 0 0 46px color-mix(in srgb, var(--accent) 45%, transparent); }
+
+  /* film texture: vignette + grain */
+  .hero-vig {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    box-shadow: inset 0 0 190px 44px color-mix(in srgb, var(--ground) 82%, transparent);
+  }
+  .hero-grain {
+    position: absolute; inset: -100%; pointer-events: none; z-index: 1;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grainShift 1.4s steps(4) infinite;
+  }
+  @keyframes grainShift {
+    0%   { transform: translate3d(0, 0, 0); }
+    25%  { transform: translate3d(-3%, 2%, 0); }
+    50%  { transform: translate3d(2%, -3%, 0); }
+    75%  { transform: translate3d(-2%, -2%, 0); }
+    100% { transform: translate3d(3%, 3%, 0); }
+  }
+
+  /* the camera: scroll dollies the hero back into depth, layers at their own rates */
+  .hero .wrap {
+    transform:
+      perspective(1300px)
+      translate3d(0, calc(var(--hp, 0) * -46px), calc(var(--hp, 0) * -240px))
+      rotateX(calc(var(--hp, 0) * 9deg));
+    opacity: calc(1 - var(--hp, 0) * 0.72);
+    transform-origin: 50% 0;
+  }
+  .hero-grid { animation: camDrift 34s ease-in-out infinite alternate; }
+  @keyframes camDrift {
+    0%   { transform: translate3d(0, 0, 0) rotateZ(0deg) scale(1); }
+    100% { transform: translate3d(-4px, -3px, 0) scale(1.01); }
+  }
+  .hero-floor { transform: perspective(420px) rotateX(76deg) translateY(calc(var(--hp, 0) * 90px)); }
+  .hero-dust { transform: translate3d(calc(var(--hx, 0) * 30px), calc(var(--hp, 0) * -90px), 0); }
+  .hero-drift { will-change: transform; }
+
+  /* opening moves: title cards rise, the terminal flies in from depth */
+  body.loaded .term-3d { animation: termIn 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both; }
+  @keyframes termIn {
+    from { opacity: 0; transform: perspective(1000px) translate3d(60px, 30px, -320px) rotateY(-18deg); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* specular pass across the headline, like a light rig sweeping the set */
+  h1 { position: relative; overflow: hidden; }
+  h1::after {
+    content: ""; position: absolute; inset: -20% -10%;
+    background: linear-gradient(104deg, transparent 42%, color-mix(in srgb, var(--text) 22%, transparent) 50%, transparent 58%);
+    transform: translateX(-130%);
+    pointer-events: none;
+    animation: sweep 18s cubic-bezier(0.4, 0, 0.2, 1) 4s infinite;
+  }
+  @keyframes sweep {
+    0%   { transform: translateX(-130%); }
+    18%  { transform: translateX(130%); }
+    100% { transform: translateX(130%); }
+  }
+
+  /* ============ Scroll scrub: everything moves while you slide ============ */
+  /* --p runs -1 (below the fold) → 0 (centred) → 1 (above), set every frame in JS */
+  [data-scrub] { will-change: transform; }
+
+  .project-row, .article-row {
+    --sry: calc(var(--p, 0) * var(--dir, 1) * 4deg);
+    --sx:  calc(var(--p, 0) * var(--dir, 1) * 7px);
+    transform-origin: calc(50% - var(--dir, 1) * 40%) 50%;
+  }
+  .card {
+    --srx: calc(var(--p, 0) * 3deg);
+    --sz:  calc(var(--p, 0) * var(--p, 0) * -30px);
+  }
+  .section-head {
+    --srx: calc(var(--p, 0) * -5deg);
+    transform-origin: 0 50%;
+  }
+  .stack-row {
+    --sx:  calc(var(--p, 0) * var(--dir, 1) * 6px);
+  }
+  .xp-company {
+    --sx:  calc(var(--p, 0) * 8px);
+    transform-origin: 0 50%;
+  }
+  .portrait {
+    --sry: calc(var(--p, 0) * -4deg);
+  }
+  .about-text p { --sx: calc(var(--p, 0) * -6px); }
+
+  /* motif art drifts inside its frame as the card passes */
+  .motif img {
+    transform: translate3d(0, calc(var(--p, 0) * 5px), 0) scale(var(--ms, 1.03));
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card:hover .motif img { --ms: 1.07; }
+
+  /* hero terminal swings away as the page slides under it */
+  .term { --sry: calc(var(--p, 0) * 5deg); }
+
+  /* ============ Ambient 3D: receding grid floor under the hero ============ */
+  .hero-floor {
+    position: absolute; left: -25%; right: -25%; bottom: -6%; height: 300px;
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(420px) rotateX(76deg);
+    transform-origin: 50% 100%;
+    -webkit-mask-image: linear-gradient(to top, #000, transparent 78%);
+    mask-image: linear-gradient(to top, #000, transparent 78%);
+    opacity: 0.5;
+    pointer-events: none;
+    animation: floorRun 9s linear infinite;
+  }
+  @keyframes floorRun { to { background-position: 0 60px, 0 0; } }
+
+  /* ============ Quick actions ============ */
+  .btn {
+    transform: perspective(600px)
+      translate3d(var(--mgx, 0px), var(--mgy, 0px), var(--bz, 0px))
+      rotateX(var(--brx, 0deg)) scale(var(--bs, 1));
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease;
+  }
+  .btn:hover { --bz: 10px; --brx: -6deg; }
+  .btn:active { --bz: -6px; --brx: 6deg; --bs: 0.98; transition-duration: 0.07s; }
+
+  .project-row:hover .arrow, .article-row:hover .arrow { transform: translateX(5px); }
+  .project-row:active, .article-row:active { --tz: 8px; transition-duration: 0.08s; }
+
+  .card .chip { transform: translateZ(0); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, color 0.25s ease; }
+  .card:hover .chip { transform: translateZ(14px); transition-delay: calc(var(--i, 0) * 14ms); }
+
+  .theme-toggle { transform-style: preserve-3d; }
+  .theme-toggle.spin { animation: btnFlip 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes btnFlip { from { transform: perspective(500px) rotateX(0deg); } to { transform: perspective(500px) rotateX(360deg); } }
+
+  .stack-row .label { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .stack-row:hover .label { transform: translateZ(20px) translateX(4px); }
+
+  .role { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.3s ease; }
+  .role:hover { transform: perspective(800px) translateZ(16px) rotateY(-2deg); }
 
   /* ============ Reduced motion ============ */
   @media (prefers-reduced-motion: reduce) {
@@ -673,15 +1219,23 @@
     }
     .hl, .hf, .reveal { opacity: 1 !important; transform: none !important; }
     .hero-drift { animation: none; }
+    .hero-rays, .hero-dust { display: none; }
+    .cube-glow, .hero-floor { animation: none; }
+    .hero-floor { display: none; }
+    .cube .face, .card .motif, .card .card-body, .term-3d .term > * { transition: none; }
   }
 
   /* ============ Responsive ============ */
   @media (max-width: 900px) {
     .hero-grid { grid-template-columns: 1fr; align-items: start; }
     .term { min-height: 300px; }
+    .stack-layout { grid-template-columns: 1fr; gap: 34px; }
+    .cube-wrap { position: static; }
+    .hero-rays, .hero-dust { display: none; }
   }
   @media (max-width: 800px) {
-    .cards { grid-template-columns: 1fr; }
+    .card, .card:nth-child(even) { flex-direction: column; }
+    .motif, .card:nth-child(even) .motif { flex: none; margin: 14px 14px 0; aspect-ratio: 800 / 350; }
     .about-grid { grid-template-columns: 1fr; gap: 40px; }
     .about-grid .portrait { order: -1; max-width: 320px; }
   }
@@ -701,11 +1255,6 @@
     .section-head { gap: 12px; margin-bottom: 30px; }
     .section-head h2 { font-size: 19px; }
     .section-lede { margin: -18px 0 26px; font-size: 14px; }
-    .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
-    .project-row .title { font-size: 16px; }
-    .project-row .stack { grid-column: 2; text-align: left; }
-    .project-row .year { display: none; }
-    .project-row .arrow { grid-row: 1; grid-column: 3; }
     .article-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
     .article-row .a-title { font-size: 15px; }
     .article-row .topic { grid-column: 2; text-align: left; }
@@ -713,6 +1262,11 @@
     .article-row .arrow { grid-row: 1; grid-column: 3; }
     .stack-row { grid-template-columns: 1fr; gap: 6px; }
     .cards { gap: 14px; }
+    .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
+    .project-row .title { font-size: 16px; }
+    .project-row .stack { grid-column: 2; text-align: left; }
+    .project-row .year { display: none; }
+    .project-row .arrow { grid-row: 1; grid-column: 3; }
     .card-body { padding: 18px 18px 16px; }
     .motif { margin: 10px 10px 0; }
     .card h3 { font-size: 15px; }
@@ -730,6 +1284,12 @@
 </head>
 <body>
 
+<div class="curtain top" aria-hidden="true"></div>
+<div class="curtain bot" aria-hidden="true"></div>
+<div class="curtain-line" aria-hidden="true"></div>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
 <header class="top">
   <div class="wrap">
     <a class="name mono" href="#top">Vaishnavi Agrawal</a>
@@ -745,10 +1305,20 @@
   <!-- ============ Hero ============ -->
   <div class="hero">
     <div class="hero-drift" aria-hidden="true"></div>
+    <div class="hero-floor" aria-hidden="true"></div>
+    <div class="hero-rays" aria-hidden="true"><i class="r1"></i><i class="r2"></i><i class="r3"></i></div>
+    <div class="hero-horizon" aria-hidden="true"></div>
+    <div class="hero-dust" id="heroDust" aria-hidden="true"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-vig" aria-hidden="true"></div>
     <div class="hero-spot" aria-hidden="true"></div>
+    <div class="hero-frame" aria-hidden="true">
+      <i></i><i></i><i></i><i></i>
+      <span class="hero-tc mono"><span class="rec"></span><span id="heroTc">00:00:00:00</span></span>
+    </div>
     <div class="wrap">
       <div class="hero-grid">
-        <div>
+        <div class="hero-par">
           <span class="eyebrow mono hf">Java Backend Developer</span>
           <h1 aria-label="I build backend systems in Java, and I ship them.">
             <span class="line"><span class="hl" style="--d:.1s">I build</span></span>
@@ -766,15 +1336,18 @@
           </div>
         </div>
 
-        <div class="term hf" style="--d:.9s" aria-label="Sample request to the live Purchase Decision API">
-          <div class="term-bar">
-            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span>purchase-decision-api</span>
-          </div>
-          <div class="term-body" id="termBody" aria-live="polite"></div>
-          <div class="term-foot">
-            <button class="term-run" id="termRun" type="button">&#9654; Run request</button>
-            <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
+        <div class="term-3d hf" id="term3d" style="--d:.9s">
+          <div class="term" aria-label="Sample request to the live Purchase Decision API">
+            <div class="term-bar">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span>purchase-decision-api</span>
+            </div>
+            <div class="term-body" id="termBody" aria-live="polite"></div>
+            <div class="term-foot">
+              <button class="term-run" id="termRun" type="button">&#9654; Run request</button>
+              <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
+            </div>
+            <span class="sheen" aria-hidden="true"></span>
           </div>
         </div>
       </div>
@@ -803,6 +1376,49 @@
         <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
         <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
         <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ 3D diorama ============ -->
+  <div class="diorama">
+    <div class="wrap">
+      <div class="dio-layout">
+        <div class="dio-copy reveal">
+          <div class="dio-head mono"><b>System</b><span>one request, end to end</span></div>
+          <p>A call hits the gateway, clears JWT auth, runs the rules in the service, and only then touches Postgres. The rules layer sits above the service because it answers before the database is ever asked.</p>
+          <p class="dio-note mono">Every project below is built on this shape.</p>
+        </div>
+      <div class="dio-stage" aria-label="Isometric diagram: client to gateway to service, with a cache branch and a PostgreSQL store">
+        <div class="dio-scene" id="dioScene">
+          <div class="dio-floor" aria-hidden="true"></div>
+
+          <span class="link l1" aria-hidden="true"></span>
+          <span class="link l2" aria-hidden="true"></span>
+          <span class="link l3" aria-hidden="true"></span>
+          <span class="link up" aria-hidden="true"></span>
+
+          <div class="box b-client"><span class="w1"></span><span class="w2"></span><span class="top"><span class="tag">client<em>http</em></span></span></div>
+          <div class="box b-gateway"><span class="w1"></span><span class="w2"></span><span class="top"><span class="tag">gateway<em>jwt</em></span></span></div>
+          <div class="box b-service"><span class="w1"></span><span class="w2"></span><span class="top"><span class="tag">service<em>spring boot</em></span></span></div>
+          <div class="box b-cache"><span class="w1"></span><span class="w2"></span><span class="top"><span class="tag">rules<em>+ llm</em></span></span></div>
+          <div class="box b-db"><span class="w1"></span><span class="w2"></span><span class="top"></span></div>
+          <span class="disc d1" aria-hidden="true"></span>
+          <span class="disc d2" aria-hidden="true"></span>
+          <span class="disc d3"><span class="tag">postgres<em>jpa</em></span></span>
+
+          <span class="pkt" style="--pd:0s" aria-hidden="true"></span>
+          <span class="pkt" style="--pd:1.2s" aria-hidden="true"></span>
+          <span class="pkt back" style="--pd:2.1s" aria-hidden="true"></span>
+        </div>
+      </div>
+      </div>
+      <div class="dio-legend mono reveal">
+        <span><i style="background:var(--accent)"></i>request</span>
+        <span><i style="background:var(--lime)"></i>response</span>
+        <span><i style="background:var(--sky)"></i>spring boot service</span>
+        <span><i style="background:var(--sand)"></i>postgres</span>
       </div>
     </div>
   </div>
@@ -859,29 +1475,8 @@
 
         <!-- 01 Purchase Decision API -->
         <article class="card c1 reveal">
-          <div class="motif m1" aria-hidden="true">
-            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
-              <rect x="36" y="48" width="88" height="34" rx="3" stroke="#5E5E58" stroke-width="1.5"/>
-              <text x="80" y="69" fill="#9A9A92" font-size="11" text-anchor="middle">RULES</text>
-              <rect class="llm-box" x="36" y="110" width="88" height="34" rx="3" stroke="#4A9188" stroke-width="1.5"/>
-              <text class="llm-box" x="80" y="131" fill="#4A9188" font-size="11" text-anchor="middle">LLM</text>
-              <path class="flow-line" d="M124 65 H 190 V 92 H 250" stroke="#4A9188" stroke-width="1.5"/>
-              <path class="flow-line" d="M124 127 H 190 V 100 H 250" stroke="#5E5E58" stroke-width="1.5"/>
-              <path class="fallback" d="M80 82 V 110" stroke="#D4F04A" stroke-width="1.5"/>
-              <text x="94" y="102" fill="#D4F04A" font-size="8" opacity="0.7">fallback</text>
-              <g class="node-buy">
-                <rect x="250" y="30" width="96" height="30" rx="3" stroke="#242426" stroke-width="1.5"/>
-                <text x="298" y="49" fill="#5E5E58" font-size="11" text-anchor="middle">BUY</text>
-              </g>
-              <g class="node-wait">
-                <rect x="250" y="80" width="96" height="30" rx="3" fill="#4A9188" fill-opacity="0.9"/>
-                <text x="298" y="99" fill="#0C0C0E" font-size="11" font-weight="700" text-anchor="middle">WAIT</text>
-              </g>
-              <g class="node-skip">
-                <rect x="250" y="130" width="96" height="30" rx="3" stroke="#242426" stroke-width="1.5"/>
-                <text x="298" y="149" fill="#5E5E58" font-size="11" text-anchor="middle">SKIP</text>
-              </g>
-            </svg>
+          <div class="motif">
+            <img src="img/still-purchase.svg" alt="Rules and LLM paths feeding a verdict response" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
             <div class="card-top">
@@ -897,30 +1492,13 @@
               <a href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">Source &#8599;</a>
             </div>
           </div>
+          <span class="sheen" aria-hidden="true"></span>
         </article>
 
         <!-- 02 Library Management -->
         <article class="card c2 reveal" style="--d:.08s">
-          <div class="motif m2" aria-hidden="true">
-            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
-              <rect class="book" style="--i:0" x="60"  y="60"  width="22" height="90" fill="#6BA8FF" fill-opacity="0.9"/>
-              <rect class="book" style="--i:1" x="90"  y="45"  width="22" height="105" fill="#242426" stroke="#5E5E58"/>
-              <rect class="book" style="--i:2" x="120" y="70"  width="22" height="80" fill="#242426" stroke="#5E5E58"/>
-              <rect class="book" style="--i:3" x="150" y="52"  width="22" height="98" fill="#6BA8FF" fill-opacity="0.5"/>
-              <rect class="book" style="--i:4" x="180" y="64"  width="22" height="86" fill="#242426" stroke="#5E5E58"/>
-              <line x1="48" y1="150" x2="220" y2="150" stroke="#242426" stroke-width="2"/>
-              <g class="key-g">
-                <circle cx="290" cy="80" r="16" stroke="#6BA8FF" stroke-width="2"/>
-                <line x1="290" y1="96" x2="290" y2="128" stroke="#6BA8FF" stroke-width="2"/>
-                <line x1="290" y1="118" x2="300" y2="118" stroke="#6BA8FF" stroke-width="2"/>
-                <line x1="290" y1="128" x2="302" y2="128" stroke="#6BA8FF" stroke-width="2"/>
-              </g>
-              <g font-size="11" text-anchor="middle">
-                <text class="role-t" x="290" y="160" fill="#D4F04A">ADMIN</text>
-                <text class="role-t" x="290" y="160" fill="#9A9A92">LIBRARIAN</text>
-                <text class="role-t" x="290" y="160" fill="#9A9A92">MEMBER</text>
-              </g>
-            </svg>
+          <div class="motif">
+            <img src="img/still-library.svg" alt="Role gates for admin, librarian and member, behind a lock" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
             <div class="card-top">
@@ -934,20 +1512,13 @@
               <a href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">Source &#8599;</a>
             </div>
           </div>
+          <span class="sheen" aria-hidden="true"></span>
         </article>
 
         <!-- 03 Patient Management -->
         <article class="card c3 reveal" style="--d:.12s">
-          <div class="motif m3" aria-hidden="true">
-            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g stroke="#1B1B1D" stroke-width="1">
-                <line x1="0" y1="47"  x2="400" y2="47"/><line x1="0" y1="95" x2="400" y2="95"/><line x1="0" y1="143" x2="400" y2="143"/>
-                <line x1="80" y1="0" x2="80" y2="190"/><line x1="160" y1="0" x2="160" y2="190"/><line x1="240" y1="0" x2="240" y2="190"/><line x1="320" y1="0" x2="320" y2="190"/>
-              </g>
-              <path class="ekg" d="M0 95 H 90 L 110 95 L 122 60 L 136 130 L 148 95 H 210 L 226 95 L 238 52 L 254 138 L 266 95 H 400"
-                    stroke="#C9A876" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-              <circle class="pulse-dot" cx="366" cy="95" r="4" fill="#D4F04A"/>
-            </svg>
+          <div class="motif">
+            <img src="img/still-patient.svg" alt="A vitals trace above patient record cards" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
             <div class="card-top">
@@ -961,29 +1532,13 @@
               <a href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">Source &#8599;</a>
             </div>
           </div>
+          <span class="sheen" aria-hidden="true"></span>
         </article>
 
         <!-- 04 Employee CRUD -->
         <article class="card c4 reveal" style="--d:.16s">
-          <div class="motif m4" aria-hidden="true">
-            <svg viewBox="0 0 400 190" fill="none" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">
-              <g class="crud-tile" style="--i:0">
-                <rect x="42"  y="62" width="70" height="66" rx="3" stroke="#4A9188" stroke-width="1.5"/>
-                <text x="77"  y="100" fill="#4A9188" font-size="11" text-anchor="middle">POST</text>
-              </g>
-              <g class="crud-tile" style="--i:1">
-                <rect x="124" y="62" width="70" height="66" rx="3" stroke="#6BA8FF" stroke-width="1.5"/>
-                <text x="159" y="100" fill="#6BA8FF" font-size="11" text-anchor="middle">PUT</text>
-              </g>
-              <g class="crud-tile" style="--i:2">
-                <rect x="206" y="62" width="70" height="66" rx="3" stroke="#9B7BF5" stroke-width="1.5"/>
-                <text x="241" y="100" fill="#9B7BF5" font-size="11" text-anchor="middle">PATCH</text>
-              </g>
-              <g class="crud-tile" style="--i:3">
-                <rect x="288" y="62" width="70" height="66" rx="3" stroke="#C9A876" stroke-width="1.5"/>
-                <text x="323" y="100" fill="#C9A876" font-size="11" text-anchor="middle">DELETE</text>
-              </g>
-            </svg>
+          <div class="motif">
+            <img src="img/still-employee.svg" alt="POST, PUT, PATCH and DELETE plates above a container log" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
             <div class="card-top">
@@ -997,11 +1552,13 @@
               <a href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">Source &#8599;</a>
             </div>
           </div>
+          <span class="sheen" aria-hidden="true"></span>
         </article>
 
       </div>
     </div>
   </section>
+
 
   <!-- ============ 003 Writing ============ -->
   <section id="writing">
@@ -1061,14 +1618,34 @@
         <span class="rule" aria-hidden="true"></span>
       </div>
 
-      <div class="stack-row reveal" style="--sc:var(--accent)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
-      <div class="stack-row reveal" style="--d:.05s; --sc:var(--sky)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
-      <div class="stack-row reveal" style="--d:.1s; --sc:var(--sand)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
-      <div class="stack-row reveal" style="--d:.15s; --sc:var(--violet)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
-      <div class="stack-row reveal" style="--d:.2s; --sc:var(--lime)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
-      <div class="stack-row reveal" style="--d:.25s; --sc:var(--accent)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
+      <div class="stack-layout">
+        <div class="stack-rows">
+          <div class="stack-row reveal" style="--sc:var(--accent)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
+          <div class="stack-row reveal" style="--d:.05s; --sc:var(--sky)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
+          <div class="stack-row reveal" style="--d:.1s; --sc:var(--sand)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
+          <div class="stack-row reveal" style="--d:.15s; --sc:var(--violet)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
+          <div class="stack-row reveal" style="--d:.2s; --sc:var(--lime)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
+          <div class="stack-row reveal" style="--d:.25s; --sc:var(--accent)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
+        </div>
+
+        <div class="cube-wrap reveal" style="--d:.1s">
+          <div class="cube-stage" id="cubeStage" aria-hidden="true">
+            <span class="cube-glow"></span>
+            <div class="cube" id="cube">
+              <div class="face f1">Java 21<b>language</b></div>
+              <div class="face f2">Spring Boot<b>framework</b></div>
+              <div class="face f3">PostgreSQL<b>data</b></div>
+              <div class="face f4">JWT<b>auth</b></div>
+              <div class="face f5">Docker<b>delivery</b></div>
+              <div class="face f6">JUnit 5<b>testing</b></div>
+            </div>
+          </div>
+          <p class="cube-hint mono">six sides of the stack &middot; <b>drag to spin</b></p>
+        </div>
+      </div>
     </div>
   </section>
+
 
   <!-- ============ 005 Experience ============ -->
   <section id="experience">
@@ -1129,6 +1706,8 @@
 
   <!-- ============ 006 About ============ -->
   <section id="about">
+    <div class="about-back" style="--shot: url('photo.jpg')" aria-hidden="true"></div>
+    <div class="about-key" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head reveal" style="--sc:var(--accent)">
         <span class="num mono">006</span>
@@ -1142,6 +1721,8 @@
           <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
         </div>
         <figure class="portrait reveal" style="--d:.1s">
+          <span class="p-plate b" aria-hidden="true"></span>
+          <span class="p-plate a" aria-hidden="true"></span>
           <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="843" height="843">
           <figcaption class="mono">
             <span>Vaishnavi Agrawal</span>
@@ -1178,23 +1759,73 @@
   "use strict";
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- 1. Hero load sequence ---------- */
-  window.addEventListener("load", function () {
-    document.body.classList.add("loaded");
-  });
-  setTimeout(function () { document.body.classList.add("loaded"); }, 1200);
+  /* ---------- 0. Toast ---------- */
+  var toastEl = document.getElementById("toast");
+  var toastTimer;
+  function showToast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 3400);
+  }
 
-  /* ---------- 2. Scroll reveals + motif activation ---------- */
+  /* ---------- 1. Hero load sequence ---------- */
+  var body = document.body;
+  function roll() {
+    if (body.classList.contains("rolling")) return;
+    body.classList.add("rolling");                       /* frame splits open */
+    setTimeout(function () { body.classList.add("loaded"); }, 260);   /* titles rise */
+    setTimeout(function () { body.classList.add("rolled"); }, 1500);  /* strike the curtains */
+  }
+  if (reduced) {
+    body.classList.add("rolling", "loaded", "rolled");
+  } else {
+    window.addEventListener("load", roll);
+    setTimeout(roll, 900);                               /* never wait on a slow font */
+  }
+
+  /* dust motes drifting through the light */
+  var dust = document.getElementById("heroDust");
+  if (dust && !reduced) {
+    for (var m = 0; m < 14; m++) {
+      var mote = document.createElement("i");
+      mote.style.left = (Math.random() * 100).toFixed(2) + "%";
+      mote.style.top = (55 + Math.random() * 50).toFixed(2) + "%";
+      mote.style.setProperty("--z", (Math.random() * 220 - 110).toFixed(0) + "px");
+      mote.style.setProperty("--dx", (Math.random() * 70 - 35).toFixed(0) + "px");
+      mote.style.setProperty("--dur", (13 + Math.random() * 12).toFixed(1) + "s");
+      mote.style.setProperty("--del", (-Math.random() * 18).toFixed(1) + "s");
+      dust.appendChild(mote);
+    }
+  }
+
+  /* running timecode in the viewfinder */
+  var tcEl = document.getElementById("heroTc");
+  if (tcEl && !reduced) {
+    var tcStart = Date.now();
+    setInterval(function () {
+      var t = (Date.now() - tcStart) / 1000;
+      var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+      tcEl.textContent = "00:" + pad(Math.floor(t / 60)) + ":" + pad(Math.floor(t % 60)) + ":" + pad(Math.floor((t % 1) * 24));
+    }, 42);
+  }
+
+  /* ---------- 2. Scroll reveals (in AND out) + motif activation ---------- */
   var reveals = document.querySelectorAll(".reveal");
   var motifs = document.querySelectorAll(".motif");
   if (reduced || !("IntersectionObserver" in window)) {
-    reveals.forEach(function (el) { el.classList.add("in"); });
+    reveals.forEach(function (el) { el.classList.add("in", "settled"); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
+        var el = entry.target;
+        clearTimeout(el._settle);
         if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
+          el.classList.add("in");
+          /* once the staggered entrance has played, drop the delay so hover
+             and tilt respond immediately instead of waiting on --d */
+          el._settle = setTimeout(function () { el.classList.add("settled"); }, 1100);
         }
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
@@ -1345,9 +1976,11 @@
       var dist = Math.hypot(dx, dy);
       if (dist < RADIUS + Math.max(r.width, r.height) / 2) {
         var pull = Math.max(0, 1 - dist / (RADIUS + r.width / 2));
-        magnet.style.transform = "translate(" + dx * pull * 0.3 + "px," + dy * pull * 0.3 + "px)";
+        magnet.style.setProperty("--mgx", (dx * pull * 0.3).toFixed(1) + "px");
+        magnet.style.setProperty("--mgy", (dy * pull * 0.3).toFixed(1) + "px");
       } else {
-        magnet.style.transform = "";
+        magnet.style.removeProperty("--mgx");
+        magnet.style.removeProperty("--mgy");
       }
     }, { passive: true });
   }
@@ -1436,23 +2069,129 @@
       .catch(function () { /* keep the hard-coded fallback rows */ });
   })();
 
-  /* ---------- 5. Card 3D tilt ---------- */
-  if (!reduced && window.matchMedia("(hover: hover)").matches) {
-    document.querySelectorAll(".card").forEach(function (card) {
-      card.addEventListener("mouseenter", function () {
-        card.style.transition = "transform 0.08s linear, border-color 0.3s ease, box-shadow 0.3s ease";
-      });
-      card.addEventListener("mousemove", function (e) {
-        var r = card.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width - 0.5;
-        var py = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = "translateY(-6px) perspective(900px) rotateX(" + (-py * 4).toFixed(2) + "deg) rotateY(" + (px * 5).toFixed(2) + "deg)";
-      }, { passive: true });
-      card.addEventListener("mouseleave", function () {
-        card.style.transition = "";
-        card.style.transform = "";
+  /* ---------- 5. Pointer-driven 3D tilt (cards, terminal, portrait) ---------- */
+  var canHover = window.matchMedia("(hover: hover)").matches;
+
+  function attachTilt(el, maxDeg) {
+    var frame = 0, lastEvent = null;
+    function apply() {
+      frame = 0;
+      var e = lastEvent;
+      if (!e) return;
+      var r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      var fx = (e.clientX - r.left) / r.width;
+      var fy = (e.clientY - r.top) / r.height;
+      el.style.setProperty("--rx", ((0.5 - fy) * maxDeg).toFixed(2) + "deg");
+      el.style.setProperty("--ry", ((fx - 0.5) * maxDeg).toFixed(2) + "deg");
+      el.style.setProperty("--mx", (fx * 100).toFixed(1) + "%");
+      el.style.setProperty("--my", (fy * 100).toFixed(1) + "%");
+    }
+    el.addEventListener("mouseenter", function () { el.classList.add("tilting"); });
+    el.addEventListener("mousemove", function (e) {
+      lastEvent = e;
+      if (!frame) frame = requestAnimationFrame(apply);
+    }, { passive: true });
+    el.addEventListener("mouseleave", function () {
+      if (frame) { cancelAnimationFrame(frame); frame = 0; }
+      lastEvent = null;
+      el.classList.remove("tilting");
+      el.style.removeProperty("--rx");
+      el.style.removeProperty("--ry");
+    });
+  }
+
+  if (!reduced && canHover) {
+    document.querySelectorAll(".card").forEach(function (c) { attachTilt(c, 5); });
+    document.querySelectorAll(".portrait").forEach(function (p) { attachTilt(p, 4); });
+    var term3d = document.getElementById("term3d");
+    if (term3d) attachTilt(term3d, 7);
+  }
+
+  /* ---------- 5b. Stack cube: auto-spin, drag, land a face ---------- */
+  var cube = document.getElementById("cube");
+  var cubeStage = document.getElementById("cubeStage");
+  if (cube && cubeStage) {
+    var rotX = -22, rotY = 28, drift = 0;
+    var dragging = false, manual = false;
+    var lastX = 0, lastY = 0, onScreen = false, ticking = false, resumeTimer;
+
+    function draw() {
+      cube.style.transform = "rotateX(" + rotX.toFixed(2) + "deg) rotateY(" + rotY.toFixed(2) + "deg)";
+    }
+    function tick() {
+      if (!onScreen) { ticking = false; return; }
+      if (!dragging && !manual) {
+        rotY += 0.22;
+        drift += 0.012;
+        rotX = -22 + Math.sin(drift) * 6;
+        draw();
+      }
+      requestAnimationFrame(tick);
+    }
+    function start() { if (!ticking && !reduced) { ticking = true; requestAnimationFrame(tick); } }
+
+    function snap() {
+      rotY = Math.round(rotY / 90) * 90;
+      rotX = Math.max(-90, Math.min(90, Math.round(rotX / 90) * 90));
+      if (!reduced) cube.style.transition = "transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)";
+      draw();
+      setTimeout(function () { cube.style.transition = ""; }, reduced ? 0 : 460);
+    }
+
+    cubeStage.addEventListener("pointerdown", function (e) {
+      dragging = true; manual = true;
+      lastX = e.clientX; lastY = e.clientY;
+      clearTimeout(resumeTimer);
+      cube.style.transition = "";
+      cubeStage.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    cubeStage.addEventListener("pointermove", function (e) {
+      if (!dragging) return;
+      var dx = e.clientX - lastX, dy = e.clientY - lastY;
+      rotY += dx * 0.55;
+      rotX = Math.max(-90, Math.min(90, rotX - dy * 0.45));
+      lastX = e.clientX; lastY = e.clientY;
+      draw();
+    });
+    ["pointerup", "pointercancel"].forEach(function (evt) {
+      cubeStage.addEventListener(evt, function () {
+        if (!dragging) return;
+        dragging = false;
+        snap();
+        /* let it idle-spin again once the visitor stops playing */
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(function () { manual = false; start(); }, 5000);
       });
     });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        onScreen = entries[0].isIntersecting;
+        if (onScreen) start();
+      }, { threshold: 0.05 }).observe(cubeStage);
+    } else {
+      onScreen = true; start();
+    }
+    draw();
+  }
+
+  /* ---------- 5c. Scroll progress bar ---------- */
+  var progress = document.getElementById("progress");
+  if (progress) {
+    var pTicking = false;
+    function drawProgress() {
+      pTicking = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var p = max > 0 ? window.scrollY / max : 0;
+      progress.style.setProperty("--p", Math.max(0, Math.min(1, p)).toFixed(4));
+    }
+    window.addEventListener("scroll", function () {
+      if (!pTicking) { pTicking = true; requestAnimationFrame(drawProgress); }
+    }, { passive: true });
+    window.addEventListener("resize", drawProgress, { passive: true });
+    drawProgress();
   }
 
   /* ---------- 6. Section heading scramble ---------- */
@@ -1486,32 +2225,136 @@
     document.querySelectorAll(".section-head h2").forEach(function (h) { sio.observe(h); });
   }
 
-  /* ---------- 7. Hero cursor spotlight ---------- */
+  /* ---------- 7. Hero cursor spotlight + parallax depth ---------- */
   var hero = document.querySelector(".hero");
   var spot = document.querySelector(".hero-spot");
-  if (hero && spot && !reduced && window.matchMedia("(hover: hover)").matches) {
+  if (hero && spot && !reduced && canHover) {
     hero.addEventListener("mousemove", function (e) {
       var r = hero.getBoundingClientRect();
       var x = e.clientX - r.left, y = e.clientY - r.top;
       spot.style.opacity = "1";
       spot.style.background = "radial-gradient(240px at " + x + "px " + y + "px, rgba(95, 179, 167, 0.10), transparent 70%)";
+      hero.style.setProperty("--hx", (x / r.width - 0.5).toFixed(3));
+      hero.style.setProperty("--hy", (y / r.height - 0.5).toFixed(3));
     }, { passive: true });
-    hero.addEventListener("mouseleave", function () { spot.style.opacity = "0"; });
+    hero.addEventListener("mouseleave", function () {
+      spot.style.opacity = "0";
+      hero.style.setProperty("--hx", "0");
+      hero.style.setProperty("--hy", "0");
+    });
   }
 
   /* ---------- 7b. Light / dark toggle ---------- */
   var themeToggle = document.getElementById("themeToggle");
   themeToggle.addEventListener("click", function () {
+    themeToggle.classList.remove("spin");
+    void themeToggle.offsetWidth;                  /* restart the flip on every click */
+    themeToggle.classList.add("spin");
     var light = document.documentElement.classList.toggle("light");
     themeToggle.innerHTML = light ? "&#9789; Dark" : "&#9788; Light";
     themeToggle.setAttribute("aria-pressed", String(light));
   });
 
+
+  /* ---------- 9. Scroll-driven 3D motion ---------- */
+  if (!reduced) {
+    var scrubEls = [];
+    function scrub(sel, alternate) {
+      document.querySelectorAll(sel).forEach(function (node, i) {
+        if (alternate) node.style.setProperty("--dir", i % 2 ? "-1" : "1");
+        node.setAttribute("data-scrub", "");
+        scrubEls.push(node);
+      });
+    }
+    scrub(".section-head");
+    scrub(".project-row", true);
+    scrub(".article-row", true);
+    scrub(".card");
+    scrub(".stack-row", true);
+    scrub(".xp-company");
+    scrub(".portrait");
+    scrub(".about-text p", true);
+    scrub(".motif");
+    scrub(".term-3d .term");
+    scrub(".dio-scene");
+
+    var dioStage = document.querySelector(".dio-stage");
+    var dioScene = document.getElementById("dioScene");
+    if (dioStage && dioScene && canHover) {
+      dioStage.addEventListener("mousemove", function (e) {
+        var r = dioStage.getBoundingClientRect();
+        dioScene.style.setProperty("--dtx", (((e.clientY - r.top) / r.height - 0.5) * -10).toFixed(2) + "deg");
+        dioScene.style.setProperty("--dtz", (((e.clientX - r.left) / r.width - 0.5) * 16).toFixed(2) + "deg");
+      }, { passive: true });
+      dioStage.addEventListener("mouseleave", function () {
+        dioScene.style.removeProperty("--dtx");
+        dioScene.style.removeProperty("--dtz");
+      });
+    }
+
+    document.querySelectorAll(".card").forEach(function (c, i) {
+      c.style.setProperty("--col", i % 2 ? "-1" : "1");
+      c.querySelectorAll(".chip").forEach(function (chip, j) { chip.style.setProperty("--i", j); });
+    });
+
+    var track = document.querySelector(".ticker-track");
+    var trackHalf = 0, trackPos = 0;
+    if (track) {
+      track.classList.add("js-ticker");
+      trackHalf = track.scrollWidth / 2;
+    }
+
+    var vh = window.innerHeight;
+    var lastY = window.scrollY;
+    var heroEl = document.querySelector(".hero");
+    var aboutBack = document.querySelector(".about-back");
+
+    function frame() {
+      var y = window.scrollY;
+
+      if (aboutBack) {
+        var ar = aboutBack.getBoundingClientRect();
+        if (ar.bottom > -200 && ar.top < vh + 200) {
+          aboutBack.style.setProperty("--ap", ((ar.top + ar.height / 2 - vh / 2) / vh).toFixed(3));
+        }
+      }
+
+      if (heroEl) {
+        var hp = Math.max(0, Math.min(1, y / (heroEl.offsetHeight * 0.9)));
+        heroEl.style.setProperty("--hp", hp.toFixed(4));
+      }
+
+      for (var i = 0; i < scrubEls.length; i++) {
+        var el = scrubEls[i];
+        var r = el.getBoundingClientRect();
+        if (r.bottom < -240 || r.top > vh + 240) continue;
+        var p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        el.style.setProperty("--p", Math.max(-1, Math.min(1, p)).toFixed(3));
+      }
+
+      if (track && trackHalf) {
+        trackPos -= 0.55;
+        if (trackPos <= -trackHalf) trackPos += trackHalf;
+        if (trackPos > 0) trackPos -= trackHalf;
+        track.style.transform = "translate3d(" + trackPos.toFixed(2) + "px,0,0)";
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function remeasure() {
+      vh = window.innerHeight;
+      if (track) trackHalf = track.scrollWidth / 2;
+    }
+    window.addEventListener("resize", remeasure, { passive: true });
+    window.addEventListener("load", remeasure);      /* webfonts change the marquee width */
+
+    requestAnimationFrame(frame);
+  }
+
+
   /* ---------- 8. Konami code ---------- */
   var KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
   var kIdx = 0;
-  var toast = document.getElementById("toast");
-  var toastTimer;
   document.addEventListener("keydown", function (e) {
     var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
     if (key === KONAMI[kIdx]) {
@@ -1520,17 +2363,15 @@
         kIdx = 0;
         var root = document.documentElement;
         root.classList.toggle("accent-flip");
-        toast.textContent = root.classList.contains("accent-flip")
+        showToast(root.classList.contains("accent-flip")
           ? "// colors flipped. same code to undo"
-          : "// and we're back";
-        toast.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 3200);
+          : "// and we're back");
       }
     } else {
       kIdx = key === KONAMI[0] ? 1 : 0;
     }
   });
+
 })();
 </script>
 

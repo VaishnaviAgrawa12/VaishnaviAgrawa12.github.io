@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="'JetBrains Mono',ui-monospace,monospace">
+  <defs>
+    <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0C0C0E"/>
+      <stop offset="0.55" stop-color="#0F1216"/>
+      <stop offset="1" stop-color="#0C0C0E"/>
+    </linearGradient>
+    <radialGradient id="glow2" cx="0.45" cy="0.35" r="0.6">
+      <stop offset="0" stop-color="#6BA8FF" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#6BA8FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="beam2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6BA8FF" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#6BA8FF" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#6BA8FF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6BA8FF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#6BA8FF" stop-opacity="0.25"/>
+    </linearGradient>
+    <linearGradient id="barDim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A3A3C"/>
+      <stop offset="1" stop-color="#242426"/>
+    </linearGradient>
+    <filter id="soft2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10"/></filter>
+    <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1B1B1D" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="gm2"><rect width="800" height="500" fill="url(#fade2)"/></mask>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#sky2)"/>
+  <rect width="800" height="500" fill="url(#grid2)" mask="url(#gm2)"/>
+  <rect width="800" height="500" fill="url(#glow2)"/>
+  <g filter="url(#soft2)" opacity="0.7">
+    <rect x="230" y="-60" width="90" height="620" fill="url(#beam2)" transform="rotate(-11 275 250)"/>
+    <rect x="560" y="-60" width="60" height="620" fill="url(#beam2)" transform="rotate(-11 590 250)"/>
+  </g>
+
+  <!-- shelf of volumes -->
+  <g>
+    <rect x="70" y="112" width="26" height="150" rx="2" fill="url(#barDim)"/>
+    <rect x="104" y="86"  width="26" height="176" rx="2" fill="url(#bar)"/>
+    <rect x="138" y="140" width="26" height="122" rx="2" fill="url(#barDim)"/>
+    <rect x="172" y="100" width="26" height="162" rx="2" fill="url(#bar)"/>
+    <rect x="206" y="158" width="26" height="104" rx="2" fill="url(#barDim)"/>
+    <rect x="240" y="126" width="26" height="136" rx="2" fill="url(#bar)"/>
+    <rect x="274" y="150" width="26" height="112" rx="2" fill="url(#barDim)"/>
+    <path d="M62 268 H310" stroke="#6BA8FF" stroke-width="2" opacity="0.75"/>
+  </g>
+
+  <!-- role gates -->
+  <g font-size="12" letter-spacing="2">
+    <rect x="380" y="112" width="150" height="40" rx="4" fill="#141416" stroke="#6BA8FF"/>
+    <text x="455" y="137" fill="#6BA8FF" text-anchor="middle">ADMIN</text>
+    <rect x="380" y="164" width="150" height="40" rx="4" fill="#141416" stroke="#3A3A3C"/>
+    <text x="455" y="189" fill="#9A9A92" text-anchor="middle">LIBRARIAN</text>
+    <rect x="380" y="216" width="150" height="40" rx="4" fill="#141416" stroke="#3A3A3C"/>
+    <text x="455" y="241" fill="#9A9A92" text-anchor="middle">MEMBER</text>
+    <path d="M530 132 H580" stroke="#6BA8FF" stroke-dasharray="6 5"/>
+    <path d="M530 184 H580" stroke="#3A3A3C" stroke-dasharray="6 5"/>
+    <path d="M530 236 H580" stroke="#3A3A3C" stroke-dasharray="6 5"/>
+  </g>
+
+  <!-- lock -->
+  <g transform="translate(628 128)">
+    <circle cx="42" cy="42" r="34" fill="none" stroke="#6BA8FF" stroke-width="2.5"/>
+    <path d="M42 76 V132" stroke="#6BA8FF" stroke-width="2.5"/>
+    <path d="M42 100 H70" stroke="#6BA8FF" stroke-width="2.5"/>
+    <path d="M42 118 H62" stroke="#6BA8FF" stroke-width="2.5"/>
+    <circle cx="42" cy="42" r="12" fill="#0C0C0E" stroke="#6BA8FF" stroke-width="2"/>
+  </g>
+
+  <text x="70" y="404" fill="#EDEDE8" font-family="'Archivo Narrow',Archivo,sans-serif" font-size="38" font-weight="700" letter-spacing="-1">LIBRARY MANAGEMENT</text>
+  <path d="M70 424 H360" stroke="#6BA8FF" stroke-width="2"/>
+  <text x="70" y="452" fill="#9A9A92" font-size="12" letter-spacing="3">SPRING SECURITY · ROLE-BASED ACCESS</text>
+  <text x="742" y="452" fill="#5E5E58" font-size="12" text-anchor="end" letter-spacing="3">2025</text>
+
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#242426"/>
+</svg>

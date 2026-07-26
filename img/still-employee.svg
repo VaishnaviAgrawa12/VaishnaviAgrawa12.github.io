@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" font-family="'JetBrains Mono',ui-monospace,monospace">
+  <defs>
+    <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0C0C0E"/>
+      <stop offset="0.55" stop-color="#121016"/>
+      <stop offset="1" stop-color="#0C0C0E"/>
+    </linearGradient>
+    <radialGradient id="glow4" cx="0.5" cy="0.38" r="0.62">
+      <stop offset="0" stop-color="#9B7BF5" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#9B7BF5" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="beam4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9B7BF5" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#9B7BF5" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#9B7BF5" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft4" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="10"/></filter>
+    <pattern id="grid4" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1B1B1D" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="gm4"><rect width="800" height="500" fill="url(#fade4)"/></mask>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#sky4)"/>
+  <rect width="800" height="500" fill="url(#grid4)" mask="url(#gm4)"/>
+  <rect width="800" height="500" fill="url(#glow4)"/>
+  <g filter="url(#soft4)" opacity="0.7">
+    <rect x="180" y="-60" width="100" height="620" fill="url(#beam4)" transform="rotate(-13 230 250)"/>
+    <rect x="600" y="-60" width="70" height="620" fill="url(#beam4)" transform="rotate(-13 635 250)"/>
+  </g>
+
+  <!-- method plates receding in perspective -->
+  <g font-size="15" letter-spacing="3" font-weight="700">
+    <g>
+      <rect x="60" y="120" width="150" height="62" rx="5" fill="#141416" stroke="#4A9188" stroke-width="1.5"/>
+      <text x="135" y="158" fill="#5FB3A7" text-anchor="middle">POST</text>
+    </g>
+    <g opacity="0.92">
+      <rect x="228" y="132" width="150" height="62" rx="5" fill="#141416" stroke="#6BA8FF" stroke-width="1.5"/>
+      <text x="303" y="170" fill="#6BA8FF" text-anchor="middle">PUT</text>
+    </g>
+    <g opacity="0.84">
+      <rect x="396" y="144" width="150" height="62" rx="5" fill="#141416" stroke="#9B7BF5" stroke-width="1.5"/>
+      <text x="471" y="182" fill="#9B7BF5" text-anchor="middle">PATCH</text>
+    </g>
+    <g opacity="0.76">
+      <rect x="564" y="156" width="150" height="62" rx="5" fill="#141416" stroke="#C9A876" stroke-width="1.5"/>
+      <text x="639" y="194" fill="#C9A876" text-anchor="middle">DELETE</text>
+    </g>
+  </g>
+
+  <!-- container -->
+  <g>
+    <rect x="248" y="248" width="304" height="96" rx="6" fill="#141416" stroke="#242426"/>
+    <rect x="248" y="248" width="304" height="28" rx="6" fill="#191919"/>
+    <path d="M248 276 H552" stroke="#242426"/>
+    <circle cx="266" cy="262" r="3.5" fill="#9B7BF5"/>
+    <circle cx="278" cy="262" r="3.5" fill="#3A3A3C"/>
+    <text x="534" y="266" fill="#5E5E58" font-size="9" text-anchor="end" letter-spacing="2">DOCKER</text>
+    <text x="268" y="302" fill="#9A9A92" font-size="11">$ docker run -p 8080:8080</text>
+    <text x="268" y="324" fill="#D4F04A" font-size="11">Started Application in 1.84s</text>
+  </g>
+
+  <text x="60" y="404" fill="#EDEDE8" font-family="'Archivo Narrow',Archivo,sans-serif" font-size="38" font-weight="700" letter-spacing="-1">EMPLOYEE CRUD API</text>
+  <path d="M60 424 H320" stroke="#9B7BF5" stroke-width="2"/>
+  <text x="60" y="452" fill="#9A9A92" font-size="12" letter-spacing="3">REST · DOCKER</text>
+  <text x="742" y="452" fill="#5E5E58" font-size="12" text-anchor="end" letter-spacing="3">2025</text>
+
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="#242426"/>
+</svg>
