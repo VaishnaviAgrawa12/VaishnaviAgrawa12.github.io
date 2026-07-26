@@ -265,16 +265,53 @@
     animation: blink 0.9s steps(1) infinite;
   }
   @keyframes blink { 50% { opacity: 0; } }
+
+  /* --- interactive composer --- */
+  .term-compose {
+    padding: 10px 14px 12px;
+    border-top: 1px solid var(--line-soft);
+    background: var(--card-alt);
+    display: grid; gap: 9px;
+  }
+  .term-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tchip {
+    font-family: inherit; font-size: 10px; letter-spacing: 0.06em;
+    background: transparent; border: 1px solid var(--line); color: var(--text-mid);
+    padding: 4px 10px; border-radius: 999px; cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .tchip:hover { border-color: var(--accent); color: var(--accent); }
+  .tchip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--ground); }
+  .term-row { display: flex; align-items: center; gap: 7px; }
+  .tsr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .tprice::-webkit-inner-spin-button, .tprice::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  .tinput {
+    font-family: inherit; font-size: 11px;
+    background: var(--ground); color: var(--text);
+    border: 1px solid var(--line); border-radius: 4px;
+    padding: 7px 9px; min-width: 0; flex: 1 1 auto;
+    transition: border-color 0.2s ease;
+  }
+  .tinput:focus { border-color: var(--accent); outline: none; }
+  .tprice { flex: 0 0 78px; text-align: right; }
+  .term-run[disabled] { opacity: 0.45; cursor: progress; }
+  .tnote { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .term-body .bar { display: inline-block; vertical-align: middle; width: 120px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; }
+  .term-body .bar i { display: block; height: 100%; width: 0; background: var(--lime); transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+  .term-body .bar.w i { background: var(--sand); }
+  .term-body .bar.s i { background: var(--violet); }
   .term-foot {
     display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    white-space: nowrap;
     padding: 10px 14px;
     border-top: 1px solid var(--line-soft);
     background: var(--card-alt);
   }
   .term-run {
-    font-family: inherit; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    font-family: inherit; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
     background: transparent; border: 1px solid var(--line);
-    color: var(--accent); padding: 7px 14px; cursor: pointer; border-radius: 4px;
+    color: var(--accent); padding: 7px 12px; cursor: pointer; border-radius: 4px;
+    flex: none; white-space: nowrap; line-height: 1;
     transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
   }
   .term-run:hover { border-color: var(--accent); background: var(--accent); color: var(--ground); }
@@ -498,17 +535,55 @@
   }
   .writing-more a:hover { color: var(--text); }
 
-  /* ============ 004 Stack ============ */
-  .stack-row {
-    display: grid; grid-template-columns: 160px 1fr;
-    gap: 24px; padding: 18px 4px;
-    border-top: 1px solid var(--line-soft);
-    transition: background 0.2s ease;
+  /* ============ 004 Stack — bento ============ */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    grid-auto-flow: dense;
   }
-  .stack-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
-  .stack-row:hover { background: var(--card); }
-  .stack-row .label { color: var(--sc, var(--accent)); text-transform: uppercase; padding-top: 3px; }
-  .stack-row .items { color: var(--text-mid); font-size: 15px; }
+  .bx {
+    position: relative;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 18px 20px;
+    background: var(--card);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    overflow: hidden;
+    grid-column: span 2;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.35s ease;
+  }
+  .bx::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--sc, var(--accent)) 13%, transparent), transparent 62%);
+    opacity: 0; transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .bx:hover {
+    border-color: color-mix(in srgb, var(--sc, var(--accent)) 55%, var(--line));
+    box-shadow: 0 20px 44px -30px rgba(0, 0, 0, 0.9);
+  }
+  .bx:hover::before { opacity: 1; }
+  .bx-label { color: var(--sc, var(--accent)); text-transform: uppercase; }
+  .bx-items { color: var(--text-mid); font-size: 14px; position: relative; }
+  .bx-wide { grid-column: span 4; }
+
+  /* the cube gets the tall tile on the right */
+  .bx-cube {
+    grid-column: span 2; grid-row: span 3;
+    align-items: center; justify-content: center; gap: 14px;
+    background: var(--card-alt);
+  }
+
+  /* one figure tile keeps the grid from reading as a uniform list */
+  .bx-stat { justify-content: center; }
+  .bx-figure {
+    font-family: "Archivo Narrow", "Archivo", sans-serif;
+    font-size: 52px; font-weight: 700; line-height: 0.9;
+    color: var(--sc, var(--accent));
+    letter-spacing: -0.03em;
+  }
 
   /* ============ 005 Experience ============ */
   .xp-company { margin-bottom: 42px; }
@@ -694,6 +769,7 @@
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
   }
   .term-3d.tilting .term { transition: transform 0.09s linear, box-shadow 0.5s ease; }
+  .term-3d.no-tilt .term { --rx: 0deg !important; --ry: 0deg !important; }
   .term-3d:hover .term { box-shadow: 0 40px 70px -40px rgba(0, 0, 0, 0.9); }
   .term-3d .term { overflow: visible; }
   .term-3d .term-bar { border-radius: 10px 10px 0 0; }
@@ -707,8 +783,6 @@
   .hero-par { transform: translate3d(calc(var(--hx, 0) * -10px), calc(var(--hy, 0) * -8px), 0); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 
   /* ============ 3D stack cube ============ */
-  .stack-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
-  .cube-wrap { position: sticky; top: 90px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
   .cube-stage {
     width: 240px; height: 240px;
     perspective: 900px;
@@ -1144,8 +1218,8 @@
     --srx: calc(var(--p, 0) * -5deg);
     transform-origin: 0 50%;
   }
-  .stack-row {
-    --sx:  calc(var(--p, 0) * var(--dir, 1) * 6px);
+  .bx {
+    --sx:  calc(var(--p, 0) * var(--dir, 1) * 5px);
   }
   .xp-company {
     --sx:  calc(var(--p, 0) * 8px);
@@ -1203,8 +1277,8 @@
   .theme-toggle.spin { animation: btnFlip 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
   @keyframes btnFlip { from { transform: perspective(500px) rotateX(0deg); } to { transform: perspective(500px) rotateX(360deg); } }
 
-  .stack-row .label { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-  .stack-row:hover .label { transform: translateZ(20px) translateX(4px); }
+  .bx-label { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .bx:hover .bx-label { transform: translateX(3px); }
 
   .role { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.3s ease; }
   .role:hover { transform: perspective(800px) translateZ(16px) rotateY(-2deg); }
@@ -1227,10 +1301,11 @@
 
   /* ============ Responsive ============ */
   @media (max-width: 900px) {
+    .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bx, .bx-wide, .bx-cube { grid-column: span 2; }
+    .bx-cube { grid-row: auto; }
     .hero-grid { grid-template-columns: 1fr; align-items: start; }
     .term { min-height: 300px; }
-    .stack-layout { grid-template-columns: 1fr; gap: 34px; }
-    .cube-wrap { position: static; }
     .hero-rays, .hero-dust { display: none; }
   }
   @media (max-width: 800px) {
@@ -1240,6 +1315,9 @@
     .about-grid .portrait { order: -1; max-width: 320px; }
   }
   @media (max-width: 640px) {
+    .bento { grid-template-columns: 1fr; gap: 12px; }
+    .bx, .bx-wide, .bx-cube { grid-column: 1 / -1; }
+    .bx-figure { font-size: 42px; }
     .wrap { padding: 0 18px; }
     header.top .loc { display: none; }
     .hero { padding: 44px 0; }
@@ -1260,7 +1338,7 @@
     .article-row .topic { grid-column: 2; text-align: left; }
     .article-row .date { display: none; }
     .article-row .arrow { grid-row: 1; grid-column: 3; }
-    .stack-row { grid-template-columns: 1fr; gap: 6px; }
+
     .cards { gap: 14px; }
     .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
     .project-row .title { font-size: 16px; }
@@ -1343,9 +1421,24 @@
               <span>purchase-decision-api</span>
             </div>
             <div class="term-body" id="termBody" aria-live="polite"></div>
+            <form class="term-compose" id="termForm" autocomplete="off">
+              <div class="term-chips" id="termChips" role="group" aria-label="Pick something to buy">
+                <button class="tchip" type="button" data-item="standing desk" data-price="24000">standing desk</button>
+                <button class="tchip" type="button" data-item="mechanical keyboard" data-price="4500">keyboard</button>
+                <button class="tchip" type="button" data-item="new iPhone" data-price="140000">iPhone</button>
+                <button class="tchip" type="button" data-item="flight to Goa" data-price="9000">flight</button>
+              </div>
+              <div class="term-row">
+                <label class="tsr" for="termItem">Item</label>
+                <input class="tinput" id="termItem" name="item" type="text" value="standing desk" placeholder="what are you buying?" maxlength="40" required>
+                <label class="tsr" for="termPrice">Price in rupees</label>
+                <input class="tinput tprice" id="termPrice" name="price" type="number" value="24000" min="1" max="9999999" required>
+                <button class="term-run" id="termRun" type="submit">&#9654; Send</button>
+              </div>
+            </form>
             <div class="term-foot">
-              <button class="term-run" id="termRun" type="button">&#9654; Run request</button>
-              <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real one &#8599; Swagger</a>
+              <span class="tnote">local demo</span>
+              <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real API &#8599;</a>
             </div>
             <span class="sheen" aria-hidden="true"></span>
           </div>
@@ -1618,17 +1711,13 @@
         <span class="rule" aria-hidden="true"></span>
       </div>
 
-      <div class="stack-layout">
-        <div class="stack-rows">
-          <div class="stack-row reveal" style="--sc:var(--accent)"><span class="label mono">Core</span><span class="items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span></div>
-          <div class="stack-row reveal" style="--d:.05s; --sc:var(--sky)"><span class="label mono">Data</span><span class="items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span></div>
-          <div class="stack-row reveal" style="--d:.1s; --sc:var(--sand)"><span class="label mono">APIs</span><span class="items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span></div>
-          <div class="stack-row reveal" style="--d:.15s; --sc:var(--violet)"><span class="label mono">Testing</span><span class="items">JUnit 5 &middot; Mockito</span></div>
-          <div class="stack-row reveal" style="--d:.2s; --sc:var(--lime)"><span class="label mono">Delivery</span><span class="items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span></div>
-          <div class="stack-row reveal" style="--d:.25s; --sc:var(--accent)"><span class="label mono">Systems</span><span class="items">Linux &middot; Bash &middot; IntelliJ IDEA</span></div>
+      <div class="bento">
+        <div class="bx bx-wide reveal" style="--sc:var(--accent)">
+          <span class="bx-label mono">Core</span>
+          <span class="bx-items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span>
         </div>
 
-        <div class="cube-wrap reveal" style="--d:.1s">
+        <div class="bx bx-cube reveal" style="--d:.06s; --sc:var(--sand)">
           <div class="cube-stage" id="cubeStage" aria-hidden="true">
             <span class="cube-glow"></span>
             <div class="cube" id="cube">
@@ -1641,6 +1730,37 @@
             </div>
           </div>
           <p class="cube-hint mono">six sides of the stack &middot; <b>drag to spin</b></p>
+        </div>
+
+        <div class="bx reveal" style="--d:.1s; --sc:var(--sky)">
+          <span class="bx-label mono">Data</span>
+          <span class="bx-items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span>
+        </div>
+
+        <div class="bx reveal" style="--d:.14s; --sc:var(--sand)">
+          <span class="bx-label mono">APIs</span>
+          <span class="bx-items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span>
+        </div>
+
+        <div class="bx bx-stat reveal" style="--d:.18s; --sc:var(--lime)">
+          <span class="bx-figure">1</span>
+          <span class="bx-label mono">API in production</span>
+          <span class="bx-items">Deployed on Railway, CI/CD on every push</span>
+        </div>
+
+        <div class="bx reveal" style="--d:.22s; --sc:var(--violet)">
+          <span class="bx-label mono">Testing</span>
+          <span class="bx-items">JUnit 5 &middot; Mockito</span>
+        </div>
+
+        <div class="bx reveal" style="--d:.26s; --sc:var(--lime)">
+          <span class="bx-label mono">Delivery</span>
+          <span class="bx-items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span>
+        </div>
+
+        <div class="bx bx-wide reveal" style="--d:.3s; --sc:var(--accent)">
+          <span class="bx-label mono">Systems</span>
+          <span class="bx-items">Linux &middot; Bash &middot; IntelliJ IDEA</span>
         </div>
       </div>
     </div>
@@ -1839,86 +1959,115 @@
     motifs.forEach(function (el) { mio.observe(el); });
   }
 
-  /* ---------- 3. Typing API terminal ---------- */
+  /* ---------- 3. Interactive API console ---------- */
   var termBody = document.getElementById("termBody");
+  var termForm = document.getElementById("termForm");
   var termRun = document.getElementById("termRun");
-  var SCENARIOS = [
-    { item: "standing desk", price: "24000", income: "60000", goal: "300000",
-      verdict: "WAIT", vcls: "v-wait", score: 42, timeline: "save 2 more months" },
-    { item: "mechanical keyboard", price: "4500", income: "60000", goal: "300000",
-      verdict: "BUY", vcls: "verdict", score: 81, timeline: "no impact on your goal" },
-    { item: "new iPhone", price: "140000", income: "60000", goal: "300000",
-      verdict: "SKIP", vcls: "v-skip", score: 9, timeline: "pushes goal back 6 months" }
-  ];
-  var scIdx = Math.floor(Math.random() * SCENARIOS.length);
-  function reqLines(sc) {
+  var termItem = document.getElementById("termItem");
+  var termPrice = document.getElementById("termPrice");
+  var termChips = document.getElementById("termChips");
+
+  var INCOME = 60000, GOAL = 300000;
+  var running = false;
+
+  function el(cls, text) {
+    var n = document.createElement("span");
+    if (cls) n.className = cls;
+    n.textContent = text || "";
+    return n;
+  }
+  function money(n) { return n.toLocaleString("en-IN"); }
+
+  /* The same shape of decision the live API returns, computed locally so the
+     hero never depends on the network: score the price against monthly income,
+     then express the hit as months of delay on the savings goal. */
+  function decide(item, price) {
+    var ratio = price / INCOME;
+    var score = Math.max(2, Math.min(97, Math.round(100 - ratio * 165)));
+    var months = Math.max(1, Math.ceil(price / (INCOME * 0.25)));
+    var verdict, vcls, bcls, timeline;
+    if (ratio <= 0.12) {
+      verdict = "BUY"; vcls = "verdict"; bcls = "";
+      timeline = "no impact on your goal";
+    } else if (ratio <= 0.45) {
+      verdict = "WAIT"; vcls = "v-wait"; bcls = "w";
+      timeline = "save " + months + " more month" + (months > 1 ? "s" : "");
+    } else {
+      verdict = "SKIP"; vcls = "v-skip"; bcls = "s";
+      timeline = "pushes goal back " + months + " month" + (months > 1 ? "s" : "");
+    }
+    return { item: item, price: price, verdict: verdict, vcls: vcls, bcls: bcls, score: score, timeline: timeline };
+  }
+
+  function reqLines(d) {
     return [
       { text: "$ ", cls: "dim" },
       { text: "POST", cls: "kw" },
       { text: " /api/decisions", cls: "req" },
       { text: "\n{\n  ", cls: "dim" },
-      { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"" + sc.item + "\"", cls: "s" },
+      { text: "\"item\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: "\"" + d.item + "\"", cls: "s" },
       { text: ",\n  ", cls: "dim" },
-      { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.price, cls: "n" },
+      { text: "\"price\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: String(d.price), cls: "n" },
       { text: ",\n  ", cls: "dim" },
-      { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.income, cls: "n" },
+      { text: "\"monthlyIncome\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: String(INCOME), cls: "n" },
       { text: ",\n  ", cls: "dim" },
-      { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: sc.goal, cls: "n" },
+      { text: "\"savingsGoal\"", cls: "k" }, { text: ": ", cls: "dim" }, { text: String(GOAL), cls: "n" },
       { text: "\n}", cls: "dim" }
     ];
   }
-  var running = false;
 
-  function el(cls, text) {
-    var s = document.createElement("span");
-    if (cls) s.className = cls;
-    s.textContent = text || "";
-    return s;
-  }
-
-  function showFinalState() {
-    var sc = SCENARIOS[scIdx];
-    termBody.textContent = "";
-    reqLines(sc).forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
-    appendResponse(sc, true);
-  }
-
-  function appendResponse(sc, instant) {
-    termBody.appendChild(el("dim", "\n\n// 200 OK · sample response\n"));
+  function appendResponse(d, instant) {
+    termBody.appendChild(el("dim", "\n\n// 200 OK · " + (instant ? "sample" : "computed locally") + "\n"));
     termBody.appendChild(el("resp", "{\n  "));
     termBody.appendChild(el("k", "\"verdict\""));
     termBody.appendChild(el("dim", ": "));
-    termBody.appendChild(el(sc.vcls, "\"" + sc.verdict + "\""));
+    termBody.appendChild(el(d.vcls, "\"" + d.verdict + "\""));
     termBody.appendChild(el("dim", ",\n  "));
     termBody.appendChild(el("k", "\"score\""));
     termBody.appendChild(el("dim", ": "));
-    var scoreEl = el("kw", instant ? String(sc.score) : "0");
+    var scoreEl = el("kw", instant ? String(d.score) : "0");
     termBody.appendChild(scoreEl);
+    termBody.appendChild(el("dim", "  "));
+
+    var bar = document.createElement("span");
+    bar.className = "bar" + (d.bcls ? " " + d.bcls : "");
+    var fill = document.createElement("i");
+    bar.appendChild(fill);
+    termBody.appendChild(bar);
+
     termBody.appendChild(el("dim", ",\n  "));
     termBody.appendChild(el("k", "\"timeline\""));
     termBody.appendChild(el("dim", ": "));
-    termBody.appendChild(el("s", "\"" + sc.timeline + "\""));
+    termBody.appendChild(el("s", "\"" + d.timeline + "\""));
     termBody.appendChild(el("resp", "\n}"));
-    if (instant) return;
-    var start = null, dur = 900;
+
+    if (instant || reduced) { fill.style.width = d.score + "%"; return; }
+    requestAnimationFrame(function () { fill.style.width = d.score + "%"; });
+    var start = null, dur = 850;
     function step(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
-      scoreEl.textContent = String(Math.round(p * sc.score));
+      scoreEl.textContent = String(Math.round(p * d.score));
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
 
-  function typeSequence(advance) {
-    if (running) return;
+  function send(item, price) {
+    if (running || !termBody) return;
     running = true;
-    termRun.disabled = true;
-    if (advance) scIdx = (scIdx + 1) % SCENARIOS.length;
-    var sc = SCENARIOS[scIdx];
-    var lines = reqLines(sc);
+    if (termRun) termRun.disabled = true;
+    var d = decide(item, price);
+    var lines = reqLines(d);
     termBody.textContent = "";
-    if (reduced) { showFinalState(); running = false; termRun.disabled = false; return; }
+
+    if (reduced) {
+      lines.forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
+      appendResponse(d, true);
+      running = false;
+      if (termRun) termRun.disabled = false;
+      return;
+    }
 
     var cursor = document.createElement("span");
     cursor.className = "term-cursor";
@@ -1929,11 +2078,10 @@
       if (li >= lines.length) {
         setTimeout(function () {
           cursor.remove();
-          appendResponse(sc, false);
+          appendResponse(d, false);
           running = false;
-          termRun.disabled = false;
-          termRun.innerHTML = "&#8635; Try another";
-        }, 350);
+          if (termRun) { termRun.disabled = false; termRun.innerHTML = "&#9654; Send"; }
+        }, 320);
         return;
       }
       var line = lines[li];
@@ -1944,25 +2092,63 @@
       line._el.textContent += line.text.charAt(ci);
       ci++;
       if (ci >= line.text.length) { li++; ci = 0; }
-      setTimeout(typeChar, 12 + Math.random() * 22);
+      setTimeout(typeChar, 9 + Math.random() * 16);
     }
     typeChar();
   }
 
-  termRun.addEventListener("click", function () { typeSequence(true); });
+  function currentInput() {
+    var item = (termItem && termItem.value.trim()) || "something";
+    var price = Math.max(1, Math.min(9999999, parseInt(termPrice && termPrice.value, 10) || 1000));
+    return [item, price];
+  }
 
-  if (!reduced && "IntersectionObserver" in window) {
-    var tio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          setTimeout(typeSequence, 900);
-          tio.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-    tio.observe(termBody);
-  } else {
-    showFinalState();
+  if (termForm) {
+    termForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = currentInput();
+      send(v[0], v[1]);
+    });
+  }
+
+  if (termChips) {
+    termChips.addEventListener("click", function (e) {
+      var chip = e.target.closest(".tchip");
+      if (!chip) return;
+      termChips.querySelectorAll(".tchip").forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+      termItem.value = chip.getAttribute("data-item");
+      termPrice.value = chip.getAttribute("data-price");
+      send(termItem.value, parseInt(chip.getAttribute("data-price"), 10));
+    });
+  }
+
+  /* typing a custom value clears the quick-pick selection */
+  [termItem, termPrice].forEach(function (input) {
+    if (!input) return;
+    input.addEventListener("input", function () {
+      termChips.querySelectorAll('.tchip[aria-pressed="true"]').forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+    });
+  });
+
+  /* first exchange plays itself once the console scrolls into view */
+  if (termBody) {
+    if (!reduced && "IntersectionObserver" in window) {
+      var tio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var v = currentInput();
+            setTimeout(function () { send(v[0], v[1]); }, 800);
+            tio.disconnect();
+          }
+        });
+      }, { threshold: 0.4 });
+      tio.observe(termBody);
+    } else {
+      var v0 = currentInput();
+      var d0 = decide(v0[0], v0[1]);
+      reqLines(d0).forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
+      appendResponse(d0, true);
+    }
   }
 
   /* ---------- 4. Magnetic primary button ---------- */
@@ -2105,7 +2291,11 @@
     document.querySelectorAll(".card").forEach(function (c) { attachTilt(c, 5); });
     document.querySelectorAll(".portrait").forEach(function (p) { attachTilt(p, 4); });
     var term3d = document.getElementById("term3d");
-    if (term3d) attachTilt(term3d, 7);
+    if (term3d) {
+      attachTilt(term3d, 7);
+      term3d.addEventListener("focusin", function () { term3d.classList.add("no-tilt"); });
+      term3d.addEventListener("focusout", function () { term3d.classList.remove("no-tilt"); });
+    }
   }
 
   /* ---------- 5b. Stack cube: auto-spin, drag, land a face ---------- */
@@ -2270,7 +2460,7 @@
     scrub(".project-row", true);
     scrub(".article-row", true);
     scrub(".card");
-    scrub(".stack-row", true);
+    scrub(".bx", true);
     scrub(".xp-company");
     scrub(".portrait");
     scrub(".about-text p", true);
