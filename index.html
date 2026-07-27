@@ -50,6 +50,7 @@
     --lime: #7F921A;
   }
   :root.light .term {
+    --ground: #0C0C0E;
     --card: #141416;
     --card-alt: #191919;
     --line: #242426;
@@ -98,7 +99,7 @@
     letter-spacing: 0.08em;
   }
 
-  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
 
   /* ============ Top bar ============ */
   header.top { border-bottom: 1px solid var(--line-soft); position: relative; z-index: 2; }
@@ -156,8 +157,8 @@
 
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 44px;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 440px);
+    gap: 64px;
     align-items: center;
   }
 
@@ -166,7 +167,7 @@
   h1 {
     font-family: "Archivo Narrow", "Archivo", sans-serif;
     font-weight: 700;
-    font-size: clamp(34px, 5.6vw, 64px);
+    font-size: clamp(34px, 5.4vw, 76px);
     line-height: 0.95;
     letter-spacing: -0.03em;
     text-transform: uppercase;
@@ -188,10 +189,30 @@
   }
   @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-  .lede { margin-top: 26px; max-width: 520px; color: var(--text-mid); font-size: 15px; }
+  .lede { margin-top: 26px; max-width: 620px; color: var(--text-mid); font-size: 16px; }
   .hero-meta { margin-top: 16px; color: var(--text-low); }
 
-  .hero-actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-links {
+    margin-top: 16px;
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    column-gap: 22px; row-gap: 8px;
+  }
+  .hero-links a {
+    position: relative;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-mid);
+    transition: color 0.25s ease;
+  }
+  .hero-links a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px;
+    background: var(--accent);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-links a:hover { color: var(--accent); }
+  .hero-links a:hover::after { transform: scaleX(1); }
 
   .btn {
     position: relative;
@@ -230,7 +251,7 @@
     font-size: 12px;
     line-height: 1.7;
     display: flex; flex-direction: column;
-    min-height: 340px;
+    height: 452px;
     overflow: hidden;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   }
@@ -247,7 +268,15 @@
   .term-bar .dots i:nth-child(1) { background: var(--accent); }
   .term-bar .dots i:nth-child(2) { background: var(--sky); }
   .term-bar .dots i:nth-child(3) { background: var(--lime); }
-  .term-body { padding: 14px 18px; flex: 1; white-space: pre-wrap; word-break: break-word; }
+  .term-body {
+    padding: 14px 18px; flex: 1 1 0; min-height: 0;
+    white-space: pre-wrap; word-break: break-word;
+    overflow-y: auto; overscroll-behavior: contain;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  }
+  .term-body::-webkit-scrollbar { width: 6px; }
+  .term-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .term-body::-webkit-scrollbar-track { background: transparent; }
   .term-body .kw { color: var(--accent); font-weight: 700; }
   .term-body .req { color: var(--text-mid); }
   .term-body .k { color: var(--sky); }
@@ -281,6 +310,8 @@
     transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
   }
   .tchip:hover { border-color: var(--accent); color: var(--accent); }
+  .term-compose.busy .tchip { opacity: 0.4; pointer-events: none; }
+  .tbreak[disabled] { opacity: 0.4; cursor: default; }
   .tchip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--ground); }
   .term-row { display: flex; align-items: center; gap: 7px; }
   .tsr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -295,7 +326,14 @@
   .tinput:focus { border-color: var(--accent); outline: none; }
   .tprice { flex: 0 0 78px; text-align: right; }
   .term-run[disabled] { opacity: 0.45; cursor: progress; }
-  .tnote { color: var(--text-low); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tbreak {
+    font-family: inherit; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: none; border: 1px dashed var(--line); color: var(--text-low);
+    padding: 4px 9px; border-radius: 4px; cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .tbreak:hover { color: var(--sand); border-color: var(--sand); }
+  .tbreak[aria-pressed="true"] { color: var(--sand); border-color: var(--sand); border-style: solid; }
   .term-body .bar { display: inline-block; vertical-align: middle; width: 120px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; }
   .term-body .bar i { display: block; height: 100%; width: 0; background: var(--lime); transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
   .term-body .bar.w i { background: var(--sand); }
@@ -359,18 +397,35 @@
   /* ============ 001 Projects ============ */
   .project-row {
     display: grid;
-    grid-template-columns: 44px 1fr auto 56px 28px;
+    grid-template-columns: 48px minmax(0, 1fr) auto 60px 28px;
     align-items: baseline;
-    gap: 20px;
-    padding: 24px 16px;
+    gap: 24px;
+    padding: 26px 18px;
     border-top: 1px solid var(--line-soft);
     transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.4s ease;
   }
   .project-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
   .project-row .idx { color: var(--pc, var(--text-low)); }
   .project-row .title {
-    font-weight: 800; font-size: 19px; letter-spacing: -0.01em; text-transform: uppercase;
-    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    font-weight: 800; font-size: 20px; letter-spacing: -0.01em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+    min-width: 0;
+  }
+  .project-row .title .tag-live { flex: none; order: 1; }
+  .project-row .title::after {
+    content: "";
+    order: 2;
+    flex: 1 1 auto; min-width: 24px;
+    height: 1px; margin-left: 4px;
+    background: linear-gradient(90deg, var(--line) 0 4px, transparent 4px 10px) repeat-x;
+    background-size: 10px 1px;
+    opacity: 0.7;
+    transition: background 0.25s ease, opacity 0.25s ease;
+  }
+  .project-row:hover .title::after {
+    background: linear-gradient(90deg, var(--pc, var(--accent)) 0 4px, transparent 4px 10px) repeat-x;
+    background-size: 10px 1px;
+    opacity: 1;
   }
   .project-row .stack { color: var(--text-mid); text-align: right; }
   .project-row .year { color: var(--text-low); text-align: right; }
@@ -418,7 +473,7 @@
   .card.c4 { --ac: var(--violet); }
 
   /* one column of wide cards: artwork on the left, the writing beside it */
-  .cards { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: minmax(0, 1fr); }
   .card { flex-direction: row; align-items: stretch; }
   .motif {
     position: relative;
@@ -535,7 +590,7 @@
   }
   .writing-more a:hover { color: var(--text); }
 
-  /* ============ 004 Stack — bento ============ */
+  /* ============ 004 Stack: bento ============ */
   .bento {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -732,7 +787,12 @@
   }
   .reveal.in { opacity: 1; --rty: 0px; --rtz: 0px; --rrx: 0deg; }
   /* once settled, hover/tilt reacts instantly instead of inheriting the stagger */
-  .reveal.settled { transition-delay: 0s; }
+  .reveal.settled {
+    transition: opacity 0.4s ease,
+                transform 0.14s cubic-bezier(0.33, 1, 0.68, 1),
+                background 0.25s ease, border-color 0.25s ease, box-shadow 0.35s ease;
+    transition-delay: 0s;
+  }
   .reveal.tilting { transition: transform 0.09s linear, border-color 0.3s ease, box-shadow 0.3s ease; transition-delay: 0s; }
 
   /* ============ Depth: sheen that tracks the pointer ============ */
@@ -758,7 +818,7 @@
   .card:hover .card-body { --layer: 10px; }
 
   /* ============ Hero terminal in 3D ============ */
-  .term-3d { perspective: 1000px; position: relative; }
+  .term-3d { perspective: 1000px; position: relative; min-width: 0; }
   .term-3d .term {
     position: relative;
     transform:
@@ -780,7 +840,7 @@
   .term-3d:hover .term > .term-foot { --layer: 14px; }
 
   /* hero copy drifts against the pointer for parallax depth */
-  .hero-par { transform: translate3d(calc(var(--hx, 0) * -10px), calc(var(--hy, 0) * -8px), 0); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+  .hero-par { min-width: 0; transform: translate3d(calc(var(--hx, 0) * -10px), calc(var(--hy, 0) * -8px), 0); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 
   /* ============ 3D stack cube ============ */
   .cube-stage {
@@ -1001,7 +1061,7 @@
   .dio-legend i { width: 8px; height: 8px; border-radius: 2px; display: block; }
 
   @media (max-width: 860px) {
-    .dio-layout { grid-template-columns: 1fr; gap: 20px; }
+    .dio-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   }
   @media (max-width: 720px) {
     .dio-stage { height: 230px; }
@@ -1030,78 +1090,121 @@
   }
 
 
-  /* ============ Guided walkthrough ============ */
-  .tour-veil {
-    position: fixed; inset: 0; z-index: 70;
-    pointer-events: none;                 /* the page stays usable mid-tour */
-    opacity: 0; visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s;
+  /* ============ Guide: a person walking you through ============ */
+  /* No dimming veil, so the page stays lit and usable. The section being
+     talked about just warms up, so it reads as "look here", not a lecture. */
+  .lit {
+    position: relative;
+    z-index: 1;
+    animation: litIn 0.5s cubic-bezier(0.33, 1, 0.68, 1);
   }
-  body.touring .tour-veil { opacity: 1; visibility: visible; }
-  .tour-hole {
-    position: absolute;
-    border-radius: 14px;
-    box-shadow: 0 0 0 9999px rgba(6, 6, 8, 0.74), 0 0 0 1px var(--accent) inset;
-    transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1), left 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                width 0.5s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  :root.light .tour-hole { box-shadow: 0 0 0 9999px rgba(28, 28, 26, 0.5), 0 0 0 1px var(--accent) inset; }
-  .tour-ring {
-    position: absolute; inset: -6px;
-    border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  .lit::after {
+    content: "";
+    position: absolute; inset: -14px;
     border-radius: 18px;
-    animation: tourPulse 2.4s ease-in-out infinite;
+    border: 1px solid color-mix(in srgb, var(--accent) 62%, transparent);
+    background: radial-gradient(80% 70% at 50% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 74%);
+    box-shadow: 0 0 44px -12px color-mix(in srgb, var(--accent) 45%, transparent);
+    pointer-events: none;
+    animation: litGlow 2.8s ease-in-out infinite;
   }
-  @keyframes tourPulse { 0%, 100% { opacity: 0.25; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.008); } }
+  @keyframes litIn { from { opacity: 0.55; } to { opacity: 1; } }
+  @keyframes litGlow { 0%, 100% { opacity: 0.62; } 50% { opacity: 1; } }
 
-  .tour-card {
-    position: fixed; left: 50%; bottom: 26px;
-    transform: translate(-50%, 24px);
-    width: min(560px, calc(100vw - 32px));
-    z-index: 72;
+  .guide {
+    position: fixed; left: 24px; bottom: 24px; z-index: 74;
+    width: min(390px, calc(100vw - 34px));
+    display: flex; align-items: flex-end; gap: 12px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(18px);
+    transition: opacity 0.35s ease, transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+  }
+  body.guided .guide { opacity: 1; visibility: visible; transform: none; }
+
+  .guide-av {
+    position: relative; flex: none;
+    width: 54px; height: 54px; border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+  .guide-av img {
+    width: 100%; height: 100%; display: block;
+    object-fit: cover;
+    /* the source is square, so object-position can't crop; zoom in on the
+       face instead, or the avatar is mostly restaurant at 54px */
+    transform: scale(2.25);
+    transform-origin: 47% 33%;
+    /* posterise into flat bands so it reads as an illustration
+       while keeping the likeness a hand-drawn face could not */
+    filter: url(#illustrate) saturate(0.92) contrast(1.04);
+  }
+  .guide-av::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%;
+    box-shadow: inset 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .guide-av.speaking { animation: avBob 2.2s ease-in-out infinite; }
+  @keyframes avBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+  .guide-bubble {
+    position: relative;
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 16px 18px 14px;
-    box-shadow: 0 40px 80px -34px rgba(0, 0, 0, 0.95);
-    opacity: 0; visibility: hidden; pointer-events: none;
-    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+    border-radius: 14px 14px 14px 4px;
+    padding: 13px 15px 11px;
+    box-shadow: 0 26px 60px -30px rgba(0, 0, 0, 0.9);
+    cursor: pointer;
   }
-  body.touring .tour-card { opacity: 1; visibility: visible; transform: translate(-50%, 0); pointer-events: auto; }
-  /* flip above the fold when the spotlight sits low, so the card never covers it */
-  .tour-card.at-top { bottom: auto; top: 22px; transform: translate(-50%, -24px); }
-  body.touring .tour-card.at-top { transform: translate(-50%, 0); }
-  .tour-step { display: flex; align-items: baseline; gap: 10px; color: var(--text-low); text-transform: uppercase; }
-  .tour-step b { color: var(--accent); font-weight: 500; }
-  .tour-card h4 { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; text-transform: uppercase; margin-top: 8px; }
-  .tour-card p { color: var(--text-mid); font-size: 14px; margin-top: 6px; }
-  .tour-nav { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
-  .tour-dots { display: flex; gap: 5px; margin-right: auto; }
-  .tour-dots i {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--line);
-    display: block; transition: background 0.3s ease, transform 0.3s ease;
+  .guide-bubble::before {
+    content: ""; position: absolute; left: -6px; bottom: 8px;
+    width: 10px; height: 10px;
+    background: var(--card);
+    border-left: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    transform: rotate(45deg);
+    border-radius: 0 0 0 3px;
   }
-  .tour-dots i.on { background: var(--accent); transform: scale(1.35); }
-  .tour-btn {
+  .guide-name { color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 5px; }
+  .guide-text { color: var(--text); font-size: 14px; line-height: 1.55; min-height: 1.55em; }
+  .guide-caret {
+    display: inline-block; width: 6px; height: 13px;
+    background: var(--accent); vertical-align: -2px; margin-left: 2px;
+    animation: blink 0.9s steps(1) infinite;
+  }
+  .guide-foot {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 10px; padding-top: 9px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .guide-go {
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-    background: transparent; border: 1px solid var(--line); color: var(--text-mid);
-    padding: 8px 14px; border-radius: 6px; cursor: pointer;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); background: none; border: 0; padding: 0;
+    cursor: pointer; margin-left: auto;
   }
-  .tour-btn:hover { border-color: var(--accent); color: var(--text); }
-  .tour-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--ground); font-weight: 700; }
-  .tour-btn.primary:hover { filter: brightness(1.08); color: var(--ground); }
-  .tour-btn.ghost { border-color: transparent; color: var(--text-low); }
+  .guide-go:hover { color: var(--text); }
+  .guide-skip {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-mid);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .guide-skip:hover { color: var(--text); border-color: var(--text-mid); background: var(--card-alt); }
+  .guide-pips { display: flex; gap: 4px; }
+  .guide-pips i { width: 4px; height: 4px; border-radius: 50%; background: var(--line); display: block; transition: background 0.3s ease; }
+  .guide-pips i.on { background: var(--accent); }
+
   @media (max-width: 640px) {
-    .tour-card { bottom: 12px; padding: 14px; }
-    .tour-card h4 { font-size: 15px; }
-    .tour-card p { font-size: 13px; }
-    .tour-btn { padding: 7px 10px; font-size: 10px; }
+    .guide { left: 12px; right: 12px; bottom: 12px; width: auto; }
+    .guide-av { width: 44px; height: 44px; }
+    .guide-text { font-size: 13px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tour-hole, .tour-card { transition: none; }
-    .tour-ring { animation: none; }
+    .guide-av.speaking, .lit::after, .lit { animation: none; }
   }
 
   /* ============ Cinematic hero ============ */
@@ -1244,6 +1347,7 @@
       rotateX(calc(var(--hp, 0) * 9deg));
     opacity: calc(1 - var(--hp, 0) * 0.72);
     transform-origin: 50% 0;
+    transition: transform 0.16s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.16s linear;
   }
   .hero-grid { animation: camDrift 34s ease-in-out infinite alternate; }
   @keyframes camDrift {
@@ -1280,10 +1384,10 @@
   /* --p runs -1 (below the fold) → 0 (centred) → 1 (above), set every frame in JS */
   [data-scrub] { will-change: transform; }
 
+  /* rows stay flush left; only a slight depth shift as they cross */
   .project-row, .article-row {
-    --sry: calc(var(--p, 0) * var(--dir, 1) * 4deg);
-    --sx:  calc(var(--p, 0) * var(--dir, 1) * 7px);
-    transform-origin: calc(50% - var(--dir, 1) * 40%) 50%;
+    --sz: calc(var(--p, 0) * var(--p, 0) * -26px);
+    transform-origin: 0 50%;
   }
   .card {
     --srx: calc(var(--p, 0) * 3deg);
@@ -1376,21 +1480,22 @@
 
   /* ============ Responsive ============ */
   @media (max-width: 900px) {
+    .wrap { padding: 0 28px; }
     .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .bx, .bx-wide, .bx-cube { grid-column: span 2; }
     .bx-cube { grid-row: auto; }
-    .hero-grid { grid-template-columns: 1fr; align-items: start; }
-    .term { min-height: 300px; }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .term { height: 400px; }
     .hero-rays, .hero-dust { display: none; }
   }
   @media (max-width: 800px) {
     .card, .card:nth-child(even) { flex-direction: column; }
     .motif, .card:nth-child(even) .motif { flex: none; margin: 14px 14px 0; aspect-ratio: 800 / 350; }
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
     .about-grid .portrait { order: -1; max-width: 320px; }
   }
   @media (max-width: 640px) {
-    .bento { grid-template-columns: 1fr; gap: 12px; }
+    .bento { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .bx, .bx-wide, .bx-cube { grid-column: 1 / -1; }
     .bx-figure { font-size: 42px; }
     .wrap { padding: 0 18px; }
@@ -1401,9 +1506,10 @@
     .eyebrow { margin-bottom: 18px; }
     .lede { font-size: 14px; margin-top: 20px; }
     .hero-grid { gap: 30px; }
-    .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 26px; }
+    .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 24px; }
     .hero-actions .btn { justify-content: center; padding: 12px 8px; font-size: 11px; }
-    .term { min-height: 0; font-size: 11px; }
+    .hero-links { column-gap: 16px; }
+    .term { height: 372px; font-size: 11px; }
     .ticker { padding: 10px 0; }
     .section-head { gap: 12px; margin-bottom: 30px; }
     .section-head h2 { font-size: 19px; }
@@ -1415,8 +1521,10 @@
     .article-row .arrow { grid-row: 1; grid-column: 3; }
 
     .cards { gap: 14px; }
-    .project-row { grid-template-columns: 36px 1fr 28px; row-gap: 6px; padding: 18px 8px; }
-    .project-row .title { font-size: 16px; }
+    .project-row { grid-template-columns: 36px minmax(0, 1fr) 28px; row-gap: 6px; padding: 18px 8px; }
+    .project-row .title { font-size: 16px; flex-wrap: wrap; }
+    /* the leader rule only makes sense on one line; it reads as debris when the title wraps */
+    .project-row .title::after { display: none; }
     .project-row .stack { grid-column: 2; text-align: left; }
     .project-row .year { display: none; }
     .project-row .arrow { grid-row: 1; grid-column: 3; }
@@ -1483,10 +1591,12 @@
           <p class="hero-meta mono hf" style="--d:.7s">Spring Boot 3 &middot; Java 21 &middot; PostgreSQL &middot; Docker</p>
           <div class="hero-actions hf" style="--d:.8s">
             <a class="btn primary" id="magnet" href="#projects"><span>View projects &rarr;</span></a>
-            <button class="btn" id="tourStart" type="button"><span>&#9658; Walk me through it</span></button>
-            <a class="btn" href="#writing"><span>Read my writing &darr;</span></a>
-            <a class="btn" href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener"><span>GitHub &#8599;</span></a>
-            <a class="btn" href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener"><span>LinkedIn &#8599;</span></a>
+            <button class="btn" id="tourStart" type="button"><span>&#9788; Show me around</span></button>
+          </div>
+          <div class="hero-links hf" style="--d:.88s">
+            <a href="#writing">Read my writing &darr;</a>
+            <a href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener">GitHub &#8599;</a>
+            <a href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener">LinkedIn &#8599;</a>
           </div>
         </div>
 
@@ -1513,7 +1623,7 @@
               </div>
             </form>
             <div class="term-foot">
-              <span class="tnote">local demo</span>
+              <button class="tbreak" id="termBreak" type="button" aria-pressed="false" title="Show what happens when the model call fails">Break the LLM</button>
               <a href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Real API &#8599;</a>
             </div>
             <span class="sheen" aria-hidden="true"></span>
@@ -1948,17 +2058,27 @@
   <span class="psst mono" aria-hidden="true">psst: &uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr; B A</span>
 </footer>
 
-<div class="tour-veil" id="tourVeil" aria-hidden="true"><div class="tour-hole" id="tourHole"><span class="tour-ring"></span></div></div>
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <filter id="illustrate" color-interpolation-filters="sRGB">
+    <feColorMatrix type="saturate" values="1.05"/>
+    <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0.10 0.26 0.40 0.54 0.68 0.80 0.90 0.97"/>
+      <feFuncG type="discrete" tableValues="0.07 0.20 0.33 0.46 0.59 0.71 0.82 0.92"/>
+      <feFuncB type="discrete" tableValues="0.09 0.19 0.30 0.41 0.53 0.65 0.76 0.88"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
 
-<div class="tour-card" id="tourCard" role="dialog" aria-modal="false" aria-labelledby="tourTitle">
-  <div class="tour-step mono"><b id="tourStep">01</b><span id="tourKicker">the console</span></div>
-  <h4 id="tourTitle">Title</h4>
-  <p id="tourBody">Body</p>
-  <div class="tour-nav">
-    <span class="tour-dots" id="tourDots" aria-hidden="true"></span>
-    <button class="tour-btn ghost" id="tourExit" type="button">Exit</button>
-    <button class="tour-btn" id="tourPrev" type="button">&larr; Back</button>
-    <button class="tour-btn primary" id="tourNext" type="button">Next &rarr;</button>
+<div class="guide" id="guide" role="region" aria-label="Guided introduction">
+  <div class="guide-av" id="guideAv"><img src="photo.jpg" alt="Vaishnavi" width="843" height="843"></div>
+  <div class="guide-bubble" id="guideBubble">
+    <span class="guide-name mono">Vaishnavi</span>
+    <p class="guide-text" id="guideText" aria-live="polite"></p>
+    <div class="guide-foot">
+      <button class="guide-skip" id="guideSkip" type="button">&times; Close</button>
+      <span class="guide-pips" id="guidePips" aria-hidden="true"></span>
+      <button class="guide-go" id="guideGo" type="button">Go on &rarr;</button>
+    </div>
   </div>
 </div>
 
@@ -2056,9 +2176,11 @@
   var termItem = document.getElementById("termItem");
   var termPrice = document.getElementById("termPrice");
   var termChips = document.getElementById("termChips");
+  var termBreak = document.getElementById("termBreak");
 
   var INCOME = 60000, GOAL = 300000;
   var running = false;
+  var brokenLLM = false;
 
   function el(cls, text) {
     var n = document.createElement("span");
@@ -2086,7 +2208,29 @@
       verdict = "SKIP"; vcls = "v-skip"; bcls = "s";
       timeline = "pushes goal back " + months + " month" + (months > 1 ? "s" : "");
     }
-    return { item: item, price: price, verdict: verdict, vcls: vcls, bcls: bcls, score: score, timeline: timeline };
+    return { item: item, price: price, verdict: verdict, vcls: vcls, bcls: bcls,
+             score: score, timeline: timeline, months: months, pct: Math.round(ratio * 100) };
+  }
+
+  /* The verdict above is deterministic. This is the part a language model
+     writes in the real API: a sentence explaining the number. If that call
+     fails, the endpoint still answers, using the terse rule-built line. */
+  function explain(d) {
+    var price = "\u20b9" + money(d.price);
+    if (d.verdict === "BUY") {
+      return price + " is only about " + d.pct + "% of a month's income, so the " + d.item +
+        " barely registers against your goal. If you need it, this is a comfortable yes.";
+    }
+    if (d.verdict === "WAIT") {
+      return price + " is roughly " + d.pct + "% of what you earn in a month. Nothing wrong with the " +
+        d.item + " itself, but " + d.months + " more month" + (d.months > 1 ? "s" : "") +
+        " of saving and it stops competing with your goal.";
+    }
+    return price + " is about " + d.pct + "% of a month's income and pushes your goal back " + d.months +
+      " month" + (d.months > 1 ? "s" : "") + ". The " + d.item + " is not worth that trade right now.";
+  }
+  function fallbackLine(d) {
+    return d.verdict + ": " + d.pct + "% of monthly income, " + d.months + "-month impact on goal.";
   }
 
   function reqLines(d) {
@@ -2107,7 +2251,7 @@
   }
 
   function appendResponse(d, instant) {
-    termBody.appendChild(el("dim", "\n\n// 200 OK · " + (instant ? "sample" : "computed locally") + "\n"));
+    termBody.appendChild(el("dim", "\n\n// 200 OK · " + (brokenLLM ? "llm call failed, rules answered" : "rules decided, llm explained") + "\n"));
     termBody.appendChild(el("resp", "{\n  "));
     termBody.appendChild(el("k", "\"verdict\""));
     termBody.appendChild(el("dim", ": "));
@@ -2129,9 +2273,30 @@
     termBody.appendChild(el("k", "\"timeline\""));
     termBody.appendChild(el("dim", ": "));
     termBody.appendChild(el("s", "\"" + d.timeline + "\""));
-    termBody.appendChild(el("resp", "\n}"));
+    termBody.appendChild(el("dim", ",\n  "));
 
-    if (instant || reduced) { fill.style.width = d.score + "%"; return; }
+    termBody.appendChild(el("k", "\"explanation\""));
+    termBody.appendChild(el("dim", ": "));
+    var broke = brokenLLM;
+    var sentence = broke ? fallbackLine(d) : explain(d);
+    var openQuote = el("s", "\"");
+    termBody.appendChild(openQuote);
+    var expEl = el("s", instant || reduced ? sentence : "");
+    termBody.appendChild(expEl);
+    var closeQuote = el("s", "\"");
+    var srcBits = document.createDocumentFragment();
+    srcBits.appendChild(closeQuote);
+    srcBits.appendChild(el("dim", ",\n  "));
+    srcBits.appendChild(el("k", "\"explainedBy\""));
+    srcBits.appendChild(el("dim", ": "));
+    srcBits.appendChild(el(broke ? "v-wait" : "verdict", broke ? "\"rule-fallback\"" : "\"llm\""));
+    srcBits.appendChild(el("resp", "\n}"));
+
+    if (instant || reduced) {
+      termBody.appendChild(srcBits);
+      fill.style.width = d.score + "%";
+      return;
+    }
     requestAnimationFrame(function () { fill.style.width = d.score + "%"; });
     var start = null, dur = 850;
     function step(ts) {
@@ -2141,12 +2306,35 @@
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
+
+    /* stream the sentence a word at a time, the way the model returns it */
+    var thinking = el("dim", broke ? " …retrying" : " …");
+    termBody.insertBefore(thinking, expEl.nextSibling);
+    var words = sentence.split(" "), w = 0;
+    setTimeout(function pushWord() {
+      if (w >= words.length) {
+        thinking.remove();
+        termBody.appendChild(srcBits);
+        termBody.scrollTop = termBody.scrollHeight;
+        running = false;
+        if (termRun) { termRun.disabled = false; termRun.innerHTML = "&#9654; Send"; }
+        if (termForm) termForm.classList.remove("busy");
+        if (termBreak) termBreak.disabled = false;
+        return;
+      }
+      expEl.textContent += (w ? " " : "") + words[w];
+      termBody.scrollTop = termBody.scrollHeight;
+      w++;
+      setTimeout(pushWord, 34 + Math.random() * 52);
+    }, broke ? 900 : 420);
   }
 
   function send(item, price) {
     if (running || !termBody) return;
     running = true;
     if (termRun) termRun.disabled = true;
+    if (termForm) termForm.classList.add("busy");
+    if (termBreak) termBreak.disabled = true;
     var d = decide(item, price);
     var lines = reqLines(d);
     termBody.textContent = "";
@@ -2156,6 +2344,8 @@
       appendResponse(d, true);
       running = false;
       if (termRun) termRun.disabled = false;
+      if (termForm) termForm.classList.remove("busy");
+      if (termBreak) termBreak.disabled = false;
       return;
     }
 
@@ -2168,9 +2358,7 @@
       if (li >= lines.length) {
         setTimeout(function () {
           cursor.remove();
-          appendResponse(d, false);
-          running = false;
-          if (termRun) { termRun.disabled = false; termRun.innerHTML = "&#9654; Send"; }
+          appendResponse(d, false);   /* re-enables Send once the sentence finishes streaming */
         }, 320);
         return;
       }
@@ -2180,6 +2368,7 @@
         termBody.insertBefore(line._el, cursor);
       }
       line._el.textContent += line.text.charAt(ci);
+      termBody.scrollTop = termBody.scrollHeight;
       ci++;
       if (ci >= line.text.length) { li++; ci = 0; }
       setTimeout(typeChar, 9 + Math.random() * 16);
@@ -2196,6 +2385,16 @@
   if (termForm) {
     termForm.addEventListener("submit", function (e) {
       e.preventDefault();
+      var v = currentInput();
+      send(v[0], v[1]);
+    });
+  }
+
+  if (termBreak) {
+    termBreak.addEventListener("click", function () {
+      brokenLLM = !brokenLLM;
+      termBreak.setAttribute("aria-pressed", String(brokenLLM));
+      termBreak.textContent = brokenLLM ? "LLM broken" : "Break the LLM";
       var v = currentInput();
       send(v[0], v[1]);
     });
@@ -2244,7 +2443,17 @@
   /* ---------- 4. Magnetic primary button ---------- */
   var magnet = document.getElementById("magnet");
   if (magnet && !reduced && window.matchMedia("(hover: hover)").matches) {
-    var RADIUS = 90;
+    var RADIUS = 64, MAX = 5;            /* a lean, not a lunge */
+    var mx = 0, my = 0, tx = 0, ty = 0, mFrame = 0;
+
+    function settle() {
+      mFrame = 0;
+      mx += (tx - mx) * 0.16;
+      my += (ty - my) * 0.16;
+      magnet.style.setProperty("--mgx", mx.toFixed(2) + "px");
+      magnet.style.setProperty("--mgy", my.toFixed(2) + "px");
+      if (Math.abs(tx - mx) > 0.05 || Math.abs(ty - my) > 0.05) mFrame = requestAnimationFrame(settle);
+    }
     document.addEventListener("mousemove", function (e) {
       var r = magnet.getBoundingClientRect();
       var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
@@ -2252,12 +2461,10 @@
       var dist = Math.hypot(dx, dy);
       if (dist < RADIUS + Math.max(r.width, r.height) / 2) {
         var pull = Math.max(0, 1 - dist / (RADIUS + r.width / 2));
-        magnet.style.setProperty("--mgx", (dx * pull * 0.3).toFixed(1) + "px");
-        magnet.style.setProperty("--mgy", (dy * pull * 0.3).toFixed(1) + "px");
-      } else {
-        magnet.style.removeProperty("--mgx");
-        magnet.style.removeProperty("--mgy");
-      }
+        tx = Math.max(-MAX, Math.min(MAX, dx * pull * 0.10));
+        ty = Math.max(-MAX, Math.min(MAX, dy * pull * 0.10));
+      } else { tx = 0; ty = 0; }
+      if (!mFrame) mFrame = requestAnimationFrame(settle);
     }, { passive: true });
   }
 
@@ -2587,6 +2794,7 @@
     var vh = window.innerHeight;
     var lastY = window.scrollY;
     var heroEl = document.querySelector(".hero");
+    var lastHp = -1;
     var aboutBack = document.querySelector(".about-back");
 
     function frame() {
@@ -2601,15 +2809,20 @@
 
       if (heroEl) {
         var hp = Math.max(0, Math.min(1, y / (heroEl.offsetHeight * 0.9)));
-        heroEl.style.setProperty("--hp", hp.toFixed(4));
+        if (Math.abs(hp - lastHp) > 0.0015) {
+          lastHp = hp;
+          heroEl.style.setProperty("--hp", hp.toFixed(4));
+        }
       }
 
       for (var i = 0; i < scrubEls.length; i++) {
         var el = scrubEls[i];
         var r = el.getBoundingClientRect();
         if (r.bottom < -240 || r.top > vh + 240) continue;
-        var p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
-        el.style.setProperty("--p", Math.max(-1, Math.min(1, p)).toFixed(3));
+        var p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2)));
+        if (Math.abs(p - (el._p || 0)) < 0.002) continue;   /* skip no-op style writes */
+        el._p = p;
+        el.style.setProperty("--p", p.toFixed(3));
       }
 
       if (track && trackHalf) {
@@ -2633,133 +2846,134 @@
 
 
 
-  /* ---------- 10. Guided walkthrough ---------- */
-  (function () {
-    var veil = document.getElementById("tourVeil");
-    var hole = document.getElementById("tourHole");
-    var card = document.getElementById("tourCard");
-    if (!veil || !hole || !card) return;
 
-    var STEPS = [
-      { sel: "#term3d", kicker: "the console", title: "Try the API first",
-        body: "Type anything you want to buy and hit Send. You get a verdict, a score and how far it pushes your savings goal — the same shape my live API returns." },
-      { sel: ".dio-layout", kicker: "the system", title: "How a request travels",
-        body: "Gateway, JWT auth, service, then Postgres. The rules layer sits above the service because it answers before the database is ever asked. Drag the model to look around it." },
-      { sel: "#projects .wrap", kicker: "projects", title: "Four projects, one in production",
-        body: "Every one is code I wrote and deployed. The first is running live right now — the link opens its Swagger docs." },
-      { sel: "#detail .cards", kicker: "in detail", title: "The decisions behind them",
-        body: "Not just what I built, but why: the rule engine with an LLM fallback, the filter chain, the pool sizing. Including what I would do differently." },
-      { sel: "#writing .wrap", kicker: "writing", title: "What I learned the hard way",
-        body: "When something breaks and I finally understand it, I write it down so the next person does not lose the same afternoon." },
-      { sel: ".bento", kicker: "stack", title: "What I actually use",
-        body: "The tools I reach for, day to day. Grab the cube and spin it — six sides, one per layer of the stack." },
-      { sel: "#experience .wrap", kicker: "experience", title: "I kept systems alive first",
-        body: "Two years on the support side of production: reading stack traces, tracing API failures, writing the runbooks. That is why I build the way I do." },
-      { sel: "footer .wrap", kicker: "the end", title: "That's the tour",
-        body: "If any of this fits what you are hiring for, the links below are the fastest way to reach me." }
+  /* ---------- 10. The guide: someone talking you through it ---------- */
+  (function () {
+    var guide = document.getElementById("guide");
+    var bubble = document.getElementById("guideBubble");
+    var textEl = document.getElementById("guideText");
+    var avatar = document.getElementById("guideAv");
+    var goBtn = document.getElementById("guideGo");
+    var skipBtn = document.getElementById("guideSkip");
+    var pipsEl = document.getElementById("guidePips");
+    var startBtn = document.getElementById("tourStart");
+    if (!guide || !textEl) return;
+
+    /* Written as speech, not instructions: no step numbers, no "click here". */
+    var LINES = [
+      { sel: null,             say: "Hey, I'm Vaishnavi. Want me to show you around? Two minutes, and you can stop me whenever." },
+      { sel: "#term3d",        say: "Start with this. Type anything you'd actually want to buy, hit send. It's the API I built, answering." },
+      { sel: ".diorama .wrap", say: "That's what happens underneath. Gateway, auth, my service, then Postgres, and only if it has to. Drag it, it moves." },
+      { sel: "#projects .wrap", say: "Four things I've built. The first one is running in production right now, not a demo." },
+      { sel: "#detail .wrap",  say: "Here's the honest part: why I built them this way, and the bits I'd do differently now." },
+      { sel: "#writing .wrap", say: "When something breaks and I finally understand it, I write it up. Mostly so the next person doesn't lose the afternoon I did." },
+      { sel: "#stack .wrap",   say: "This is what I actually reach for. The cube spins, if you want to poke at it." },
+      { sel: "#experience .wrap", say: "Before I built systems I kept them alive, through three years of other people's 2am outages. It's why I build the way I do." },
+      { sel: "footer .wrap",   say: "That's the lot. If it sounds like something you need, my links are right here. Thanks for looking." }
     ];
 
-    var i = -1, active = false, settle = 0;
-    var stepEl = document.getElementById("tourStep");
-    var kickEl = document.getElementById("tourKicker");
-    var titleEl = document.getElementById("tourTitle");
-    var bodyEl = document.getElementById("tourBody");
-    var dotsEl = document.getElementById("tourDots");
-    var nextBtn = document.getElementById("tourNext");
-    var prevBtn = document.getElementById("tourPrev");
-    var exitBtn = document.getElementById("tourExit");
-    var startBtn = document.getElementById("tourStart");
+    var i = -1, on = false, typer = 0, snap = 0, lit = null, done = false;
 
-    dotsEl.innerHTML = STEPS.map(function () { return "<i></i>"; }).join("");
-    var dots = dotsEl.querySelectorAll("i");
+    pipsEl.innerHTML = LINES.map(function () { return "<i></i>"; }).join("");
+    var pips = pipsEl.querySelectorAll("i");
 
-    function target() {
-      var st = STEPS[i];
-      return st ? document.querySelector(st.sel) : null;
+    function clearLit() {
+      if (lit) { lit.classList.remove("lit"); lit = null; }
     }
-
-    /* keep the spotlight glued to the element as the page settles or resizes */
-    function track() {
-      var t = target();
-      if (!t || !active) return;
-      var r = t.getBoundingClientRect();
-      var pad = 10;
-      var top = Math.max(8, r.top - pad);
-      var bottom = Math.min(window.innerHeight - 8, r.bottom + pad);
-      hole.style.left = Math.max(8, r.left - pad) + "px";
-      hole.style.top = top + "px";
-      hole.style.width = Math.max(0, Math.min(window.innerWidth - 16, r.width + pad * 2)) + "px";
-      hole.style.height = Math.max(0, bottom - top) + "px";
-      /* if the highlight is low on screen, dock the card at the top instead */
-      card.classList.toggle("at-top", (top + bottom) / 2 > window.innerHeight * 0.56);
-    }
-
-    function render() {
-      var st = STEPS[i];
-      stepEl.textContent = (i + 1 < 10 ? "0" : "") + (i + 1);
-      kickEl.textContent = st.kicker;
-      titleEl.textContent = st.title;
-      bodyEl.textContent = st.body;
-      prevBtn.disabled = i === 0;
-      prevBtn.style.opacity = i === 0 ? "0.4" : "";
-      nextBtn.textContent = i === STEPS.length - 1 ? "Finish" : "Next →";
-      dots.forEach(function (d, n) { d.classList.toggle("on", n === i); });
-    }
-
-    function goto(n) {
-      if (n < 0 || n >= STEPS.length) return end();
-      i = n;
-      render();
-      var t = target();
+    function highlight(sel) {
+      clearLit();
+      if (!sel) return;
+      var t = document.querySelector(sel);
       if (!t) return;
-      /* leave room for the card at the bottom of the screen */
+      lit = t;
+      t.classList.add("lit");
       var r = t.getBoundingClientRect();
-      var want = window.scrollY + r.top - Math.max(70, (window.innerHeight - r.height - 190) / 2);
-      /* Jump rather than smooth-scroll: a smooth scroll can be interrupted or
-         throttled and leave the spotlight pointing at nothing. The hole's own
-         transition supplies the continuity between steps. */
-      window.scrollTo({ top: Math.max(0, want), behavior: "instant" });
-      /* Keep re-measuring across the whole smooth scroll. rAF alone is not
-         enough: it is throttled in background tabs, and a long scroll can
-         outlast a couple of fixed timeouts, which collapses the spotlight. */
-      track();
-      clearInterval(settle);
-      var until = 1600;
-      settle = setInterval(function () {
-        track();
-        until -= 100;
-        if (until <= 0) clearInterval(settle);
-      }, 100);
+      /* only move the page if it isn't already comfortably in view */
+      if (r.top < 60 || r.bottom > window.innerHeight - 150) {
+        var want = Math.max(0, window.scrollY + r.top - Math.max(80, (window.innerHeight - r.height - 200) / 2));
+        window.scrollTo({ top: want, behavior: reduced ? "instant" : "smooth" });
+        /* a smooth scroll can be throttled or interrupted and never arrive,
+           snap into place if we are still short of it a moment later */
+        clearTimeout(snap);
+        snap = setTimeout(function () {
+          if (Math.abs(window.scrollY - want) > 40) window.scrollTo({ top: want, behavior: "instant" });
+        }, 700);
+      }
+    }
+
+    function type(str, after) {
+      clearTimeout(typer);
+      textEl.textContent = "";
+      avatar.classList.add("speaking");
+      var caret = document.createElement("span");
+      caret.className = "guide-caret";
+      textEl.appendChild(caret);
+      var n = 0;
+      function tick() {
+        if (n >= str.length) {
+          caret.remove();
+          avatar.classList.remove("speaking");
+          if (after) after();
+          return;
+        }
+        caret.insertAdjacentText("beforebegin", str.charAt(n));
+        n++;
+        typer = setTimeout(tick, str.charAt(n - 1) === "," || str.charAt(n - 1) === "." ? 90 : 17);
+      }
+      if (reduced) { textEl.textContent = str; avatar.classList.remove("speaking"); if (after) after(); return; }
+      tick();
+    }
+
+    function finishTyping() {
+      clearTimeout(typer);
+      avatar.classList.remove("speaking");
+      textEl.textContent = LINES[i].say;
+    }
+
+    function step(n) {
+      if (n >= LINES.length) return stop(true);
+      i = n;
+      pips.forEach(function (p, k) { p.classList.toggle("on", k === i); });
+      goBtn.textContent = i === LINES.length - 1 ? "Thanks →" : "Go on →";
+      highlight(LINES[i].sel);
+      /* no timer: it waits on "Go on" so nobody is rushed through */
+      type(LINES[i].say);
     }
 
     function start() {
-      if (active) return;
-      active = true;
-      document.body.classList.add("touring");
-      goto(0);
-      nextBtn.focus({ preventScroll: true });
+      if (on) return;
+      on = true; done = false;
+      document.body.classList.add("guided");
+      step(0);
     }
-    function end() {
-      active = false;
-      clearInterval(settle);
-      document.body.classList.remove("touring");
+    function stop(finished) {
+      on = false;
+      clearTimeout(typer); clearTimeout(snap);
+      clearLit();
+      document.body.classList.remove("guided");
+      if (finished) done = true;
       if (startBtn) startBtn.focus({ preventScroll: true });
     }
 
+    /* clicking the bubble finishes the sentence, or moves on if it's done */
+    /* clicking the bubble only finishes the sentence early; it never advances */
+    bubble.addEventListener("click", function (e) {
+      if (e.target === goBtn || e.target === skipBtn) return;
+      if (textEl.querySelector(".guide-caret")) finishTyping();
+    });
+    goBtn.addEventListener("click", function () { step(i + 1); });
+    skipBtn.addEventListener("click", function () { stop(false); });
     if (startBtn) startBtn.addEventListener("click", start);
-    nextBtn.addEventListener("click", function () { goto(i + 1); });
-    prevBtn.addEventListener("click", function () { goto(i - 1); });
-    exitBtn.addEventListener("click", end);
 
     document.addEventListener("keydown", function (e) {
-      if (!active) return;
-      if (e.key === "Escape") { end(); }
-      else if (e.key === "ArrowRight") { e.preventDefault(); goto(i + 1); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); goto(i - 1); }
+      if (!on) return;
+      if (e.key === "Escape") stop(false);
+      else if (e.key === "ArrowRight") step(i + 1);
     });
 
-    window.addEventListener("scroll", function () { if (active) track(); }, { passive: true });
-    window.addEventListener("resize", function () { if (active) track(); }, { passive: true });
+    /* Deliberately not auto-started: the bubble sits bottom-left, right where
+       the hero's primary buttons are, and popping up over them was both a
+       layout collision and the kind of nag nobody asked for. */
   })();
 
   /* ---------- 8. Konami code ---------- */
