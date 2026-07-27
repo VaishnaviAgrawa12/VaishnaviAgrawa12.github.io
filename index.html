@@ -300,8 +300,9 @@
     padding: 10px 14px 12px;
     border-top: 1px solid var(--line-soft);
     background: var(--card-alt);
-    display: grid; gap: 9px;
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 9px;
   }
+  .term-compose > * { min-width: 0; }
   .term-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .tchip {
     font-family: inherit; font-size: 10px; letter-spacing: 0.06em;
@@ -313,18 +314,22 @@
   .term-compose.busy .tchip { opacity: 0.4; pointer-events: none; }
   .tbreak[disabled] { opacity: 0.4; cursor: default; }
   .tchip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--ground); }
-  .term-row { display: flex; align-items: center; gap: 7px; }
+  .term-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 76px auto;
+    align-items: center; gap: 7px;
+  }
   .tsr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .tprice::-webkit-inner-spin-button, .tprice::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   .tinput {
     font-family: inherit; font-size: 11px;
     background: var(--ground); color: var(--text);
     border: 1px solid var(--line); border-radius: 4px;
-    padding: 7px 9px; min-width: 0; flex: 1 1 auto;
+    padding: 7px 9px; min-width: 0; width: 100%;
     transition: border-color 0.2s ease;
   }
   .tinput:focus { border-color: var(--accent); outline: none; }
-  .tprice { flex: 0 0 78px; text-align: right; }
+  .tprice { text-align: right; }
   .term-run[disabled] { opacity: 0.45; cursor: progress; }
   .tbreak {
     font-family: inherit; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -1495,12 +1500,24 @@
     .about-grid .portrait { order: -1; max-width: 320px; }
   }
   @media (max-width: 640px) {
+    /* the viewfinder frame and timecode crowd the eyebrow at phone widths;
+       they are set dressing, so drop them rather than fight for the space */
+    .hero-frame { display: none; }
+    .eyebrow { margin-bottom: 14px; }
+
+    /* the offset plates behind the portrait read as misalignment once the
+       photo goes full width, so hide them and keep the frame clean */
+    .p-plate { display: none; }
+    .about-grid .portrait { max-width: 320px; margin: 0 auto; }
+    .about-grid { gap: 26px; }
+    .portrait figcaption { padding: 18px 12px 10px; }
+
     .bento { grid-template-columns: minmax(0, 1fr); gap: 12px; }
     .bx, .bx-wide, .bx-cube { grid-column: 1 / -1; }
     .bx-figure { font-size: 42px; }
     .wrap { padding: 0 18px; }
     header.top .loc { display: none; }
-    .hero { padding: 44px 0; }
+    .hero { padding: 34px 0 44px; }
     section { padding: 48px 0; }
     h1 { font-size: clamp(32px, 10.5vw, 44px); }
     .eyebrow { margin-bottom: 18px; }
@@ -1510,6 +1527,12 @@
     .hero-actions .btn { justify-content: center; padding: 12px 8px; font-size: 11px; }
     .hero-links { column-gap: 16px; }
     .term { height: 372px; font-size: 11px; }
+    /* three controls on one line leaves nothing for the item field; drop Send
+       to its own full-width row so it can never be pushed off the panel */
+    .term-row { grid-template-columns: minmax(0, 1fr) 76px; }
+    .term-row .term-run { grid-column: 1 / -1; justify-content: center; padding: 9px 12px; }
+    .term-chips { gap: 5px; }
+    .tchip { font-size: 9px; padding: 4px 8px; }
     .ticker { padding: 10px 0; }
     .section-head { gap: 12px; margin-bottom: 30px; }
     .section-head h2 { font-size: 19px; }
@@ -1534,8 +1557,6 @@
     .role { padding-left: 16px; }
     .role:hover { padding-left: 16px; }
     .xp-company .company { font-size: 17px; }
-    .about-grid { gap: 30px; }
-    .about-grid .portrait { max-width: 100%; }
     footer .wrap { flex-direction: column; align-items: flex-start; }
     footer .open-to { text-align: left; }
     footer .links-sep { flex-basis: 100%; padding-left: 0; border-left: 0; margin-top: 4px; }
@@ -2686,6 +2707,9 @@
   function scramble(elm) {
     var finalText = elm.textContent;
     var start = null, dur = 600;
+    /* If frames stop (backgrounded tab, throttling), the loop can stall with
+       the heading still showing random glyphs. Guarantee the real text lands. */
+    var failsafe = setTimeout(function () { elm.textContent = finalText; }, 1600);
     function frame(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
@@ -2695,8 +2719,9 @@
         out += finalText[i] === " " ? " " : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
       }
       elm.textContent = out;
-      if (p < 1) requestAnimationFrame(frame);
-      else elm.textContent = finalText;
+      if (p < 1) { requestAnimationFrame(frame); return; }
+      clearTimeout(failsafe);
+      elm.textContent = finalText;
     }
     requestAnimationFrame(frame);
   }
