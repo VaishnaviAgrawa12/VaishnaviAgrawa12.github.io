@@ -792,6 +792,11 @@
   }
   .reveal.in { opacity: 1; --rty: 0px; --rtz: 0px; --rrx: 0deg; }
   /* once settled, hover/tilt reacts instantly instead of inheriting the stagger */
+  /* .reveal sets preserve-3d for the card tilt, but the portrait clips its
+     corners, and a clipped parent plus preserve-3d tears the photo. Keep the
+     portrait explicitly flat; it has no layered children to lose. */
+  .portrait.reveal { transform-style: flat; }
+
   .reveal.settled {
     transition: opacity 0.4s ease,
                 transform 0.14s cubic-bezier(0.33, 1, 0.68, 1),
@@ -1073,17 +1078,9 @@
     .dio-scene { --dio-s: 0.56; }
   }
 
-  /* ============ 3D layered portrait ============ */
-  .portrait { transform-style: preserve-3d; }
-  .portrait img, .portrait figcaption, .portrait::after { transform: translateZ(30px); }
-  .p-plate {
-    position: absolute; inset: 0; border-radius: inherit;
-    border: 1px solid var(--line);
-    background: var(--card);
-    pointer-events: none;
-  }
-  .p-plate.a { transform: translate3d(16px, 16px, -30px); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
-  .p-plate.b { transform: translate3d(30px, 30px, -70px); border-color: color-mix(in srgb, var(--sand) 35%, transparent); opacity: 0.6; }
+  /* The portrait clips its corners, and overflow:hidden forces
+     transform-style to flat, so the old preserve-3d layering tore the photo.
+     It is a plain framed image now; the pointer tilt still gives it depth. */
 
   /* extruded section numbers */
   .section-head .num {
@@ -1133,17 +1130,9 @@
     border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
   }
-  .guide-av img {
-    width: 100%; height: 100%; display: block;
-    object-fit: cover;
-    /* the source is square, so object-position can't crop; zoom in on the
-       face instead, or the avatar is mostly restaurant at 54px */
-    transform: scale(2.25);
-    transform-origin: 47% 33%;
-    /* posterise into flat bands so it reads as an illustration
-       while keeping the likeness a hand-drawn face could not */
-    filter: url(#illustrate) saturate(0.92) contrast(1.04);
-  }
+  /* Pre-rendered (see img/avatar.png): already cropped to the face and
+     posterised, so there is no runtime filter or transform to go wrong. */
+  .guide-av img { width: 100%; height: 100%; display: block; object-fit: cover; }
   .guide-av::after {
     content: ""; position: absolute; inset: 0; border-radius: 50%;
     box-shadow: inset 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
@@ -1505,9 +1494,6 @@
     .hero-frame { display: none; }
     .eyebrow { margin-bottom: 14px; }
 
-    /* the offset plates behind the portrait read as misalignment once the
-       photo goes full width, so hide them and keep the frame clean */
-    .p-plate { display: none; }
     .about-grid .portrait { max-width: 320px; margin: 0 auto; }
     .about-grid { gap: 26px; }
     .portrait figcaption { padding: 18px 12px 10px; }
@@ -2048,8 +2034,6 @@
           <p class="reveal" style="--d:.14s">Everything in my projects is code I wrote, deployed, and can explain line by line, including what I'd do differently. And when I figure something out the hard way, I <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">write it down</a> so the next person doesn't have to.</p>
         </div>
         <figure class="portrait reveal" style="--d:.1s">
-          <span class="p-plate b" aria-hidden="true"></span>
-          <span class="p-plate a" aria-hidden="true"></span>
           <img src="photo.jpg" alt="Vaishnavi Agrawal" loading="lazy" width="843" height="843">
           <figcaption class="mono">
             <span>Vaishnavi Agrawal</span>
@@ -2079,19 +2063,8 @@
   <span class="psst mono" aria-hidden="true">psst: &uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr; B A</span>
 </footer>
 
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-  <filter id="illustrate" color-interpolation-filters="sRGB">
-    <feColorMatrix type="saturate" values="1.05"/>
-    <feComponentTransfer>
-      <feFuncR type="discrete" tableValues="0.10 0.26 0.40 0.54 0.68 0.80 0.90 0.97"/>
-      <feFuncG type="discrete" tableValues="0.07 0.20 0.33 0.46 0.59 0.71 0.82 0.92"/>
-      <feFuncB type="discrete" tableValues="0.09 0.19 0.30 0.41 0.53 0.65 0.76 0.88"/>
-    </feComponentTransfer>
-  </filter>
-</svg>
-
 <div class="guide" id="guide" role="region" aria-label="Guided introduction">
-  <div class="guide-av" id="guideAv"><img src="photo.jpg" alt="Vaishnavi" width="843" height="843"></div>
+  <div class="guide-av" id="guideAv"><img src="img/avatar.png" alt="Vaishnavi" width="216" height="216" decoding="async"></div>
   <div class="guide-bubble" id="guideBubble">
     <span class="guide-name mono">Vaishnavi</span>
     <p class="guide-text" id="guideText" aria-live="polite"></p>
