@@ -26,6 +26,7 @@
     --sky: #6BA8FF;
     --violet: #9B7BF5;
     --lime: #D4F04A;
+    --page-ground: #0C0C0E;
   }
   :root.accent-flip {
     --accent: #D4F04A;
@@ -48,6 +49,7 @@
     --sky: #3D74D6;
     --violet: #7757E0;
     --lime: #7F921A;
+    --page-ground: #F4F3EE;
   }
   :root.light .term {
     --ground: #0C0C0E;
@@ -124,7 +126,7 @@
   header.top a.name:hover { color: var(--accent); }
 
   /* ============ Hero ============ */
-  .hero { position: relative; padding: 76px 0 72px; overflow: hidden; }
+  .hero { position: relative; padding: 72px 0 150px; overflow: hidden; }
 
   .hero::before {
     content: "";
@@ -155,11 +157,57 @@
 
   .hero .wrap { position: relative; z-index: 1; }
 
+  /* one centred column: greeting, role, face, console, then the ways in */
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(380px, 440px);
-    gap: 64px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 0;
+  }
+  .hero-par { display: flex; flex-direction: column; align-items: center; max-width: 780px; }
+  .hero-par h1, .hero-par .lede, .hero-par .hero-meta { text-align: center; }
+  .hero-par .lede { max-width: 620px; }
+
+  .hero-face {
+    width: 176px; height: 176px; margin: 26px 0 6px;
+    border-radius: 50%; overflow: hidden;
+    background: var(--card-alt);
+    /* soft ground shadow, so it floats rather than sits in a frame */
+    box-shadow: 0 34px 60px -34px rgba(0, 0, 0, 0.34);
+  }
+  .hero-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .hero-foot { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 26px; }
+
+  /* the console is the best thing here, so it gets announced */
+  .term-cue {
+    margin: 24px 0 -10px;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-mid);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .term-cue-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+    animation: cuePulse 2.4s ease-out infinite;
+  }
+  @keyframes cuePulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    70%  { box-shadow: 0 0 0 9px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  .hero-actions, .hero-links { justify-content: center; }
+
+  /* the name, set very large and very quiet, anchoring the bottom */
+  .hero-wordmark {
+    position: absolute; left: 50%; bottom: -0.14em;
+    transform: translateX(-50%);
+    font-family: "Archivo Narrow", "Archivo", sans-serif;
+    font-weight: 700; font-size: clamp(72px, 14vw, 200px);
+    line-height: 1; letter-spacing: -0.04em; white-space: nowrap;
+    color: color-mix(in srgb, var(--text) 4%, transparent);
+    pointer-events: none; user-select: none; z-index: 0;
   }
 
   .eyebrow { color: var(--accent); text-transform: uppercase; display: block; margin-bottom: 24px; }
@@ -194,25 +242,22 @@
 
   .hero-actions { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
   .hero-links {
-    margin-top: 16px;
-    display: flex; flex-wrap: wrap; align-items: baseline;
-    column-gap: 22px; row-gap: 8px;
+    margin-top: 14px;
+    display: flex; flex-wrap: wrap; align-items: center;
+    column-gap: 10px; row-gap: 10px;
   }
   .hero-links a {
     position: relative;
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--text-mid);
-    transition: color 0.25s ease;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 14px;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
   }
-  .hero-links a::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px;
-    background: var(--accent);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+  .hero-links a:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .hero-links a::after { display: none; }
   .hero-links a:hover { color: var(--accent); }
-  .hero-links a:hover::after { transform: scaleX(1); }
 
   .btn {
     position: relative;
@@ -383,11 +428,85 @@
   @keyframes tick { to { transform: translateX(-50%); } }
 
   /* ============ Hero spotlight ============ */
+  /* ---- the hero runs light, so the dye reads as pigment instead of glow ---- */
+  .hero {
+    --ground: #FBFAF7; --card: #FFFFFF; --card-alt: #F0EEE8;
+    --line: #DEDCD3; --line-soft: #E9E7DF;
+    --text: #16161A; --text-mid: #55554F; --text-low: #8A8A82;
+    --accent: #2F7268; --accent-hi: #24594F;
+    --sand: #A87F42; --sky: #3D74D6; --violet: #7757E0; --lime: #6F8117;
+    background: #FBFAF7;
+    color: var(--text);
+  }
+  /* dark-room atmospherics have no place on a lit stage */
+  .hero-drift, .hero-floor, .hero-rays, .hero-horizon,
+  .hero-dust, .hero-vig, .hero-spot { display: none !important; }
+  .hero-grain { opacity: 0.018; }
+
+  .hero-fluid {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  /* soften the seam back down into the dark page */
+  .hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px;
+    background: linear-gradient(180deg, transparent, var(--page-ground));
+    pointer-events: none; z-index: 1;
+  }
+
   .hero-spot {
     position: absolute; inset: 0;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.4s ease;
+  }
+
+  /* ============ Live API showcase ============ */
+  #live .term-3d { width: 100%; }
+  #live .term { height: 430px; }
+
+  .live-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(380px, 1fr);
+    gap: 56px; align-items: center;
+  }
+  .live-copy p { color: var(--text-mid); margin-bottom: 18px; }
+  .live-copy p strong { color: var(--text); font-weight: 700; }
+  .live-facts { list-style: none; margin: 0 0 22px; }
+  .live-facts li {
+    position: relative; padding-left: 20px; margin-bottom: 10px;
+    color: var(--text-mid); font-size: 14px;
+  }
+  .live-facts li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  }
+  .live-facts b { color: var(--text); font-weight: 700; }
+  .live-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .live-links a {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-mid);
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 15px;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .live-links a:hover { color: var(--accent); border-color: var(--accent); }
+  .live-links a.solid { background: var(--accent); border-color: var(--accent); color: var(--ground); }
+  .live-links a.solid:hover { background: var(--accent-hi); border-color: var(--accent-hi); color: var(--ground); }
+
+  .live-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px;
+  }
+  .live-badge i {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    animation: cuePulse 2.4s ease-out infinite;
+  }
+  @media (max-width: 900px) {
+    .live-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
   }
 
   /* ============ Sections ============ */
@@ -400,50 +519,6 @@
   .section-lede { color: var(--text-mid); margin: -26px 0 36px; max-width: 560px; }
 
   /* ============ 001 Projects ============ */
-  .project-row {
-    display: grid;
-    grid-template-columns: 48px minmax(0, 1fr) auto 60px 28px;
-    align-items: baseline;
-    gap: 24px;
-    padding: 26px 18px;
-    border-top: 1px solid var(--line-soft);
-    transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.4s ease;
-  }
-  .project-row:last-of-type { border-bottom: 1px solid var(--line-soft); }
-  .project-row .idx { color: var(--pc, var(--text-low)); }
-  .project-row .title {
-    font-weight: 800; font-size: 20px; letter-spacing: -0.01em; text-transform: uppercase;
-    display: flex; align-items: center; gap: 12px;
-    min-width: 0;
-  }
-  .project-row .title .tag-live { flex: none; order: 1; }
-  .project-row .title::after {
-    content: "";
-    order: 2;
-    flex: 1 1 auto; min-width: 24px;
-    height: 1px; margin-left: 4px;
-    background: linear-gradient(90deg, var(--line) 0 4px, transparent 4px 10px) repeat-x;
-    background-size: 10px 1px;
-    opacity: 0.7;
-    transition: background 0.25s ease, opacity 0.25s ease;
-  }
-  .project-row:hover .title::after {
-    background: linear-gradient(90deg, var(--pc, var(--accent)) 0 4px, transparent 4px 10px) repeat-x;
-    background-size: 10px 1px;
-    opacity: 1;
-  }
-  .project-row .stack { color: var(--text-mid); text-align: right; }
-  .project-row .year { color: var(--text-low); text-align: right; }
-  .project-row .arrow { text-align: right; color: var(--text-low); transition: transform 0.25s ease, color 0.25s ease; }
-  .project-row:hover {
-    --px: 10px;
-    border-top-color: var(--pc, var(--accent));
-    background: var(--card);
-    box-shadow: 0 22px 44px -28px rgba(0, 0, 0, 0.85);
-  }
-  .project-row:hover .title { color: var(--pc, var(--accent)); }
-  .project-row:hover .arrow { transform: translateX(4px); color: var(--pc, var(--accent)); }
-
   .tag-live {
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
@@ -544,7 +619,7 @@
   }
   .card-links a:hover { color: var(--text); }
 
-  /* ============ 003 Writing ============ */
+    /* ============ 004 Writing ============ */
   .article-row {
     display: grid;
     grid-template-columns: 44px 1fr auto 72px 28px;
@@ -625,6 +700,11 @@
     box-shadow: 0 20px 44px -30px rgba(0, 0, 0, 0.9);
   }
   .bx:hover::before { opacity: 1; }
+  .card-meta {
+    display: block; font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--text-low); margin-bottom: 9px;
+  }
+
   .bx-label { color: var(--sc, var(--accent)); text-transform: uppercase; }
   .bx-items { color: var(--text-mid); font-size: 14px; position: relative; }
   .bx-wide { grid-column: span 4; }
@@ -1379,7 +1459,7 @@
   [data-scrub] { will-change: transform; }
 
   /* rows stay flush left; only a slight depth shift as they cross */
-  .project-row, .article-row {
+  .article-row {
     --sz: calc(var(--p, 0) * var(--p, 0) * -26px);
     transform-origin: 0 50%;
   }
@@ -1440,8 +1520,8 @@
   .btn:hover { --bz: 10px; --brx: -6deg; }
   .btn:active { --bz: -6px; --brx: 6deg; --bs: 0.98; transition-duration: 0.07s; }
 
-  .project-row:hover .arrow, .article-row:hover .arrow { transform: translateX(5px); }
-  .project-row:active, .article-row:active { --tz: 8px; transition-duration: 0.08s; }
+  .article-row:hover .arrow { transform: translateX(5px); }
+  .article-row:active { --tz: 8px; transition-duration: 0.08s; }
 
   .card .chip { transform: translateZ(0); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, color 0.25s ease; }
   .card:hover .chip { transform: translateZ(14px); transition-delay: calc(var(--i, 0) * 14ms); }
@@ -1530,13 +1610,7 @@
     .article-row .arrow { grid-row: 1; grid-column: 3; }
 
     .cards { gap: 14px; }
-    .project-row { grid-template-columns: 36px minmax(0, 1fr) 28px; row-gap: 6px; padding: 18px 8px; }
-    .project-row .title { font-size: 16px; flex-wrap: wrap; }
     /* the leader rule only makes sense on one line; it reads as debris when the title wraps */
-    .project-row .title::after { display: none; }
-    .project-row .stack { grid-column: 2; text-align: left; }
-    .project-row .year { display: none; }
-    .project-row .arrow { grid-row: 1; grid-column: 3; }
     .card-body { padding: 18px 18px 16px; }
     .motif { margin: 10px 10px 0; }
     .card h3 { font-size: 15px; }
@@ -1547,6 +1621,203 @@
     footer .open-to { text-align: left; }
     footer .links-sep { flex-basis: 100%; padding-left: 0; border-left: 0; margin-top: 4px; }
     .toast { width: calc(100% - 36px); text-align: center; box-sizing: border-box; }
+  }
+
+  /* ============ Source view (human / java / json) ============ */
+  body.srcopen header.top {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 95;
+    background: var(--ground); border-bottom-color: var(--line);
+  }
+  body.srcopen .name, body.srcopen header.top .loc { opacity: 0.55; }
+
+  .src-toggle {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text-mid);
+    padding: 6px 12px; border-radius: 999px;
+    cursor: pointer; white-space: nowrap;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .src-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .src-toggle[data-mode="java"],
+  .src-toggle[data-mode="json"] {
+    border-color: var(--accent); color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .srcview {
+    position: fixed; left: 0; right: 0; bottom: 0; top: var(--src-top, 0px); z-index: 90;
+    background: var(--ground);
+    display: flex; flex-direction: column;
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.28s ease, visibility 0.28s ease;
+  }
+  .srcview.open { opacity: 1; visibility: visible; pointer-events: auto; }
+  .srcview::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(120% 80% at 50% -10%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 60%);
+  }
+
+  .src-bar {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line);
+    background: var(--card);
+    position: relative; z-index: 2;
+  }
+  .src-dots { display: flex; gap: 6px; }
+  .src-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: block; }
+  .src-dots i:first-child { background: #E05F52; }
+  .src-dots i:nth-child(2) { background: var(--sand); }
+  .src-dots i:nth-child(3) { background: var(--accent); }
+
+  .src-path {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px; color: var(--text-low);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .src-path b { color: var(--text-mid); font-weight: 500; }
+
+  .src-tabs { display: flex; gap: 6px; margin-left: auto; }
+  .src-tab, .src-act {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent; border: 1px solid var(--line);
+    color: var(--text-mid); padding: 6px 12px; border-radius: 999px;
+    cursor: pointer; transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .src-tab:hover, .src-act:hover { border-color: var(--accent); color: var(--accent); }
+  .src-tab[aria-selected="true"] {
+    border-color: var(--accent); color: var(--ground);
+    background: var(--accent);
+  }
+
+  .src-meta {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 8px 24px;
+    border-bottom: 1px solid var(--line-soft);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-low);
+    background: var(--card-alt);
+    position: relative; z-index: 2;
+  }
+  .src-meta .ok { color: var(--accent); }
+  .src-meta .ok::before {
+    content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor; margin-right: 6px; vertical-align: 1px;
+  }
+
+  .src-scroll { flex: 1; overflow: auto; overflow-anchor: none; position: relative; z-index: 2; }
+  .src-code {
+    display: table; width: 100%;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px; line-height: 1.75;
+    padding: 20px 0 80px;
+    tab-size: 4;
+  }
+  .src-line { display: table-row; }
+  .src-line > span { display: table-cell; }
+  .src-ln {
+    width: 1%; white-space: nowrap;
+    padding: 0 20px 0 24px;
+    text-align: right; color: var(--text-low); opacity: 0.5;
+    user-select: none; font-size: 11px;
+    border-right: 1px solid var(--line-soft);
+  }
+  .src-tx { padding: 0 24px 0 20px; white-space: pre-wrap; color: var(--text-mid); word-break: break-word; }
+  .src-line:hover .src-ln { opacity: 1; color: var(--accent); }
+
+  .tcom { color: var(--text-low); font-style: italic; }
+  .tstr { color: var(--sand); }
+  .tann { color: var(--lime); }
+  .tkey { color: var(--violet); }
+  .tnum { color: var(--sky); }
+  .ttyp { color: var(--accent-hi); }
+  .tfn  { color: var(--text); }
+  .tprp { color: var(--sky); }
+  .tlit { color: var(--violet); }
+
+  .src-foot {
+    padding: 10px 24px; border-top: 1px solid var(--line);
+    background: var(--card);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.06em; color: var(--text-low);
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  .src-foot kbd {
+    font-family: inherit; font-size: 10px;
+    border: 1px solid var(--line); border-radius: 4px;
+    padding: 1px 5px; color: var(--text-mid);
+  }
+
+  @media (max-width: 700px) {
+    .src-bar { padding: 12px 16px; gap: 10px; }
+    .src-path { width: 100%; order: 3; }
+    .src-tabs { margin-left: auto; }
+    .src-meta { padding: 8px 16px; }
+    .src-code { font-size: 11.5px; }
+    .src-ln { padding: 0 10px 0 12px; }
+    .src-tx { padding: 0 14px 0 12px; }
+    .src-foot { padding: 10px 16px; }
+  }
+  @media (max-width: 520px) {
+    /* name + two pills have to share one row once .loc is hidden */
+    header.top .right { gap: 8px; }
+    .src-toggle, .theme-toggle { padding: 6px 9px; letter-spacing: 0.04em; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .srcview { transition: none; }
+  }
+  /* ============ Mobile ============ */
+  @media (max-width: 900px) {
+    /* the #live rule outranks the generic .term mobile heights, so restate it */
+    #live .term { height: 392px; }
+    .live-grid { align-items: start; }
+    .live-copy p { max-width: 60ch; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 44px 0 104px; }
+    .hero-face { width: 128px; height: 128px; margin: 18px 0 4px; }
+    .hero-par .lede { font-size: 15px; }
+
+    /* primary action spans the row, the other two sit under it */
+    .hero-actions {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 9px; width: 100%; max-width: 330px; margin-top: 22px;
+    }
+    .hero-actions .btn { justify-content: center; padding: 12px 8px; font-size: 11px; }
+    .hero-actions .btn:first-child { grid-column: 1 / -1; }
+
+    .hero-links { column-gap: 8px; row-gap: 8px; }
+    .hero-links a { padding: 6px 11px; font-size: 10px; letter-spacing: 0.05em; }
+    .hero-meta { font-size: 10px; line-height: 1.75; }
+    .hero-wordmark { font-size: 62px; bottom: -0.06em; }
+
+    section { padding: 52px 0; }
+    .section-head { margin-bottom: 28px; }
+
+    #live .term { height: 348px; }
+    .live-copy p { font-size: 15px; }
+    .live-facts li { font-size: 13.5px; padding-left: 17px; }
+    .live-links { width: 100%; }
+    .live-links a { padding: 9px 13px; }
+    .card-meta { font-size: 9px; margin-bottom: 7px; }
+  }
+
+  /* touch devices never run the fluid, so the hero gets a painted-in wash instead */
+  @media (hover: none) {
+    .hero {
+      background:
+        radial-gradient(120% 80% at 80% 4%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 58%),
+        radial-gradient(110% 75% at 8% 74%, color-mix(in srgb, var(--violet) 11%, transparent), transparent 60%),
+        radial-gradient(90% 60% at 55% 105%, color-mix(in srgb, var(--sand) 10%, transparent), transparent 62%),
+        #FBFAF7;
+    }
   }
 </style>
 </head>
@@ -1563,6 +1834,7 @@
     <a class="name mono" href="#top">Vaishnavi Agrawal</a>
     <div class="right">
       <span class="loc mono">Java &middot; Backend &middot; Writing</span>
+      <button class="src-toggle" id="srcToggle" type="button" data-mode="human" aria-expanded="false" aria-controls="srcView" title="See this portfolio as Java and JSON">&lt;/&gt; Java</button>
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">&#9788; Light</button>
     </div>
   </div>
@@ -1580,6 +1852,7 @@
     <div class="hero-grain" aria-hidden="true"></div>
     <div class="hero-vig" aria-hidden="true"></div>
     <div class="hero-spot" aria-hidden="true"></div>
+    <canvas class="hero-fluid" id="heroFluid" aria-hidden="true"></canvas>
     <div class="hero-frame" aria-hidden="true">
       <i></i><i></i><i></i><i></i>
       <span class="hero-tc mono"><span class="rec"></span><span id="heroTc">00:00:00:00</span></span>
@@ -1587,23 +1860,86 @@
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-par">
-          <span class="eyebrow mono hf">Java Backend Developer</span>
-          <h1 aria-label="I build backend systems in Java, and I ship them.">
-            <span class="line"><span class="hl" style="--d:.1s">I build</span></span>
-            <span class="line"><span class="hl" style="--d:.2s">backend systems</span></span>
-            <span class="line"><span class="hl" style="--d:.3s">in Java,</span></span>
-            <span class="line accent"><span class="hl" style="--d:.4s">and I ship them.</span></span>
+          <span class="eyebrow mono hf">Hey, I'm Vaishnavi &#128075;</span>
+          <h1 aria-label="Java Backend Developer">
+            <span class="line"><span class="hl" style="--d:.1s">Java Backend</span></span>
+            <span class="line accent"><span class="hl" style="--d:.25s">Developer</span></span>
           </h1>
-          <p class="lede hf" style="--d:.6s">Spring Boot, PostgreSQL, JWT, Docker. REST APIs that are built, tested, deployed, with one live in production right now. I watched production systems break from the inside; now I build them, and I write about what I learn along the way.</p>
-          <p class="hero-meta mono hf" style="--d:.7s">Spring Boot 3 &middot; Java 21 &middot; PostgreSQL &middot; Docker</p>
+          <figure class="hero-face hf" style="--d:.42s">
+            <img src="img/avatar-hero.png" alt="Vaishnavi Agrawal" width="440" height="440" decoding="async">
+          </figure>
+          <p class="lede hf" style="--d:.6s">I build backends and ship them. One is live in production right now.</p>
+        </div>
+
+
+        <div class="hero-foot">
           <div class="hero-actions hf" style="--d:.8s">
             <a class="btn primary" id="magnet" href="#projects"><span>View projects &rarr;</span></a>
+            <a class="btn" href="Vaishnavi_Agrawal_Java_Developer_Resume.pdf" download><span>&darr; R&eacute;sum&eacute;</span></a>
             <button class="btn" id="tourStart" type="button"><span>&#9788; Show me around</span></button>
           </div>
           <div class="hero-links hf" style="--d:.88s">
-            <a href="#writing">Read my writing &darr;</a>
+            <a href="#writing">Writing &darr;</a>
             <a href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener">GitHub &#8599;</a>
             <a href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+            <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">Medium &#8599;</a>
+          </div>
+          <p class="hero-meta mono hf" style="--d:.96s; margin-top:14px">Spring Boot 3 &middot; Java 21 &middot; PostgreSQL &middot; Docker &middot; India, open to relocation &amp; remote</p>
+        </div>
+        </div>
+
+      </div>
+    </div>
+    <span class="hero-wordmark" aria-hidden="true">Vaishnavi</span>
+  </div>
+
+  <!-- ============ Ticker ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="tgroup">
+        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
+        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+      </div>
+      <div class="tgroup">
+        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
+        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
+        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
+        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ 001 The Live API ============ -->
+  <section id="live">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--accent)">
+        <span class="num mono">001</span>
+        <h2>The Live API</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="live-grid">
+        <div class="live-copy reveal">
+          <span class="live-badge"><i aria-hidden="true"></i>Deployed and answering</span>
+          <p>This console talks to <strong>Purchase Decision API</strong>, running in production right now. Type something you'd want to buy, set a price, and hit Send. The verdict that comes back is my rule engine deciding, not a canned response.</p>
+          <ul class="live-facts">
+            <li>A rule engine decides the verdict. A separate LLM layer only writes the explanation, so the answer never depends on the model.</li>
+            <li>If that model call fails, times out, or comes back empty, a rule-based explanation takes over. Press <b>Break the LLM</b> to force it and watch.</li>
+          </ul>
+          <div class="live-links">
+            <a class="solid" href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">Open the live API &#8599;</a>
+            <a href="https://github.com/VaishnaviAgrawa12/purchase-decision-api" target="_blank" rel="noopener">Source &#8599;</a>
           </div>
         </div>
 
@@ -1635,37 +1971,9 @@
             </div>
             <span class="sheen" aria-hidden="true"></span>
           </div>
-        </div>
       </div>
     </div>
-  </div>
-
-  <!-- ============ Ticker ============ -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track">
-      <div class="tgroup">
-        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
-        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
-        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
-        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
-      </div>
-      <div class="tgroup">
-        <span style="color:var(--accent)">Spring Boot 3</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">Java 21</span><span class="dia">&#9670;</span>
-        <span style="color:var(--sand)">PostgreSQL</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">JWT Auth</span><span class="dia">&#9670;</span>
-        <span style="color:var(--sky)">Docker</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">REST APIs</span><span class="dia">&#9670;</span>
-        <span style="color:var(--violet)">CI/CD</span><span class="dia">&#9670;</span>
-        <span style="color:var(--text-low)">JUnit 5</span><span class="dia">&#9670;</span>
-      </div>
-    </div>
-  </div>
-
+  </section>
 
   <!-- ============ 3D diorama ============ -->
   <div class="diorama">
@@ -1709,52 +2017,12 @@
     </div>
   </div>
 
-  <!-- ============ 001 Projects ============ -->
+  <!-- ============ 002 Projects ============ -->
   <section id="projects">
     <div class="wrap">
       <div class="section-head reveal" style="--sc:var(--accent)">
-        <span class="num mono">001</span>
-        <h2>Projects</h2>
-        <span class="rule" aria-hidden="true"></span>
-      </div>
-
-      <a class="project-row reveal" style="--pc:var(--accent)" href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" target="_blank" rel="noopener">
-        <span class="idx mono">01</span>
-        <span class="title">Purchase Decision API <span class="tag-live" title="This project is deployed live">Live</span></span>
-        <span class="stack mono">Spring Boot &middot; JWT &middot; LLM &middot; CI/CD</span>
-        <span class="year mono">2026</span>
-        <span class="arrow">&rarr;</span>
-      </a>
-      <a class="project-row reveal" style="--d:.07s; --pc:var(--sky)" href="https://github.com/VaishnaviAgrawa12/Library-Management-System" target="_blank" rel="noopener">
-        <span class="idx mono">02</span>
-        <span class="title">Library Management System</span>
-        <span class="stack mono">Spring Security &middot; Role-Based Access</span>
-        <span class="year mono">2025</span>
-        <span class="arrow">&rarr;</span>
-      </a>
-      <a class="project-row reveal" style="--d:.14s; --pc:var(--sand)" href="https://github.com/VaishnaviAgrawa12/patient-management-system-v2" target="_blank" rel="noopener">
-        <span class="idx mono">03</span>
-        <span class="title">Patient Management System</span>
-        <span class="stack mono">CRUD &middot; JPA &middot; JUnit</span>
-        <span class="year mono">2026</span>
-        <span class="arrow">&rarr;</span>
-      </a>
-      <a class="project-row reveal" style="--d:.21s; --pc:var(--violet)" href="https://github.com/VaishnaviAgrawa12/employee-crud-api" target="_blank" rel="noopener">
-        <span class="idx mono">04</span>
-        <span class="title">Employee CRUD API</span>
-        <span class="stack mono">REST &middot; Docker</span>
-        <span class="year mono">2025</span>
-        <span class="arrow">&rarr;</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ============ 002 In Detail ============ -->
-  <section id="detail">
-    <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--sky)">
         <span class="num mono">002</span>
-        <h2>In Detail</h2>
+        <h2>Projects</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
       <div class="cards">
@@ -1765,11 +2033,12 @@
             <img src="img/still-purchase.svg" alt="Rules and LLM paths feeding a verdict response" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
+            <span class="card-meta mono">01 &middot; 2026</span>
             <div class="card-top">
               <h3><span class="badge" aria-hidden="true"></span>Purchase Decision API</h3>
               <span class="tag-live" role="link" tabindex="0" data-href="https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html" title="Open the live API">Live</span>
             </div>
-            <p>REST API that scores a purchase against income, savings goals, and spending history, returning a verdict, score, and savings timeline. <strong>Design decision:</strong> a deterministic rule engine produces the verdict; a separate LLM layer writes the explanation, with a rule-based fallback so the endpoint always returns a valid result even when the model call fails. Deployed on Railway with CI/CD; verified the fallback by breaking the LLM call on purpose.</p>
+            <p>A REST API that scores a purchase against income, savings goals, and spending history, and returns a <strong>BUY / WAIT / SKIP</strong> verdict with a score and a savings timeline. It is the one running in production. <a href="#live">Try it above</a>.</p>
             <div class="chips">
               <span class="chip">Java 21</span><span class="chip">Spring Boot 3</span><span class="chip">Spring Security</span><span class="chip">JWT</span><span class="chip">JPA</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">JUnit 5</span>
             </div>
@@ -1787,10 +2056,11 @@
             <img src="img/still-library.svg" alt="Role gates for admin, librarian and member, behind a lock" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
+            <span class="card-meta mono">02 &middot; 2025</span>
             <div class="card-top">
               <h3><span class="badge" aria-hidden="true"></span>Library Management System</h3>
             </div>
-            <p>REST backend for book issuance, returns, and transactions, with role-based access control (admin / librarian / member) enforced through a Spring Security filter chain.</p>
+            <p>This is a REST backend for book issuance, returns, and transactions. It has role-based access control (admin / librarian / member), enforced through a Spring Security filter chain.</p>
             <div class="chips">
               <span class="chip">Java 21</span><span class="chip">Spring Boot</span><span class="chip">Spring Security</span><span class="chip">Hibernate</span><span class="chip">MySQL</span><span class="chip">Swagger</span>
             </div>
@@ -1807,10 +2077,11 @@
             <img src="img/still-patient.svg" alt="A vitals trace above patient record cards" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
+            <span class="card-meta mono">03 &middot; 2026</span>
             <div class="card-top">
               <h3><span class="badge" aria-hidden="true"></span>Patient Management System</h3>
             </div>
-            <p>Healthcare CRUD backend: records, appointments, history. Layered controller-service-repository architecture, validation, global exception handling, and JUnit tests over the service layer.</p>
+            <p>This is a healthcare CRUD backend for records, appointments, and history. It has a layered controller-service-repository architecture, request validation, global exception handling, and JUnit tests over the service layer.</p>
             <div class="chips">
               <span class="chip">Java 21</span><span class="chip">Spring Boot</span><span class="chip">Spring Data JPA</span><span class="chip">PostgreSQL</span><span class="chip">JUnit</span>
             </div>
@@ -1827,10 +2098,11 @@
             <img src="img/still-employee.svg" alt="POST, PUT, PATCH and DELETE plates above a container log" loading="lazy" width="800" height="500">
           </div>
           <div class="card-body">
+            <span class="card-meta mono">04 &middot; 2025</span>
             <div class="card-top">
               <h3><span class="badge" aria-hidden="true"></span>Employee CRUD API</h3>
             </div>
-            <p>Full CRUD with DTOs across POST / PUT / PATCH / DELETE, containerised with Docker, tested in Postman.</p>
+            <p>This is a full CRUD API with DTOs across POST / PUT / PATCH / DELETE. It is containerised with Docker and tested in Postman.</p>
             <div class="chips">
               <span class="chip">Java 21</span><span class="chip">Spring Boot</span><span class="chip">MySQL</span><span class="chip">Docker</span><span class="chip">Postman</span>
             </div>
@@ -1846,15 +2118,137 @@
   </section>
 
 
-  <!-- ============ 003 Writing ============ -->
+  <!-- ============ 003 Stack ============ -->
+  <section id="stack">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--sand)">
+        <span class="num mono">003</span>
+        <h2>Stack</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="bento">
+        <div class="bx bx-wide reveal" style="--sc:var(--accent)">
+          <span class="bx-label mono">Core</span>
+          <span class="bx-items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span>
+        </div>
+
+        <div class="bx bx-cube reveal" style="--d:.06s; --sc:var(--sand)">
+          <div class="cube-stage" id="cubeStage" aria-hidden="true">
+            <span class="cube-glow"></span>
+            <div class="cube" id="cube">
+              <div class="face f1">Java 21<b>language</b></div>
+              <div class="face f2">Spring Boot<b>framework</b></div>
+              <div class="face f3">PostgreSQL<b>data</b></div>
+              <div class="face f4">JWT<b>auth</b></div>
+              <div class="face f5">Docker<b>delivery</b></div>
+              <div class="face f6">JUnit 5<b>testing</b></div>
+            </div>
+          </div>
+          <p class="cube-hint mono">six sides of the stack &middot; <b>drag to spin</b></p>
+        </div>
+
+        <div class="bx reveal" style="--d:.1s; --sc:var(--sky)">
+          <span class="bx-label mono">Data</span>
+          <span class="bx-items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span>
+        </div>
+
+        <div class="bx reveal" style="--d:.14s; --sc:var(--sand)">
+          <span class="bx-label mono">APIs</span>
+          <span class="bx-items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span>
+        </div>
+
+        <div class="bx bx-stat reveal" style="--d:.18s; --sc:var(--lime)">
+          <span class="bx-figure">1</span>
+          <span class="bx-label mono">API in production</span>
+          <span class="bx-items">It is deployed on Railway, with CI/CD on every push</span>
+        </div>
+
+        <div class="bx reveal" style="--d:.22s; --sc:var(--violet)">
+          <span class="bx-label mono">Testing</span>
+          <span class="bx-items">JUnit 5 &middot; Mockito</span>
+        </div>
+
+        <div class="bx reveal" style="--d:.26s; --sc:var(--lime)">
+          <span class="bx-label mono">Delivery</span>
+          <span class="bx-items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span>
+        </div>
+
+        <div class="bx bx-wide reveal" style="--d:.3s; --sc:var(--accent)">
+          <span class="bx-label mono">Systems</span>
+          <span class="bx-items">Linux &middot; Bash &middot; IntelliJ IDEA</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ 004 Experience ============ -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head reveal" style="--sc:var(--violet)">
+        <span class="num mono">004</span>
+        <h2>Experience</h2>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="xp-company reveal">
+        <div class="company-head">
+          <div class="company">Celcius Logistics</div>
+          <span class="company-dates mono">Aug 2025 - Present</span>
+        </div>
+        <div class="role">
+          <div class="role-head">
+            <span class="role-title">Technical Support Engineer</span>
+          </div>
+          <ul class="role-list">
+            <li>Support production logistics and order-processing applications: triage incidents, analyse logs to isolate root causes, coordinate with engineering on fixes</li>
+            <li>Maintain SOPs and technical documentation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="xp-company reveal" style="--d:.1s">
+        <div class="company-head">
+          <div class="company">ResourceDekho</div>
+          <span class="company-dates mono">Jun 2023 - Aug 2025</span>
+        </div>
+        <div class="role">
+          <div class="role-head">
+            <span class="role-title">Backend Developer Trainee</span>
+            <span class="role-dates mono">Jun 2025 - Aug 2025</span>
+          </div>
+          <ul class="role-list">
+            <li>Worked on backend features in Java and Node.js within a team development environment</li>
+            <li>Participated in code review cycles, incorporating feedback from senior developers</li>
+            <li>Gained hands-on exposure to team backend practices and version-control workflows</li>
+          </ul>
+        </div>
+        <div class="role">
+          <div class="role-head">
+            <span class="role-title">Product Support Engineer &middot; Client: Signzy</span>
+            <span class="role-dates mono">Jun 2023 - Jun 2025</span>
+          </div>
+          <ul class="role-list">
+            <li>Resolved <strong>100+ L2 incidents</strong> on Java-based APIs at Signzy (RegTech / digital KYC), debugging payload mismatches, header failures, and authentication and vKYC workflow errors</li>
+            <li>Traced production failures through logs and request/response flows alongside backend and DevOps teams</li>
+            <li>Automated Bash log-triaging, cutting manual debugging time by approximately <strong>40%</strong></li>
+            <li>Authored SOPs and RCA documentation, reducing escalations to development by <strong>25%</strong>; optimised SQL joins for response times</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 005 Writing ============ -->
   <section id="writing">
     <div class="wrap">
       <div class="section-head reveal" style="--sc:var(--lime)">
-        <span class="num mono">003</span>
+        <span class="num mono">005</span>
         <h2>Writing</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
-      <p class="section-lede reveal">I write about the things I debug. Java and Spring Boot, from the inside, on Medium.</p>
+      <p class="section-lede reveal">I write about the things I debug. Most of it is Java and Spring Boot, from the inside, on Medium.</p>
 
       <!-- Rows below are a fallback; the script auto-fills this list from the Medium feed. -->
       <div id="writingList">
@@ -1895,135 +2289,51 @@
     </div>
   </section>
 
-  <!-- ============ 004 Stack ============ -->
-  <section id="stack">
+  <!-- ============ 006 Education & Certifications ============ -->
+  <section id="education">
     <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--sand)">
-        <span class="num mono">004</span>
-        <h2>Stack</h2>
+      <div class="section-head reveal" style="--sc:var(--sky)">
+        <span class="num mono">006</span>
+        <h2>Education &amp; Certifications</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
 
       <div class="bento">
         <div class="bx bx-wide reveal" style="--sc:var(--accent)">
-          <span class="bx-label mono">Core</span>
-          <span class="bx-items">Java 21 &middot; Spring Boot 3 &middot; Spring Security &middot; Spring Data JPA &middot; Hibernate</span>
+          <span class="bx-label mono">Degree</span>
+          <span class="bx-items">Bachelor of Commerce &middot; Yashwantrao Chavan Maharashtra Open University</span>
         </div>
 
-        <div class="bx bx-cube reveal" style="--d:.06s; --sc:var(--sand)">
-          <div class="cube-stage" id="cubeStage" aria-hidden="true">
-            <span class="cube-glow"></span>
-            <div class="cube" id="cube">
-              <div class="face f1">Java 21<b>language</b></div>
-              <div class="face f2">Spring Boot<b>framework</b></div>
-              <div class="face f3">PostgreSQL<b>data</b></div>
-              <div class="face f4">JWT<b>auth</b></div>
-              <div class="face f5">Docker<b>delivery</b></div>
-              <div class="face f6">JUnit 5<b>testing</b></div>
-            </div>
-          </div>
-          <p class="cube-hint mono">six sides of the stack &middot; <b>drag to spin</b></p>
+        <div class="bx reveal" style="--d:.06s; --sc:var(--sand)">
+          <span class="bx-label mono">Java Backend Development</span>
+          <span class="bx-items">GeeksforGeeks</span>
         </div>
 
-        <div class="bx reveal" style="--d:.1s; --sc:var(--sky)">
-          <span class="bx-label mono">Data</span>
-          <span class="bx-items">PostgreSQL &middot; MySQL &middot; SQL (joins, indexing, query optimisation)</span>
+        <div class="bx reveal" style="--d:.1s; --sc:var(--violet)">
+          <span class="bx-label mono">Technical Support Certification</span>
+          <span class="bx-items">Masai School</span>
         </div>
 
-        <div class="bx reveal" style="--d:.14s; --sc:var(--sand)">
-          <span class="bx-label mono">APIs</span>
-          <span class="bx-items">REST &middot; JWT &middot; Swagger/OpenAPI &middot; Postman &middot; cURL</span>
+        <div class="bx reveal" style="--d:.14s; --sc:var(--lime)">
+          <span class="bx-label mono">ICITSS, IT</span>
+          <span class="bx-items">ICAI</span>
         </div>
 
-        <div class="bx bx-stat reveal" style="--d:.18s; --sc:var(--lime)">
-          <span class="bx-figure">1</span>
-          <span class="bx-label mono">API in production</span>
-          <span class="bx-items">Deployed on Railway, CI/CD on every push</span>
-        </div>
-
-        <div class="bx reveal" style="--d:.22s; --sc:var(--violet)">
-          <span class="bx-label mono">Testing</span>
-          <span class="bx-items">JUnit 5 &middot; Mockito</span>
-        </div>
-
-        <div class="bx reveal" style="--d:.26s; --sc:var(--lime)">
-          <span class="bx-label mono">Delivery</span>
-          <span class="bx-items">Docker &middot; GitHub Actions &middot; Railway &middot; Git &middot; Maven</span>
-        </div>
-
-        <div class="bx bx-wide reveal" style="--d:.3s; --sc:var(--accent)">
-          <span class="bx-label mono">Systems</span>
-          <span class="bx-items">Linux &middot; Bash &middot; IntelliJ IDEA</span>
+        <div class="bx reveal" style="--d:.18s; --sc:var(--sky)">
+          <span class="bx-label mono">Languages</span>
+          <span class="bx-items">English (fluent) &middot; Hindi (fluent)</span>
         </div>
       </div>
     </div>
   </section>
 
-
-  <!-- ============ 005 Experience ============ -->
-  <section id="experience">
-    <div class="wrap">
-      <div class="section-head reveal" style="--sc:var(--violet)">
-        <span class="num mono">005</span>
-        <h2>Experience</h2>
-        <span class="rule" aria-hidden="true"></span>
-      </div>
-
-      <div class="xp-company reveal">
-        <div class="company-head">
-          <div class="company">ResourceDekho</div>
-          <span class="company-dates mono">Jun 2023 - Aug 2025</span>
-        </div>
-        <div class="role">
-          <div class="role-head">
-            <span class="role-title">Backend Developer Trainee</span>
-            <span class="role-dates mono">Jun 2025 - Aug 2025</span>
-          </div>
-          <ul class="role-list">
-            <li>Worked on backend features in Java and Node.js within a team development environment</li>
-            <li>Participated in code review cycles, incorporating feedback from senior developers</li>
-            <li>Gained hands-on exposure to team backend practices and version-control workflows</li>
-          </ul>
-        </div>
-        <div class="role">
-          <div class="role-head">
-            <span class="role-title">Product Support Engineer &middot; Client: Signzy</span>
-            <span class="role-dates mono">Jun 2023 - Jun 2025</span>
-          </div>
-          <ul class="role-list">
-            <li>Resolved <strong>100+ L2 incidents</strong> on Java-based APIs at Signzy (RegTech / digital KYC), debugging payload mismatches, header failures, and authentication and vKYC workflow errors</li>
-            <li>Traced production failures through logs and request/response flows alongside backend and DevOps teams</li>
-            <li>Automated Bash log-triaging, cutting manual debugging time by approximately <strong>40%</strong></li>
-            <li>Authored SOPs and RCA documentation, reducing escalations to development by <strong>25%</strong>; optimised SQL joins for response times</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="xp-company reveal" style="--d:.1s">
-        <div class="company-head">
-          <div class="company">Celcius Logistics</div>
-          <span class="company-dates mono">Aug 2025 - Present</span>
-        </div>
-        <div class="role">
-          <div class="role-head">
-            <span class="role-title">Technical Support Engineer</span>
-          </div>
-          <ul class="role-list">
-            <li>Support production logistics and order-processing applications: triage incidents, analyse logs to isolate root causes, coordinate with engineering on fixes</li>
-            <li>Maintain SOPs and technical documentation</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 006 About ============ -->
+  <!-- ============ 007 About ============ -->
   <section id="about">
     <div class="about-back" style="--shot: url('photo.jpg')" aria-hidden="true"></div>
     <div class="about-key" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head reveal" style="--sc:var(--accent)">
-        <span class="num mono">006</span>
+        <span class="num mono">007</span>
         <h2>About</h2>
         <span class="rule" aria-hidden="true"></span>
       </div>
@@ -2049,6 +2359,7 @@
 <footer>
   <div class="wrap">
     <nav class="links mono" aria-label="Contact links">
+      <a href="Vaishnavi_Agrawal_Java_Developer_Resume.pdf" download>R&eacute;sum&eacute; &darr;</a>
       <a href="mailto:vaishnaviagrawal2999@gmail.com">Email</a>
       <a href="https://github.com/VaishnaviAgrawa12" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7" target="_blank" rel="noopener">LinkedIn</a>
@@ -2058,7 +2369,7 @@
       <a href="https://medium.com/@vaishnaviagrawal2999" target="_blank" rel="noopener">Medium</a>
       <a href="https://dev.to/vaishnavi_agrawal_c7f7d72" target="_blank" rel="noopener">Dev.to</a>
     </nav>
-    <span class="open-to mono"><span class="dot"></span>Open to Java backend developer roles</span>
+    <span class="open-to mono"><span class="dot"></span>Open to Java backend developer roles &middot; India &middot; relocation &amp; remote</span>
   </div>
   <span class="psst mono" aria-hidden="true">psst: &uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr; B A</span>
 </footer>
@@ -2077,6 +2388,28 @@
 </div>
 
 <div class="toast" id="toast" role="status"></div>
+
+<!-- ============ Source view: the same portfolio, as Java and JSON ============ -->
+<div class="srcview" id="srcView" role="dialog" aria-modal="true" aria-label="Portfolio as source code" hidden>
+  <div class="src-bar">
+    <span class="src-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="src-path mono" id="srcPath"></span>
+    <div class="src-tabs" role="tablist" aria-label="Source format">
+      <button class="src-tab" id="srcTabJava" type="button" role="tab" aria-selected="true" data-fmt="java">Java</button>
+      <button class="src-tab" id="srcTabJson" type="button" role="tab" aria-selected="false" data-fmt="json">JSON</button>
+      <button class="src-act" id="srcCopy" type="button">Copy</button>
+      <button class="src-act" id="srcClose" type="button">&times; Close</button>
+    </div>
+  </div>
+  <div class="src-meta mono" id="srcMeta"></div>
+  <div class="src-scroll" id="srcScroll" tabindex="0">
+    <div class="src-code" id="srcCode"></div>
+  </div>
+  <div class="src-foot mono">
+    <span id="srcFootL"></span>
+    <span><kbd>Esc</kbd> back to the human version &middot; <kbd>&larr;</kbd> <kbd>&rarr;</kbd> switch format</span>
+  </div>
+</div>
 
 <script>
 (function () {
@@ -2401,7 +2734,7 @@
       termChips.querySelectorAll(".tchip").forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
       termItem.value = chip.getAttribute("data-item");
       termPrice.value = chip.getAttribute("data-price");
-      send(termItem.value, parseInt(chip.getAttribute("data-price"), 10));
+      /* a quick pick only fills the form; the request waits for Send */
     });
   }
 
@@ -2413,14 +2746,59 @@
     });
   });
 
-  /* first exchange plays itself once the console scrolls into view */
+  /* the console types out the request and then waits: the answer is Send's job */
+  function primeRequest(item, price) {
+    if (running || !termBody) return;
+    var d = decide(item, price);
+    var lines = reqLines(d);
+    termBody.textContent = "";
+
+    if (reduced) {
+      lines.forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
+      return;
+    }
+
+    running = true;
+    if (termRun) termRun.disabled = true;
+    if (termForm) termForm.classList.add("busy");
+    if (termBreak) termBreak.disabled = true;
+
+    var cursor = document.createElement("span");
+    cursor.className = "term-cursor";
+    termBody.appendChild(cursor);
+
+    var li = 0, ci = 0;
+    function typeChar() {
+      if (li >= lines.length) {
+        /* cursor stays blinking under the request, nothing else happens yet */
+        running = false;
+        if (termRun) termRun.disabled = false;
+        if (termForm) termForm.classList.remove("busy");
+        if (termBreak) termBreak.disabled = false;
+        return;
+      }
+      var line = lines[li];
+      if (ci === 0) {
+        line._el = el(line.cls, "");
+        termBody.insertBefore(line._el, cursor);
+      }
+      line._el.textContent += line.text.charAt(ci);
+      termBody.scrollTop = termBody.scrollHeight;
+      ci++;
+      if (ci >= line.text.length) { li++; ci = 0; }
+      setTimeout(typeChar, 9 + Math.random() * 16);
+    }
+    typeChar();
+  }
+
+  /* the request writes itself once the console scrolls into view */
   if (termBody) {
     if (!reduced && "IntersectionObserver" in window) {
       var tio = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
             var v = currentInput();
-            setTimeout(function () { send(v[0], v[1]); }, 800);
+            setTimeout(function () { primeRequest(v[0], v[1]); }, 800);
             tio.disconnect();
           }
         });
@@ -2428,9 +2806,7 @@
       tio.observe(termBody);
     } else {
       var v0 = currentInput();
-      var d0 = decide(v0[0], v0[1]);
-      reqLines(d0).forEach(function (l) { termBody.appendChild(el(l.cls, l.text)); });
-      appendResponse(d0, true);
+      primeRequest(v0[0], v0[1]);
     }
   }
 
@@ -2729,6 +3105,402 @@
     });
   }
 
+  /* ---------- 7c. Hero fluid: Navier-Stokes dye advection on WebGL2 ----------
+     Same family of solver the reference site uses: splat velocity + dye at the
+     pointer, add vorticity, project the field divergence-free with a Jacobi
+     pressure solve, then advect. The dye is drawn with straight alpha so the
+     white hero shows through and it reads as pigment, not light. */
+  (function () {
+    var cv = document.getElementById("heroFluid");
+    var heroEl = document.querySelector(".hero");
+    if (!cv || !heroEl || reduced) return;
+    if (!window.matchMedia("(hover: hover)").matches) return;
+
+    var gl = cv.getContext("webgl2", {
+      alpha: true, premultipliedAlpha: false,
+      antialias: false, depth: false, stencil: false
+    });
+    if (!gl || !gl.getExtension("EXT_color_buffer_float")) return;
+    gl.getExtension("OES_texture_float_linear");
+
+    var SIM = 128, DYE = 1024, ITER = 20;
+    /* grids must follow the hero's aspect ratio, or texels end up non-square
+       and the dye reads as coarse smearing instead of smooth fluid */
+    function gridFor(base) {
+      var ar = gl.drawingBufferWidth / gl.drawingBufferHeight;
+      if (ar < 1) ar = 1 / ar;
+      var lo = Math.round(base), hi = Math.round(base * ar);
+      return gl.drawingBufferWidth > gl.drawingBufferHeight
+        ? { w: hi, h: lo } : { w: lo, h: hi };
+    }
+    var VEL_DISS = 0.22, DYE_DISS = 0.82, CURL = 34, PRESSURE = 0.8, RADIUS = 0.0060;
+    var SPLAT_FORCE = 2000;   /* what actually carries the dye; too low reads as spots */
+
+    var VERT = `#version 300 es
+      precision highp float;
+      in vec2 aPosition;
+      out vec2 vUv; out vec2 vL; out vec2 vR; out vec2 vT; out vec2 vB;
+      uniform vec2 texelSize;
+      void main () {
+        vUv = aPosition * 0.5 + 0.5;
+        vL = vUv - vec2(texelSize.x, 0.0);
+        vR = vUv + vec2(texelSize.x, 0.0);
+        vT = vUv + vec2(0.0, texelSize.y);
+        vB = vUv - vec2(0.0, texelSize.y);
+        gl_Position = vec4(aPosition, 0.0, 1.0);
+      }`;
+
+    function frag(body) {
+      return `#version 300 es
+        precision highp float; precision highp sampler2D;
+        in vec2 vUv; in vec2 vL; in vec2 vR; in vec2 vT; in vec2 vB;
+        out vec4 fragColor;
+      ` + body;
+    }
+
+    var F_SPLAT = frag(`
+      uniform sampler2D uTarget; uniform float aspectRatio;
+      uniform vec3 color; uniform vec2 point; uniform float radius;
+      void main () {
+        vec2 p = vUv - point; p.x *= aspectRatio;
+        vec3 splat = exp(-dot(p, p) / radius) * color;
+        fragColor = vec4(texture(uTarget, vUv).xyz + splat, 1.0);
+      }`);
+
+    var F_ADVECT = frag(`
+      uniform sampler2D uVelocity; uniform sampler2D uSource;
+      uniform vec2 texelSize; uniform float dt; uniform float dissipation;
+      void main () {
+        vec2 coord = vUv - dt * texture(uVelocity, vUv).xy * texelSize;
+        fragColor = texture(uSource, coord) / (1.0 + dissipation * dt);
+      }`);
+
+    var F_DIVERGENCE = frag(`
+      uniform sampler2D uVelocity;
+      void main () {
+        float L = texture(uVelocity, vL).x;
+        float R = texture(uVelocity, vR).x;
+        float T = texture(uVelocity, vT).y;
+        float B = texture(uVelocity, vB).y;
+        vec2 C = texture(uVelocity, vUv).xy;
+        if (vL.x < 0.0) L = -C.x;
+        if (vR.x > 1.0) R = -C.x;
+        if (vT.y > 1.0) T = -C.y;
+        if (vB.y < 0.0) B = -C.y;
+        fragColor = vec4(0.5 * (R - L + T - B), 0.0, 0.0, 1.0);
+      }`);
+
+    var F_CURL = frag(`
+      uniform sampler2D uVelocity;
+      void main () {
+        float L = texture(uVelocity, vL).y;
+        float R = texture(uVelocity, vR).y;
+        float T = texture(uVelocity, vT).x;
+        float B = texture(uVelocity, vB).x;
+        fragColor = vec4(0.5 * (R - L - T + B), 0.0, 0.0, 1.0);
+      }`);
+
+    var F_VORTICITY = frag(`
+      uniform sampler2D uVelocity; uniform sampler2D uCurl;
+      uniform float curl; uniform float dt;
+      void main () {
+        float L = texture(uCurl, vL).x;
+        float R = texture(uCurl, vR).x;
+        float T = texture(uCurl, vT).x;
+        float B = texture(uCurl, vB).x;
+        float C = texture(uCurl, vUv).x;
+        vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
+        force /= length(force) + 0.0001;
+        force *= curl * C;
+        force.y *= -1.0;
+        vec2 vel = texture(uVelocity, vUv).xy + force * dt;
+        fragColor = vec4(clamp(vel, -1000.0, 1000.0), 0.0, 1.0);
+      }`);
+
+    var F_PRESSURE = frag(`
+      uniform sampler2D uPressure; uniform sampler2D uDivergence;
+      void main () {
+        float L = texture(uPressure, vL).x;
+        float R = texture(uPressure, vR).x;
+        float T = texture(uPressure, vT).x;
+        float B = texture(uPressure, vB).x;
+        float div = texture(uDivergence, vUv).x;
+        fragColor = vec4((L + R + B + T - div) * 0.25, 0.0, 0.0, 1.0);
+      }`);
+
+    var F_GRADIENT = frag(`
+      uniform sampler2D uPressure; uniform sampler2D uVelocity;
+      void main () {
+        float L = texture(uPressure, vL).x;
+        float R = texture(uPressure, vR).x;
+        float T = texture(uPressure, vT).x;
+        float B = texture(uPressure, vB).x;
+        vec2 vel = texture(uVelocity, vUv).xy - vec2(R - L, T - B);
+        fragColor = vec4(vel, 0.0, 1.0);
+      }`);
+
+    var F_CLEAR = frag(`
+      uniform sampler2D uTexture; uniform float value;
+      void main () { fragColor = value * texture(uTexture, vUv); }`);
+
+    /* keep the hue, let intensity drive alpha, so white shows through as tint */
+    var F_DISPLAY = frag(`
+      uniform sampler2D uTexture; uniform float strength;
+      void main () {
+        vec3 c = texture(uTexture, vUv).rgb;
+        float d = max(c.r, max(c.g, c.b));
+        if (d < 0.0008) { fragColor = vec4(1.0); return; }
+        vec3 hue = mix(vec3(1.0), c / d, clamp(d * 2.2, 0.0, 1.0));
+        float dens = clamp(d * strength, 0.0, 1.0);
+        /* white where there is no dye; toward the pigment where there is */
+        fragColor = vec4(1.0 - dens * (1.0 - hue), 1.0);
+      }`);
+
+    function compile(type, src) {
+      var sh = gl.createShader(type);
+      gl.shaderSource(sh, src.replace(/^\s+/gm, ""));
+      gl.compileShader(sh);
+      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) return null;
+      return sh;
+    }
+    var vs = compile(gl.VERTEX_SHADER, VERT);
+    if (!vs) return;
+
+    function prog(fsrc) {
+      var fs = compile(gl.FRAGMENT_SHADER, fsrc);
+      if (!fs) return null;
+      var p = gl.createProgram();
+      gl.attachShader(p, vs); gl.attachShader(p, fs); gl.linkProgram(p);
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) return null;
+      var u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+      for (var i = 0; i < n; i++) {
+        var name = gl.getActiveUniform(p, i).name;
+        u[name] = gl.getUniformLocation(p, name);
+      }
+      return { p: p, u: u };
+    }
+
+    var P = {
+      splat: prog(F_SPLAT), advect: prog(F_ADVECT), diverge: prog(F_DIVERGENCE),
+      curl: prog(F_CURL), vort: prog(F_VORTICITY), press: prog(F_PRESSURE),
+      grad: prog(F_GRADIENT), clear: prog(F_CLEAR), display: prog(F_DISPLAY)
+    };
+    for (var k in P) if (!P[k]) return;
+
+    var quad = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, -1,1, 1,1, 1,-1]), gl.STATIC_DRAW);
+    var idx = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idx);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array([0,1,2, 0,2,3]), gl.STATIC_DRAW);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(0);
+
+    function blit(target) {
+      if (target) { gl.viewport(0, 0, target.w, target.h); gl.bindFramebuffer(gl.FRAMEBUFFER, target.fbo); }
+      else { gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight); gl.bindFramebuffer(gl.FRAMEBUFFER, null); }
+      gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+    }
+
+    function fbo(w, h, internal, format, type, filter) {
+      var tex = gl.createTexture();
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, internal, w, h, 0, format, type, null);
+      var f = gl.createFramebuffer();
+      gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+      if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) return null;
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      var o = { tex: tex, fbo: f, w: w, h: h, texelX: 1 / w, texelY: 1 / h };
+      o.attach = function (id) { gl.activeTexture(gl.TEXTURE0 + id); gl.bindTexture(gl.TEXTURE_2D, tex); return id; };
+      return o;
+    }
+    function dbl(w, h, internal, format, type, filter) {
+      var a = fbo(w, h, internal, format, type, filter), b = fbo(w, h, internal, format, type, filter);
+      if (!a || !b) return null;
+      return { w: w, h: h, texelX: a.texelX, texelY: a.texelY,
+        get read() { return a; }, get write() { return b; },
+        swap: function () { var t = a; a = b; b = t; } };
+    }
+
+    var HF = gl.HALF_FLOAT;
+    var dye, vel, prs, dvg, crl;
+    function build() {
+      var d = gridFor(DYE), s = gridFor(SIM);
+      dye = dbl(d.w, d.h, gl.RGBA16F, gl.RGBA, HF, gl.LINEAR);
+      vel = dbl(s.w, s.h, gl.RG16F, gl.RG, HF, gl.LINEAR);
+      prs = dbl(s.w, s.h, gl.R16F, gl.RED, HF, gl.NEAREST);
+      dvg = fbo(s.w, s.h, gl.R16F, gl.RED, HF, gl.NEAREST);
+      crl = fbo(s.w, s.h, gl.R16F, gl.RED, HF, gl.NEAREST);
+      return dye && vel && prs && dvg && crl;
+    }
+
+    function resize() {
+      var r = heroEl.getBoundingClientRect();
+      var d = Math.min(window.devicePixelRatio || 1, 2);
+      cv.style.width = Math.ceil(r.width) + "px";
+      cv.style.height = Math.ceil(r.height) + "px";
+      cv.width = Math.ceil(r.width * d);
+      cv.height = Math.ceil(r.height * d);
+    }
+    resize();
+    if (!build()) return;
+
+    function use(o, texel) {
+      gl.useProgram(o.p);
+      if (texel && o.u.texelSize) gl.uniform2f(o.u.texelSize, texel.texelX, texel.texelY);
+    }
+
+    function hsv(h, s, v) {
+      var i = Math.floor(h * 6), f = h * 6 - i;
+      var p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s);
+      switch (i % 6) {
+        case 0: return [v, t, p]; case 1: return [q, v, p]; case 2: return [p, v, t];
+        case 3: return [p, q, v]; case 4: return [t, p, v]; default: return [v, p, q];
+      }
+    }
+
+    function splat(x, y, dx, dy, col) {
+      var ar = cv.width / cv.height;
+      use(P.splat, vel);
+      gl.uniform1i(P.splat.u.uTarget, vel.read.attach(0));
+      gl.uniform1f(P.splat.u.aspectRatio, ar);
+      gl.uniform2f(P.splat.u.point, x, y);
+      gl.uniform3f(P.splat.u.color, dx, dy, 0);
+      gl.uniform1f(P.splat.u.radius, RADIUS * ar);
+      blit(vel.write); vel.swap();
+
+      gl.uniform1i(P.splat.u.uTarget, dye.read.attach(0));
+      gl.uniform3f(P.splat.u.color, col[0], col[1], col[2]);
+      blit(dye.write); dye.swap();
+    }
+
+    function step(dt) {
+      gl.disable(gl.BLEND);
+
+      use(P.curl, vel);
+      gl.uniform1i(P.curl.u.uVelocity, vel.read.attach(0));
+      blit(crl);
+
+      use(P.vort, vel);
+      gl.uniform1i(P.vort.u.uVelocity, vel.read.attach(0));
+      gl.uniform1i(P.vort.u.uCurl, crl.attach(1));
+      gl.uniform1f(P.vort.u.curl, CURL);
+      gl.uniform1f(P.vort.u.dt, dt);
+      blit(vel.write); vel.swap();
+
+      use(P.diverge, vel);
+      gl.uniform1i(P.diverge.u.uVelocity, vel.read.attach(0));
+      blit(dvg);
+
+      use(P.clear, prs);
+      gl.uniform1i(P.clear.u.uTexture, prs.read.attach(0));
+      gl.uniform1f(P.clear.u.value, PRESSURE);
+      blit(prs.write); prs.swap();
+
+      use(P.press, prs);
+      gl.uniform1i(P.press.u.uDivergence, dvg.attach(0));
+      for (var i = 0; i < ITER; i++) {
+        gl.uniform1i(P.press.u.uPressure, prs.read.attach(1));
+        blit(prs.write); prs.swap();
+      }
+
+      use(P.grad, prs);
+      gl.uniform1i(P.grad.u.uPressure, prs.read.attach(0));
+      gl.uniform1i(P.grad.u.uVelocity, vel.read.attach(1));
+      blit(vel.write); vel.swap();
+
+      use(P.advect, vel);
+      gl.uniform1f(P.advect.u.dt, dt);
+      gl.uniform1i(P.advect.u.uVelocity, vel.read.attach(0));
+      gl.uniform1i(P.advect.u.uSource, vel.read.attach(0));
+      gl.uniform1f(P.advect.u.dissipation, VEL_DISS);
+      blit(vel.write); vel.swap();
+
+      gl.uniform1i(P.advect.u.uVelocity, vel.read.attach(0));
+      gl.uniform1i(P.advect.u.uSource, dye.read.attach(1));
+      gl.uniform1f(P.advect.u.dissipation, DYE_DISS);
+      blit(dye.write); dye.swap();
+    }
+
+    function render() {
+      gl.disable(gl.BLEND);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.clearColor(1, 1, 1, 1);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      use(P.display, null);
+      gl.uniform1i(P.display.u.uTexture, dye.read.attach(0));
+      gl.uniform1f(P.display.u.strength, 0.45);
+      blit(null);
+    }
+
+    var pointer = { x: 0, y: 0, dx: 0, dy: 0, moved: false, col: [0, 0, 0] };
+    heroEl.addEventListener("mousemove", function (e) {
+      var r = heroEl.getBoundingClientRect();
+      var nx = (e.clientX - r.left) / r.width;
+      var ny = 1 - (e.clientY - r.top) / r.height;
+      var ar = cv.width / cv.height;
+      var ddx = nx - pointer.x, ddy = ny - pointer.y;
+      if (ar < 1) ddx *= ar; else ddy /= ar;
+      /* a fast flick (or a cursor warp) would otherwise blast the dye clean
+         off screen, so cap how much momentum one event can inject */
+      var CAP = 0.016;
+      ddx = Math.max(-CAP, Math.min(CAP, ddx));
+      ddy = Math.max(-CAP, Math.min(CAP, ddy));
+      pointer.dx = ddx * SPLAT_FORCE;
+      pointer.dy = ddy * SPLAT_FORCE;
+      pointer.x = nx; pointer.y = ny;
+      pointer.moved = true;
+    }, { passive: true });
+
+    var hue = Math.random();
+    var HUE_DRIFT = 0.055;   /* full wheel about every 18s */
+    function dyeColor() {
+      var c = hsv(hue, 0.30, 1);   /* near-white pastel, like the reference */
+      return [c[0] * 0.28, c[1] * 0.28, c[2] * 0.28];
+    }
+
+    var last = 0, raf = 0, onScreen = true;
+    function loop(ts) {
+      raf = requestAnimationFrame(loop);
+      var dt = last ? Math.min((ts - last) / 1000, 0.0166) : 0.0166;
+      last = ts;
+      hue = (hue + HUE_DRIFT * dt) % 1;
+      if (pointer.moved) {
+        pointer.moved = false;
+        splat(pointer.x, pointer.y, pointer.dx, pointer.dy, dyeColor());
+      }
+      step(dt);
+      render();
+    }
+
+    /* no dye on load: the hero starts clean and only paints where you move */
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          onScreen = e.isIntersecting;
+          if (onScreen && !raf) { last = 0; raf = requestAnimationFrame(loop); }
+          else if (!onScreen && raf) { cancelAnimationFrame(raf); raf = 0; }
+        });
+      }, { threshold: 0 }).observe(heroEl);
+    } else {
+      raf = requestAnimationFrame(loop);
+    }
+
+    var rt;
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { resize(); build(); }, 160);
+    });
+  })();
+
+
   /* ---------- 7b. Light / dark toggle ---------- */
   var themeToggle = document.getElementById("themeToggle");
   themeToggle.addEventListener("click", function () {
@@ -2752,7 +3524,6 @@
       });
     }
     scrub(".section-head");
-    scrub(".project-row", true);
     scrub(".article-row", true);
     scrub(".card");
     scrub(".bx", true);
@@ -2860,14 +3631,14 @@
     /* Written as speech, not instructions: no step numbers, no "click here". */
     var LINES = [
       { sel: null,             say: "Hey, I'm Vaishnavi. Want me to show you around? Two minutes, and you can stop me whenever." },
-      { sel: "#term3d",        say: "Start with this. Type anything you'd actually want to buy, hit send. It's the API I built, answering." },
+      { sel: "#srcToggle",     say: "One thing before we start. That switch in the corner turns this whole page into Java, then into JSON. Same portfolio, read by a compiler instead." },
+      { sel: "#live .wrap", say: "This one is real. Type something you'd actually buy, hit Send, and my API answers from production. Break the LLM if you want to see the fallback hold." },
       { sel: ".diorama .wrap", say: "That's what happens underneath. Gateway, auth, my service, then Postgres, and only if it has to. Drag it, it moves." },
-      { sel: "#projects .wrap", say: "Four things I've built. The first one is running in production right now, not a demo." },
-      { sel: "#detail .wrap",  say: "Here's the honest part: why I built them this way, and the bits I'd do differently now." },
-      { sel: "#writing .wrap", say: "When something breaks and I finally understand it, I write it up. Mostly so the next person doesn't lose the afternoon I did." },
+      { sel: "#projects .wrap", say: "Four things I've built. The first is running in production right now, not a demo, and each one says why I built it that way and what I'd do differently." },
       { sel: "#stack .wrap",   say: "This is what I actually reach for. The cube spins, if you want to poke at it." },
       { sel: "#experience .wrap", say: "Before I built systems I kept them alive, through three years of other people's 2am outages. It's why I build the way I do." },
-      { sel: "footer .wrap",   say: "That's the lot. If it sounds like something you need, my links are right here. Thanks for looking." }
+      { sel: "#writing .wrap", say: "When something breaks and I finally understand it, I write it up. Mostly so the next person doesn't lose the afternoon I did." },
+      { sel: "footer .wrap",   say: "That's the lot. If it sounds like something you need, my resume and my links are both right here. Thanks for looking." }
     ];
 
     var i = -1, on = false, typer = 0, snap = 0, lit = null, done = false;
@@ -2993,6 +3764,568 @@
       kIdx = key === KONAMI[0] ? 1 : 0;
     }
   });
+
+
+  /* ---------- 11. Source view: human -> java -> json ---------- */
+  var JAVA_SRC = [
+"package dev.vaishnavi.portfolio;",
+"",
+"import java.time.YearMonth;",
+"import java.util.List;",
+"",
+"import lombok.Builder;",
+"import org.springframework.boot.actuate.health.Health;",
+"import org.springframework.boot.actuate.health.HealthIndicator;",
+"import org.springframework.context.annotation.Bean;",
+"import org.springframework.stereotype.Service;",
+"",
+"/**",
+" * Vaishnavi Agrawal - Java Backend Developer.",
+" *",
+" * I build REST APIs with Spring Boot, secure them with JWT and Spring Security,",
+" * back them with PostgreSQL, and deploy them with Docker and CI/CD.",
+" * One of them is running in production right now.",
+" *",
+" * Everything here is code I wrote, deployed, and can explain line by line,",
+" * including what I would do differently.",
+" */",
+"@Service",
+"public class Portfolio {",
+"",
+"    static final String HEADLINE = \"I build backends and ship them.\";",
+"",
+"    // ---------- 000  Who ----------",
+"",
+"    @Builder",
+"    public record Developer(String name, String role, String headline,",
+"                            List<String> focus, String location, boolean willRelocate,",
+"                            String email, String github, String linkedin, String openTo) {}",
+"",
+"    @Bean",
+"    public Developer me() {",
+"        return Developer.builder()",
+"                .name(\"Vaishnavi Agrawal\")",
+"                .role(\"Java Backend Developer\")",
+"                .headline(HEADLINE)",
+"                .focus(List.of(\"Spring Boot 3\", \"Java 21\", \"PostgreSQL\", \"Docker\"))",
+"                .location(\"India\")",
+"                .willRelocate(true)                     // remote works too",
+"                .email(\"vaishnaviagrawal2999@gmail.com\")",
+"                .github(\"github.com/VaishnaviAgrawa12\")",
+"                .linkedin(\"linkedin.com/in/vaishnavi-agrawal-0220591b7\")",
+"                .openTo(\"Java backend developer roles\")",
+"                .build();",
+"    }",
+"",
+"    // ---------- 001  Projects ----------",
+"",
+"    public enum Status { LIVE, SOURCE }",
+"",
+"    public enum Verdict { BUY, WAIT, SKIP }",
+"",
+"    public record Project(String name, int year, Status status,",
+"                          List<String> stack, String summary, String url) {}",
+"",
+"    @Bean",
+"    public List<Project> projects() {",
+"        return List.of(",
+"            new Project(\"Purchase Decision API\", 2026, Status.LIVE,",
+"                List.of(\"Java 21\", \"Spring Boot 3\", \"Spring Security\", \"JWT\", \"JPA\",",
+"                        \"PostgreSQL\", \"Docker\", \"GitHub Actions\", \"JUnit 5\"),",
+"                \"\"\"",
+"                REST API that scores a purchase against income, savings goals and",
+"                spending history, returning a BUY / WAIT / SKIP verdict, a score",
+"                and a savings timeline.",
+"",
+"                Design decision: a deterministic rule engine computes the score and",
+"                verdict, and a separate LLM layer writes the explanation - so the",
+"                verdict never depends on the model.",
+"",
+"                Graceful degradation: when the LLM call fails, times out or returns",
+"                empty, a rule-based explanation takes over, so the endpoint always",
+"                returns a valid response. I verified it by breaking the call on",
+"                purpose. JWT via a Spring Security filter chain, @ControllerAdvice",
+"                for global exception handling, JUnit 5 across engine and calculators.",
+"                Deployed on Railway, CI/CD on every push.",
+"                \"\"\",",
+"                \"https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html\"),",
+"",
+"            new Project(\"Library Management System\", 2025, Status.SOURCE,",
+"                List.of(\"Java 21\", \"Spring Boot\", \"Spring Security\", \"Hibernate\",",
+"                        \"MySQL\", \"Swagger\"),",
+"                \"\"\"",
+"                REST backend for book issuance, returns and transactions, with",
+"                role-based access control (admin / librarian / member) enforced",
+"                through a Spring Security filter chain.",
+"                \"\"\",",
+"                \"https://github.com/VaishnaviAgrawa12/Library-Management-System\"),",
+"",
+"            new Project(\"Patient Management System\", 2026, Status.SOURCE,",
+"                List.of(\"Java 21\", \"Spring Boot\", \"Spring Data JPA\", \"PostgreSQL\", \"JUnit\"),",
+"                \"\"\"",
+"                Healthcare CRUD backend: records, appointments, history. Layered",
+"                controller-service-repository architecture, validation, global",
+"                exception handling, and JUnit tests over the service layer.",
+"                \"\"\",",
+"                \"https://github.com/VaishnaviAgrawa12/patient-management-system-v2\"),",
+"",
+"            new Project(\"Employee CRUD API\", 2025, Status.SOURCE,",
+"                List.of(\"Java 21\", \"Spring Boot\", \"MySQL\", \"Docker\", \"Postman\"),",
+"                \"\"\"",
+"                Full CRUD with DTOs across POST / PUT / PATCH / DELETE,",
+"                containerised with Docker, tested in Postman.",
+"                \"\"\",",
+"                \"https://github.com/VaishnaviAgrawa12/employee-crud-api\")",
+"        );",
+"    }",
+"",
+"    // ---------- 002  Writing ----------",
+"    // I write about the things I debug. Java and Spring Boot, from the inside.",
+"",
+"    public record Article(String title, String topic, YearMonth published, String url) {}",
+"",
+"    @Bean",
+"    public List<Article> writing() {",
+"        return List.of(",
+"            new Article(\"Stop Bad Requests at the Door with Spring Validation\",",
+"                \"Validation\", YearMonth.of(2026, 7),",
+"                \"https://medium.com/@vaishnaviagrawal2999\"),",
+"            new Article(\"How I Cleaned Up Error Handling in My Spring Boot API\",",
+"                \"Error Handling\", YearMonth.of(2026, 7),",
+"                \"https://medium.com/@vaishnaviagrawal2999\"),",
+"            new Article(\"How One Property Can Triple Your Spring Boot Throughput\",",
+"                \"Performance\", YearMonth.of(2026, 7),",
+"                \"https://medium.com/@vaishnaviagrawal2999\"),",
+"            new Article(\"Your API Has No Memory. Here's How JWT Fixes That.\",",
+"                \"JWT & Auth\", YearMonth.of(2026, 6),",
+"                \"https://medium.com/@vaishnaviagrawal2999\")",
+"        );",
+"    }",
+"",
+"    // ---------- 003  Stack ----------",
+"",
+"    public record Layer(String label, List<String> items) {}",
+"",
+"    @Bean",
+"    public List<Layer> stack() {",
+"        return List.of(",
+"            new Layer(\"core\",     List.of(\"Java 21\", \"Spring Boot 3\", \"Spring Security\",",
+"                                          \"Spring Data JPA\", \"Hibernate\")),",
+"            new Layer(\"data\",     List.of(\"PostgreSQL\", \"MySQL\",",
+"                                          \"SQL (joins, indexing, query optimisation)\")),",
+"            new Layer(\"apis\",     List.of(\"REST\", \"JWT\", \"Swagger/OpenAPI\", \"Postman\", \"cURL\")),",
+"            new Layer(\"testing\",  List.of(\"JUnit 5\", \"Mockito\")),",
+"            new Layer(\"delivery\", List.of(\"Docker\", \"GitHub Actions\", \"Railway\", \"Git\", \"Maven\")),",
+"            new Layer(\"systems\",  List.of(\"Linux\", \"Bash\", \"IntelliJ IDEA\"))",
+"        );",
+"    }",
+"",
+"    // ---------- 004  Experience ----------",
+"",
+"    public record Role(String title, String company, String period, List<String> impact) {}",
+"",
+"    @Bean",
+"    public List<Role> experience() {",
+"        return List.of(",
+"            new Role(\"Technical Support Engineer\", \"Celcius Logistics\",",
+"                \"Aug 2025 - Present\", List.of(",
+"                    \"Support production logistics and order-processing applications\",",
+"                    \"Triage incidents, analyse logs, isolate root causes\",",
+"                    \"Coordinate with engineering on fixes; maintain SOPs and docs\")),",
+"",
+"            new Role(\"Backend Developer Trainee\", \"ResourceDekho\",",
+"                \"Jun 2025 - Aug 2025\", List.of(",
+"                    \"Built backend features in Java and Node.js in a team environment\",",
+"                    \"Took part in code review cycles with senior developers\",",
+"                    \"Hands-on with team backend practices and version-control workflows\")),",
+"",
+"            new Role(\"Product Support Engineer\", \"ResourceDekho -> Signzy (RegTech / eKYC)\",",
+"                \"Jun 2023 - Jun 2025\", List.of(",
+"                    \"Resolved 100+ L2 incidents on Java-based APIs: payload mismatches,\",",
+"                    \"  header failures, auth and vKYC workflow errors\",",
+"                    \"Traced production failures through logs and request/response flows\",",
+"                    \"Automated Bash log-triaging, cutting manual debugging time by ~40%\",",
+"                    \"Authored SOPs and RCAs, reducing escalations to dev by 25%\",",
+"                    \"Optimised SQL joins for response times\"))",
+"        );",
+"    }",
+"",
+"    // ---------- 005  About ----------",
+"",
+"    public String about() {",
+"        return \"\"\"",
+"            Before this I worked inside production systems on the support side,",
+"            which is where I learned how software actually fails: reading stack",
+"            traces, tracing API errors, working with backend teams on root causes.",
+"",
+"            And when I figure something out the hard way, I write it down so the",
+"            next person does not have to.",
+"            \"\"\";",
+"    }",
+"",
+"    // ---------- 006  Education and certifications ----------",
+"",
+"    public record Credential(String title, String issuer) {}",
+"",
+"    @Bean",
+"    public List<Credential> credentials() {",
+"        return List.of(",
+"            new Credential(\"Bachelor of Commerce\",",
+"                           \"Yashwantrao Chavan Maharashtra Open University\"),",
+"            new Credential(\"Java Backend Development\", \"GeeksforGeeks\"),",
+"            new Credential(\"Technical Support Certification\", \"Masai School\"),",
+"            new Credential(\"ICITSS - IT\", \"ICAI\")",
+"        );",
+"    }",
+"",
+"    @Bean",
+"    public List<String> languages() {",
+"        return List.of(\"English (fluent)\", \"Hindi (fluent)\");",
+"    }",
+"",
+"    // ---------- The one that is actually running ----------",
+"",
+"    @Bean",
+"    public HealthIndicator production() {",
+"        return () -> Health.up()",
+"                .withDetail(\"service\", \"purchase-decision-api\")",
+"                .withDetail(\"platform\", \"Railway\")",
+"                .withDetail(\"pipeline\", \"GitHub Actions on every push\")",
+"                .withDetail(\"inProduction\", 1)",
+"                .build();",
+"    }",
+"",
+"    public static void main(String[] args) {",
+"        System.out.println(HEADLINE);   // and then I go and build the next one",
+"    }",
+"}"
+  ].join("\n");
+
+  var JSON_SRC = [
+"{",
+"  \"developer\": {",
+"    \"name\": \"Vaishnavi Agrawal\",",
+"    \"role\": \"Java Backend Developer\",",
+"    \"headline\": \"I build backends and ship them.\",",
+"    \"focus\": [\"Spring Boot 3\", \"Java 21\", \"PostgreSQL\", \"Docker\"],",
+"    \"openTo\": \"Java backend developer roles\",",
+"    \"available\": true,",
+"    \"location\": \"India\",",
+"    \"willRelocate\": true,",
+"    \"remote\": true,",
+"    \"contact\": {",
+"      \"resume\": \"Vaishnavi_Agrawal_Java_Developer_Resume.pdf\",",
+"      \"email\": \"vaishnaviagrawal2999@gmail.com\",",
+"      \"github\": \"https://github.com/VaishnaviAgrawa12\",",
+"      \"linkedin\": \"https://www.linkedin.com/in/vaishnavi-agrawal-0220591b7\",",
+"      \"x\": \"https://x.com/VaishnaviAg29\",",
+"      \"medium\": \"https://medium.com/@vaishnaviagrawal2999\",",
+"      \"substack\": \"https://vaishnaviagrawal1.substack.com\",",
+"      \"devTo\": \"https://dev.to/vaishnavi_agrawal_c7f7d72\"",
+"    }",
+"  },",
+"",
+"  \"projects\": [",
+"    {",
+"      \"id\": 1,",
+"      \"name\": \"Purchase Decision API\",",
+"      \"year\": 2026,",
+"      \"status\": \"LIVE\",",
+"      \"summary\": \"Scores a purchase against income, savings goals and spending history, returning a BUY / WAIT / SKIP verdict, a score and a savings timeline.\",",
+"      \"verdicts\": [\"BUY\", \"WAIT\", \"SKIP\"],",
+"      \"designDecision\": \"A deterministic rule engine produces the verdict; a separate LLM layer writes the explanation, with a rule-based fallback so the endpoint always returns a valid result even when the model call fails.\",",
+"      \"fallbackTriggers\": [\"llm_error\", \"llm_timeout\", \"empty_response\"],",
+"      \"verifiedFallback\": true,",
+"      \"stack\": [\"Java 21\", \"Spring Boot 3\", \"Spring Security\", \"JWT\", \"JPA\", \"PostgreSQL\", \"Docker\", \"GitHub Actions\", \"JUnit 5\"],",
+"      \"links\": {",
+"        \"live\": \"https://purchase-decision-api-production.up.railway.app/swagger-ui/index.html\",",
+"        \"source\": \"https://github.com/VaishnaviAgrawa12/purchase-decision-api\"",
+"      }",
+"    },",
+"    {",
+"      \"id\": 2,",
+"      \"name\": \"Library Management System\",",
+"      \"year\": 2025,",
+"      \"status\": \"SOURCE\",",
+"      \"summary\": \"REST backend for book issuance, returns and transactions, with role-based access control enforced through a Spring Security filter chain.\",",
+"      \"roles\": [\"admin\", \"librarian\", \"member\"],",
+"      \"stack\": [\"Java 21\", \"Spring Boot\", \"Spring Security\", \"Hibernate\", \"MySQL\", \"Swagger\"],",
+"      \"links\": {",
+"        \"source\": \"https://github.com/VaishnaviAgrawa12/Library-Management-System\"",
+"      }",
+"    },",
+"    {",
+"      \"id\": 3,",
+"      \"name\": \"Patient Management System\",",
+"      \"year\": 2026,",
+"      \"status\": \"SOURCE\",",
+"      \"summary\": \"Healthcare CRUD backend: records, appointments, history. Layered controller-service-repository architecture, validation, global exception handling, JUnit tests over the service layer.\",",
+"      \"stack\": [\"Java 21\", \"Spring Boot\", \"Spring Data JPA\", \"PostgreSQL\", \"JUnit\"],",
+"      \"links\": {",
+"        \"source\": \"https://github.com/VaishnaviAgrawa12/patient-management-system-v2\"",
+"      }",
+"    },",
+"    {",
+"      \"id\": 4,",
+"      \"name\": \"Employee CRUD API\",",
+"      \"year\": 2025,",
+"      \"status\": \"SOURCE\",",
+"      \"summary\": \"Full CRUD with DTOs across POST / PUT / PATCH / DELETE, containerised with Docker, tested in Postman.\",",
+"      \"stack\": [\"Java 21\", \"Spring Boot\", \"MySQL\", \"Docker\", \"Postman\"],",
+"      \"links\": {",
+"        \"source\": \"https://github.com/VaishnaviAgrawa12/employee-crud-api\"",
+"      }",
+"    }",
+"  ],",
+"",
+"  \"stack\": {",
+"    \"core\": [\"Java 21\", \"Spring Boot 3\", \"Spring Security\", \"Spring Data JPA\", \"Hibernate\"],",
+"    \"data\": [\"PostgreSQL\", \"MySQL\", \"SQL (joins, indexing, query optimisation)\"],",
+"    \"apis\": [\"REST\", \"JWT\", \"Swagger/OpenAPI\", \"Postman\", \"cURL\"],",
+"    \"testing\": [\"JUnit 5\", \"Mockito\"],",
+"    \"delivery\": [\"Docker\", \"GitHub Actions\", \"Railway\", \"Git\", \"Maven\"],",
+"    \"systems\": [\"Linux\", \"Bash\", \"IntelliJ IDEA\"]",
+"  },",
+"",
+"  \"experience\": [",
+"    {",
+"      \"company\": \"Celcius Logistics\",",
+"      \"title\": \"Technical Support Engineer\",",
+"      \"from\": \"2025-08\",",
+"      \"to\": null,",
+"      \"current\": true,",
+"      \"impact\": [",
+"        \"Support production logistics and order-processing applications\",",
+"        \"Triage incidents, analyse logs to isolate root causes\",",
+"        \"Coordinate with engineering on fixes; maintain SOPs and documentation\"",
+"      ]",
+"    },",
+"    {",
+"      \"company\": \"ResourceDekho\",",
+"      \"title\": \"Backend Developer Trainee\",",
+"      \"from\": \"2025-06\",",
+"      \"to\": \"2025-08\",",
+"      \"current\": false,",
+"      \"impact\": [",
+"        \"Built backend features in Java and Node.js within a team environment\",",
+"        \"Participated in code review cycles with senior developers\",",
+"        \"Hands-on exposure to team backend practices and version control\"",
+"      ]",
+"    },",
+"    {",
+"      \"company\": \"ResourceDekho\",",
+"      \"client\": \"Signzy (RegTech / digital KYC)\",",
+"      \"title\": \"Product Support Engineer\",",
+"      \"from\": \"2023-06\",",
+"      \"to\": \"2025-06\",",
+"      \"current\": false,",
+"      \"impact\": [",
+"        \"Resolved 100+ L2 incidents on Java-based APIs\",",
+"        \"Debugged payload mismatches, header failures, auth and vKYC workflow errors\",",
+"        \"Traced production failures through logs and request/response flows\",",
+"        \"Automated Bash log-triaging, cutting manual debugging time by ~40%\",",
+"        \"Authored SOPs and RCA docs, reducing escalations to development by 25%\",",
+"        \"Optimised SQL joins for response times\"",
+"      ],",
+"      \"metrics\": { \"incidentsResolved\": 100, \"debugTimeSavedPct\": 40, \"escalationDropPct\": 25 }",
+"    }",
+"  ],",
+"",
+"  \"writing\": [",
+"    { \"title\": \"Stop Bad Requests at the Door with Spring Validation\", \"topic\": \"Validation\",     \"published\": \"2026-07\" },",
+"    { \"title\": \"How I Cleaned Up Error Handling in My Spring Boot API\", \"topic\": \"Error Handling\", \"published\": \"2026-07\" },",
+"    { \"title\": \"How One Property Can Triple Your Spring Boot Throughput\", \"topic\": \"Performance\",  \"published\": \"2026-07\" },",
+"    { \"title\": \"Your API Has No Memory. Here's How JWT Fixes That.\",     \"topic\": \"JWT & Auth\",    \"published\": \"2026-06\" }",
+"  ],",
+"",
+"  \"education\": {",
+"    \"degree\": \"Bachelor of Commerce\",",
+"    \"institution\": \"Yashwantrao Chavan Maharashtra Open University\",",
+"    \"certifications\": [",
+"      { \"title\": \"Java Backend Development\",            \"issuer\": \"GeeksforGeeks\" },",
+"      { \"title\": \"Technical Support Certification\",     \"issuer\": \"Masai School\" },",
+"      { \"title\": \"ICITSS - IT\",                         \"issuer\": \"ICAI\" }",
+"    ],",
+"    \"languages\": [\"English (fluent)\", \"Hindi (fluent)\"]",
+"  },",
+"",
+"  \"production\": {",
+"    \"servicesLive\": 1,",
+"    \"service\": \"purchase-decision-api\",",
+"    \"platform\": \"Railway\",",
+"    \"pipeline\": \"GitHub Actions on every push\",",
+"    \"status\": \"UP\"",
+"  }",
+"}"
+  ].join("\n");
+
+  var JAVA_RE = /((?:\/\*[\s\S]*?\*\/)|(?:\/\/[^\n]*))|("""[\s\S]*?""")|("(?:\\.|[^"\\\n])*")|(@[A-Za-z]\w*)|\b(package|import|public|private|protected|static|final|class|interface|enum|record|return|new|void|extends|implements|this|null|true|false|var|int|boolean|throws|if|else|for|while|switch|case|default|abstract|super)\b|\b(\d[\w.]*)\b|\b([A-Z][A-Za-z0-9_]*)\b|\b([a-z]\w*)(?=\s*\()/g;
+  var JAVA_CLS = ["tcom", "tstr", "tstr", "tann", "tkey", "tnum", "ttyp", "tfn"];
+
+  var JSON_RE = /("(?:\\.|[^"\\])*")(?=\s*:)|("(?:\\.|[^"\\])*")|(\btrue\b|\bfalse\b|\bnull\b)|(-?\b\d+(?:\.\d+)?\b)/g;
+  var JSON_CLS = ["tprp", "tstr", "tlit", "tnum"];
+
+  function srcEsc(s) {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  /* Tokenise the whole file first, then split tokens across lines, so multi-line
+     constructs (javadoc blocks, text blocks) stay correctly coloured. */
+  function srcLines(text, re, classes) {
+    var lines = [[]], last = 0, m, gi, parts, i, chunk;
+    re.lastIndex = 0;
+    function push(cls, str) {
+      parts = str.split("\n");
+      for (i = 0; i < parts.length; i++) {
+        if (i > 0) lines.push([]);
+        chunk = parts[i];
+        if (!chunk) continue;
+        lines[lines.length - 1].push(
+          cls ? '<span class="' + cls + '">' + srcEsc(chunk) + "</span>" : srcEsc(chunk)
+        );
+      }
+    }
+    while ((m = re.exec(text))) {
+      if (m.index > last) push(null, text.slice(last, m.index));
+      gi = 1;
+      while (gi < m.length && m[gi] === undefined) gi++;
+      push(classes[gi - 1] || null, m[0]);
+      last = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    if (last < text.length) push(null, text.slice(last));
+    return lines.map(function (p) { return p.join("") || "&#8203;"; });
+  }
+
+  var srcToggle = document.getElementById("srcToggle");
+  var srcView   = document.getElementById("srcView");
+
+  if (srcToggle && srcView) {
+    var srcCode   = document.getElementById("srcCode");
+    var srcScroll = document.getElementById("srcScroll");
+    var srcPath   = document.getElementById("srcPath");
+    var srcMeta   = document.getElementById("srcMeta");
+    var srcFootL  = document.getElementById("srcFootL");
+    var srcTabJava = document.getElementById("srcTabJava");
+    var srcTabJson = document.getElementById("srcTabJson");
+
+    var FORMATS = {
+      java: {
+        text: JAVA_SRC, re: JAVA_RE, cls: JAVA_CLS,
+        path: 'src/main/java/dev/vaishnavi/portfolio/<b>Portfolio.java</b>',
+        meta: '<span class="ok">Build successful</span> &middot; Java 21 &middot; Spring Boot 3 &middot; UTF-8',
+        label: '{ } JSON'
+      },
+      json: {
+        text: JSON_SRC, re: JSON_RE, cls: JSON_CLS,
+        path: 'src/main/resources/<b>portfolio.json</b>',
+        meta: '<span class="ok">200 OK</span> &middot; GET /api/v1/portfolio &middot; application/json',
+        label: '&#8617; Human'
+      }
+    };
+
+    var srcMode = "human";   /* human | java | json */
+    var rendered = {};
+
+    function renderFormat(fmt) {
+      var f = FORMATS[fmt];
+      if (!rendered[fmt]) {
+        var lines = srcLines(f.text, f.re, f.cls);
+        var html = "";
+        for (var i = 0; i < lines.length; i++) {
+          html += '<div class="src-line"><span class="src-ln">' + (i + 1) +
+                  '</span><span class="src-tx">' + lines[i] + "</span></div>";
+        }
+        rendered[fmt] = { html: html, count: lines.length };
+      }
+      srcCode.innerHTML = rendered[fmt].html;
+      srcPath.innerHTML = f.path;
+      srcMeta.innerHTML = f.meta;
+      srcFootL.textContent = rendered[fmt].count + " lines \u00b7 " +
+        f.text.length.toLocaleString() + " chars \u00b7 hand-written, not generated";
+      srcTabJava.setAttribute("aria-selected", String(fmt === "java"));
+      srcTabJson.setAttribute("aria-selected", String(fmt === "json"));
+      srcScroll.scrollTop = 0;
+      /* browsers can restore the old offset after the swap; pin it next frame too */
+      requestAnimationFrame(function () { srcScroll.scrollTop = 0; });
+    }
+
+    function setMode(mode) {
+      if (mode === srcMode) return;
+      var wasOpen = srcMode !== "human";
+      srcMode = mode;
+
+      if (mode === "human") {
+        srcView.classList.remove("open");
+        srcToggle.innerHTML = "&lt;/&gt; Java";
+        srcToggle.setAttribute("data-mode", "human");
+        srcToggle.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+        document.body.classList.remove("srcopen");
+        srcToggle.focus();
+        return;
+      }
+
+      renderFormat(mode);
+      srcToggle.innerHTML = FORMATS[mode].label;
+      srcToggle.setAttribute("data-mode", mode);
+      srcToggle.setAttribute("aria-expanded", "true");
+
+      if (!wasOpen) {
+        document.body.style.overflow = "hidden";
+        document.body.classList.add("srcopen");
+        fitUnderHeader();
+        srcView.classList.add("open");
+        srcScroll.focus();
+        showToast("// same portfolio, read by a compiler instead");
+      }
+    }
+
+    /* the top bar stays pinned above the overlay, so the one button keeps cycling */
+    var topBar = document.querySelector("header.top");
+    function fitUnderHeader() {
+      var h = topBar ? Math.round(topBar.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty("--src-top", h + "px");
+    }
+    window.addEventListener("resize", function () {
+      if (srcMode !== "human") fitUnderHeader();
+    });
+
+    srcView.removeAttribute("hidden");
+
+    srcToggle.addEventListener("click", function () {
+      setMode(srcMode === "human" ? "java" : srcMode === "java" ? "json" : "human");
+    });
+    srcTabJava.addEventListener("click", function () { setMode("java"); });
+    srcTabJson.addEventListener("click", function () { setMode("json"); });
+    document.getElementById("srcClose").addEventListener("click", function () { setMode("human"); });
+
+    document.getElementById("srcCopy").addEventListener("click", function () {
+      if (srcMode === "human") return;
+      var text = FORMATS[srcMode].text;
+      var done = function () { showToast("// copied " + (srcMode === "java" ? "Portfolio.java" : "portfolio.json")); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { showToast("// copy blocked by the browser"); });
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.cssText = "position:fixed;top:-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); done(); } catch (err) { showToast("// copy blocked by the browser"); }
+        document.body.removeChild(ta);
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (srcMode === "human") return;
+      if (e.key === "Escape") { setMode("human"); }
+      else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        setMode(srcMode === "java" ? "json" : "java");
+      }
+    });
+  }
 
 })();
 </script>
