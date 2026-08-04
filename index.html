@@ -110,7 +110,6 @@
     padding-top: 20px; padding-bottom: 20px;
   }
   header.top .name { text-transform: uppercase; font-weight: 700; }
-  header.top .loc { color: var(--text-low); text-transform: uppercase; }
   header.top .right { display: flex; align-items: center; gap: 16px; }
   .theme-toggle {
     font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -123,6 +122,32 @@
     transition: border-color 0.2s ease, color 0.2s ease;
   }
   .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* both header buttons sit on a dark bar, so they need a little lift.
+     scoped to header.top so this outranks the .src-toggle rules further down */
+  header.top .src-toggle,
+  header.top .theme-toggle {
+    background: color-mix(in srgb, var(--text) 9%, transparent);
+    border-color: color-mix(in srgb, var(--text) 26%, transparent);
+    color: var(--text);
+  }
+  header.top .src-toggle:hover,
+  header.top .theme-toggle:hover {
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    border-color: var(--accent); color: var(--accent);
+  }
+  /* the source view is the more interesting control, so it leads by default */
+  header.top .src-toggle {
+    color: var(--accent-hi);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+  /* once it is open it already turns solid, leave that alone */
+  header.top .src-toggle[data-mode="java"],
+  header.top .src-toggle[data-mode="json"] {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+    border-color: var(--accent);
+  }
   header.top a.name:hover { color: var(--accent); }
 
   /* ============ Hero ============ */
@@ -179,19 +204,6 @@
 
   .hero-foot { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 26px; }
 
-  /* the console is the best thing here, so it gets announced */
-  .term-cue {
-    margin: 24px 0 -10px;
-    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--text-mid);
-    display: flex; align-items: center; gap: 9px;
-  }
-  .term-cue-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
-    animation: cuePulse 2.4s ease-out infinite;
-  }
   @keyframes cuePulse {
     0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
     70%  { box-shadow: 0 0 0 9px transparent; }
@@ -251,7 +263,8 @@
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--text-mid);
-    border: 1px solid var(--line); border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+    border-radius: 999px;
     padding: 7px 14px;
     transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
   }
@@ -283,9 +296,40 @@
   }
   .btn:hover { border-color: var(--accent); color: var(--ground); }
   .btn:hover::before { transform: scaleX(1); }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--ground); }
-  .btn.primary::before { background: var(--ground); }
-  .btn.primary:hover { color: var(--text); }
+
+  /* endpoint buttons: a method badge fused to a path, the way the swagger doc reads */
+  .btn.ep {
+    padding: 0; gap: 0;
+    text-transform: none; letter-spacing: 0;
+    border-color: color-mix(in srgb, var(--accent) 34%, var(--line));
+    color: var(--text);
+    box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+  .btn.ep::before { display: none; }
+  .btn.ep .ep-m {
+    align-self: stretch; display: flex; align-items: center;
+    padding: 0 13px;
+    background: color-mix(in srgb, var(--accent) 26%, transparent);
+    color: var(--accent-hi);
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.1em;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .btn.ep:hover .ep-m { background: var(--accent); color: var(--ground); }
+  .btn.ep .ep-p {
+    padding: 12px 18px;
+    color: var(--text);
+    transition: color 0.25s ease, background 0.25s ease;
+  }
+  .btn.ep:hover {
+    color: var(--text); border-color: var(--accent);
+    box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--accent) 80%, transparent);
+  }
+  .btn.ep:hover .ep-p {
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+    color: var(--text);
+  }
+
 
   /* ============ Terminal ============ */
   .term {
@@ -1582,7 +1626,6 @@
     .bx, .bx-wide, .bx-cube { grid-column: 1 / -1; }
     .bx-figure { font-size: 42px; }
     .wrap { padding: 0 18px; }
-    header.top .loc { display: none; }
     .hero { padding: 34px 0 44px; }
     section { padding: 48px 0; }
     h1 { font-size: clamp(32px, 10.5vw, 44px); }
@@ -1628,7 +1671,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 95;
     background: var(--ground); border-bottom-color: var(--line);
   }
-  body.srcopen .name, body.srcopen header.top .loc { opacity: 0.55; }
+  body.srcopen .name { opacity: 0.55; }
 
   .src-toggle {
     font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -1765,7 +1808,7 @@
     .src-foot { padding: 10px 16px; }
   }
   @media (max-width: 520px) {
-    /* name + two pills have to share one row once .loc is hidden */
+    /* name and the two pills share one row */
     header.top .right { gap: 8px; }
     .src-toggle, .theme-toggle { padding: 6px 9px; letter-spacing: 0.04em; }
   }
@@ -1788,9 +1831,12 @@
     /* primary action spans the row, the other two sit under it */
     .hero-actions {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 9px; width: 100%; max-width: 330px; margin-top: 22px;
+      gap: 9px; width: 100%; max-width: 350px; margin-top: 22px;
     }
     .hero-actions .btn { justify-content: center; padding: 12px 8px; font-size: 11px; }
+    .hero-actions .btn.ep { padding: 0; justify-content: flex-start; }
+    .hero-actions .btn.ep .ep-m { padding: 0 10px; font-size: 10px; }
+    .hero-actions .btn.ep .ep-p { padding: 11px 12px; font-size: 11px; }
     .hero-actions .btn:first-child { grid-column: 1 / -1; }
 
     .hero-links { column-gap: 8px; row-gap: 8px; }
@@ -1833,7 +1879,6 @@
   <div class="wrap">
     <a class="name mono" href="#top">Vaishnavi Agrawal</a>
     <div class="right">
-      <span class="loc mono">Java &middot; Backend &middot; Writing</span>
       <button class="src-toggle" id="srcToggle" type="button" data-mode="human" aria-expanded="false" aria-controls="srcView" title="See this portfolio as Java and JSON">&lt;/&gt; Java</button>
       <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">&#9788; Light</button>
     </div>
@@ -1874,9 +1919,9 @@
 
         <div class="hero-foot">
           <div class="hero-actions hf" style="--d:.8s">
-            <a class="btn primary" id="magnet" href="#projects"><span>View projects &rarr;</span></a>
-            <a class="btn" href="Vaishnavi_Agrawal_Java_Developer_Resume.pdf" download><span>&darr; R&eacute;sum&eacute;</span></a>
-            <button class="btn" id="tourStart" type="button"><span>&#9788; Show me around</span></button>
+            <a class="btn ep" id="magnet" href="#projects" aria-label="View projects"><span class="ep-m">GET</span><span class="ep-p">/projects</span></a>
+            <a class="btn ep" href="Vaishnavi_Agrawal_Java_Developer_Resume.pdf" download aria-label="Download my resume"><span class="ep-m">GET</span><span class="ep-p">/resume.pdf</span></a>
+            <button class="btn ep" id="tourStart" type="button" aria-label="Show me around"><span class="ep-m">POST</span><span class="ep-p">/tour</span></button>
           </div>
           <div class="hero-links hf" style="--d:.88s">
             <a href="#writing">Writing &darr;</a>
@@ -3133,7 +3178,7 @@
       return gl.drawingBufferWidth > gl.drawingBufferHeight
         ? { w: hi, h: lo } : { w: lo, h: hi };
     }
-    var VEL_DISS = 0.22, DYE_DISS = 0.82, CURL = 34, PRESSURE = 0.8, RADIUS = 0.0060;
+    var VEL_DISS = 0.20, DYE_DISS = 1.41, CURL = 8, PRESSURE = 0.8, RADIUS = 0.0024;
     var SPLAT_FORCE = 2000;   /* what actually carries the dye; too low reads as spots */
 
     var VERT = `#version 300 es
@@ -3163,7 +3208,8 @@
       uniform vec3 color; uniform vec2 point; uniform float radius;
       void main () {
         vec2 p = vUv - point; p.x *= aspectRatio;
-        vec3 splat = exp(-dot(p, p) / radius) * color;
+        float g = exp(-dot(p, p) / radius);
+        vec3 splat = g * g * color;   /* tighter falloff: liquid has an edge */
         fragColor = vec4(texture(uTarget, vUv).xyz + splat, 1.0);
       }`);
 
@@ -3250,7 +3296,7 @@
         vec3 c = texture(uTexture, vUv).rgb;
         float d = max(c.r, max(c.g, c.b));
         if (d < 0.0008) { fragColor = vec4(1.0); return; }
-        vec3 hue = mix(vec3(1.0), c / d, clamp(d * 2.2, 0.0, 1.0));
+        vec3 hue = mix(vec3(1.0), c / d, clamp(d * 6.0, 0.0, 1.0));
         float dens = clamp(d * strength, 0.0, 1.0);
         /* white where there is no dye; toward the pigment where there is */
         fragColor = vec4(1.0 - dens * (1.0 - hue), 1.0);
@@ -3435,7 +3481,7 @@
       gl.clear(gl.COLOR_BUFFER_BIT);
       use(P.display, null);
       gl.uniform1i(P.display.u.uTexture, dye.read.attach(0));
-      gl.uniform1f(P.display.u.strength, 0.45);
+      gl.uniform1f(P.display.u.strength, 0.60);
       blit(null);
     }
 
@@ -3458,11 +3504,13 @@
       pointer.moved = true;
     }, { passive: true });
 
-    var hue = Math.random();
-    var HUE_DRIFT = 0.055;   /* full wheel about every 18s */
+    /* teal is hue 0.48, so its complement is 0.98. stay in that warm band:
+       rose through coral to soft gold, all of which sit against teal. */
+    var HUE_MID = 0.985, HUE_SPAN = 0.085, huePhase = Math.random() * 6.283;
+    var hue = HUE_MID;
     function dyeColor() {
-      var c = hsv(hue, 0.30, 1);   /* near-white pastel, like the reference */
-      return [c[0] * 0.28, c[1] * 0.28, c[2] * 0.28];
+      var c = hsv((hue % 1 + 1) % 1, 0.34, 1);
+      return [c[0] * 0.42, c[1] * 0.42, c[2] * 0.42];
     }
 
     var last = 0, raf = 0, onScreen = true;
@@ -3470,7 +3518,8 @@
       raf = requestAnimationFrame(loop);
       var dt = last ? Math.min((ts - last) / 1000, 0.0166) : 0.0166;
       last = ts;
-      hue = (hue + HUE_DRIFT * dt) % 1;
+      huePhase += 0.42 * dt;
+      hue = HUE_MID + Math.sin(huePhase) * HUE_SPAN;
       if (pointer.moved) {
         pointer.moved = false;
         splat(pointer.x, pointer.y, pointer.dx, pointer.dy, dyeColor());
