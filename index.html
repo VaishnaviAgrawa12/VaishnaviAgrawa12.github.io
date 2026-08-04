@@ -3504,12 +3504,19 @@
       pointer.moved = true;
     }, { passive: true });
 
-    /* teal is hue 0.48, so its complement is 0.98. stay in that warm band:
+    /* teal is hue 0.48, so its complement is 0.98. that warm band leads:
        rose through coral to soft gold, all of which sit against teal. */
     var HUE_MID = 0.985, HUE_SPAN = 0.085, huePhase = Math.random() * 6.283;
+    /* and now and then a drop lands from the cool side, so one or two other
+       colours share the field instead of it being all one family */
+    var OFF_MID = 0.50, OFF_SPAN = 0.14, OFF_CHANCE = 0.15;
+    var offPhase = Math.random() * 6.283;
     var hue = HUE_MID;
     function dyeColor() {
-      var c = hsv((hue % 1 + 1) % 1, 0.34, 1);
+      var h = Math.random() < OFF_CHANCE
+        ? OFF_MID + Math.sin(offPhase) * OFF_SPAN
+        : hue;
+      var c = hsv((h % 1 + 1) % 1, 0.34, 1);
       return [c[0] * 0.42, c[1] * 0.42, c[2] * 0.42];
     }
 
@@ -3519,6 +3526,7 @@
       var dt = last ? Math.min((ts - last) / 1000, 0.0166) : 0.0166;
       last = ts;
       huePhase += 0.42 * dt;
+      offPhase += 0.17 * dt;   /* the off-band hue drifts slowly on its own */
       hue = HUE_MID + Math.sin(huePhase) * HUE_SPAN;
       if (pointer.moved) {
         pointer.moved = false;
